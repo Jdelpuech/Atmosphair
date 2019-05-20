@@ -19,7 +19,7 @@ using namespace std;
 #include "User.h"
 
 //-------------------------------------------------------------------------------- PUBLIC
-int ApplicationManager::main(){
+int main(){
 
 	return 0; 
 }
