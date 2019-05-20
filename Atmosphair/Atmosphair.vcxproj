@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="ApplicationManager.cpp" />
     <ClCompile Include="Data.cpp" />
+    <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="DataType.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Sensor.cpp" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="DataSet.h" />
     <ClInclude Include="DataType.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="Sensor.h" />
