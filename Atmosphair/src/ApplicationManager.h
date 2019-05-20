@@ -9,9 +9,8 @@
 #if !defined ( ApplicationManager_H )
 #define ApplicationManager_H
 //---------------------------------------------------------------- Interfaces utilisées
-
-#include <string.h>
-#include <time.h>
+#include <string>
+#include <ctime>
 #include "User.h"
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <ApplicationManager>
@@ -26,9 +25,7 @@ class ApplicationManager
 public:
     //------------------------------------------------------------------ Méthodes publiques
     
-    int main() ;
-    
-    
+     
     
     
     //------------------------------------------------------------------------------ PRIVE

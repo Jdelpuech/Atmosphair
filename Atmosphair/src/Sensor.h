@@ -10,8 +10,8 @@
 #define Sensor_H
 //---------------------------------------------------------------- Interfaces utilisées
 
-#include <string.h>
-#include <time.h>
+#include <string>
+#include <ctime>
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <Sensor>
 /*La classe User modélise un utilisateur lambda de l’organisation. Ainsi, il se définit par son login, son mot de passe, ainsi que son nom. Lors du lancement de l’application, une méthode init() permet d’initialiser la base de données des utilisateurs pouvant se connecter à l’application : cette méthode appartient à la classe Dataset. Elle prend en entrée un fichier .txt contenant les informations sur tous les utilisateurs. 
@@ -23,7 +23,7 @@ class Sensor
     
 public:
     //------------------------------------------------------------- Méthodes publiques
-    int calculateAtmo(time_t t);
+    //int calculateAtmo(time_t t);
     // Mode d'emploi : calcul l'indice ATMO à une date donnée selon les calculs indiqués
     //dans notre livrable.
     // Contrat : aucun

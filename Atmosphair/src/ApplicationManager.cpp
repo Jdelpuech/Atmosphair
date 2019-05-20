@@ -11,6 +11,8 @@
 //------------------------------------------------------------------------------ INCLUDE
 //---------------------------------------------------------------------- Include système
 #include <iostream>
+#include <string>
+#include <ctime>
 using namespace std;
 
 //--------------------------------------------------------------------- Include personnel
@@ -19,7 +21,7 @@ using namespace std;
 #include "User.h"
 
 //-------------------------------------------------------------------------------- PUBLIC
-int ApplicationManager::main(){
+int main(){
 
 	return 0; 
 }
