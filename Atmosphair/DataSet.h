@@ -1,59 +1,42 @@
 /**************************************************************************************
- FileManager  -  Interface
+ DataSet  -  Interface
  -------------------
  début                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
- //- Interface de la classe <FileManager> (fichier FileManager.h) ---------
-#if !defined ( FileManager_H )
-#define FileManager_H
+ //- Interface de la classe <DataSet> (fichier DataSet.h) ---------
+#if !defined ( DataSet_H )
+#define DataSet_H
 //---------------------------------------------------------------- Interfaces utilisées
-
-#include <string>
-#include <time.h>
-#include <iostream>
-#include <cstring>
-#include <fstream>
-using namespace std;
-
+#include "Sensor.h"
+#include "User.h"
 //-------------------------------------------------------------------------------------
-// Rôle de la classe <FileManager>
-/*
+// Rôle de la classe <DataSet>
+/*Application Manager est le noyau de notre application. En tant que dispatcher, il gèrera
+ l’appel aux méthodes de chaque classe afin de répondre aux attentes de l'utilisateur.
  */
  //-------------------------------------------------------------------------------------
-class FileManager
+class DataSet
 {
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
 	//------------------------------------------------------------------ Méthodes publiques
 
-
 	//---------------------------------------------------- Constructeurs - destructeur
-	FileManager(FILE *fileSave);
-
-	virtual ~FileManager(); 
-	// Mode d'emploi : aucun
-    // Contrat : aucun
-
-
-
+	DataSet();
 	//------------------------------------------------------------------------------ PRIVE
 private:
-
+	//------------------------------------------------------------ Attributs privé
+	
 
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
-	FILE * fileSave;
 
 	//------------------------------------------------------------ Attributs protégés
 
 };
 
-
-
-#endif // FileManager_H
-
-
+#endif // DataSet_H
