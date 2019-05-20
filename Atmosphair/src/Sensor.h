@@ -23,7 +23,7 @@ class Sensor
     
 public:
     //------------------------------------------------------------- Méthodes publiques
-    //int calculateAtmo(time_t t);
+    int calculateAtmo(time_t t);
     // Mode d'emploi : calcul l'indice ATMO à une date donnée selon les calculs indiqués
     //dans notre livrable.
     // Contrat : aucun
