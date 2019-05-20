@@ -19,22 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationManager.cpp" />
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="FileManager.cpp" />
-    <ClCompile Include="src\ApplicationManager.cpp" />
-    <ClCompile Include="src\Sensor.cpp" />
-    <ClCompile Include="src\User.cpp" />
+    <ClCompile Include="Sensor.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationManager.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="FileManager.h" />
-    <ClInclude Include="src\ApplicationManager.h" />
-    <ClInclude Include="src\Sensor.h" />
-    <ClInclude Include="src\User.h" />
+    <ClInclude Include="Sensor.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{84136468-52BF-4ABB-985E-B14928B55640}</ProjectGuid>
     <RootNamespace>Atmosphair</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
