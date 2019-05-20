@@ -1,60 +1,56 @@
 /**************************************************************************************
- Data  -  Interface
+ DataType  -  Interface
  -------------------
  début                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
- //---------- Interface de la classe <Catalogue> (fichier Data.h) ----------------
-#if !defined ( Data_H )
-#define Data_H
+ //---------- Interface de la classe <Catalogue> (fichier DataType.h) ----------------
+#if !defined ( DataType_H )
+#define DataType_H
 //---------------------------------------------------------------- Interfaces utilisées
 
 #include <string>
 #include <ctime>
 #include "Sensor.h"
-#include "DataType.h"
-
 using namespace std;
 //-------------------------------------------------------------------------------------
-// Rôle de la classe <Data>
-/*Les fichiers .csv définissant les mesures et les types de mesures seront modélisés 
-respectivement par les classes Data et DataType avec les mêmes attributs que ceux 
-stipulés dans les fichiers. 
+// Rôle de la classe <DataType>
+/*Les fichiers .csv définissant les mesures et les types de mesures seront modélisés
+respectivement par les classes DataType et DataTypeType avec les mêmes attributs que ceux
+stipulés dans les fichiers.
  */
 
  //-------------------------------------------------------------------------------------
-class Data
+class DataType
 {
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
 	//------------------------------------------------------------- Méthodes publiques
-	inline int getMesureID() {
-		return mesureId; 
+	inline int getAttributeId() {
+		return attributeId;
 	}
 
-	inline time_t getTimeStamp() {
-		return timestamp; 
+	inline string getUnit() {
+		return unit;
 	}
 
-	inline double getValue() {
-		return value; 
+	inline string getDescription() {
+		return description;
 	}
 
-	inline Sensor getSensor() {
-		return sensor; 
-	}
+
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	Data(int mesureIdD,time_t timestamp,double value,Sensor sensor, DataType type);
+	DataType(int attributeId, string unit, string description);
 	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
 	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
-	//la construction d'un objet Data.
+	//la construction d'un objet DataType.
 	// Contrat : le fichier .csv est aux normes.
 
 
-	virtual ~Data();
+	virtual ~DataType();
 	// Mode d'emploi : aucun
 	// Contrat : aucun
 
@@ -67,15 +63,13 @@ protected:
 	//------------------------------------------------------------ Méthodes protégées
 
 	//------------------------------------------------------------ Attributs protégés
-	int mesureId; 
-	time_t timestamp; 
-	double value; 
-	Sensor sensor; 
-	DataType type;
+	int attributeId; 
+	string unit; 
+	string description; 
+	
 
 };
 
 
 
-#endif // Data_H
-
+#endif // DataType_H

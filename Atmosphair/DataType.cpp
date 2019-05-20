@@ -1,12 +1,12 @@
 /**************************************************************************************
- Data  -  Réalisation
+ DataType  -  Réalisation
  -------------------
  début                : 20/11/2018
  copyright            : (C)2018 par Atmosph'Air
 
  ***************************************************************************************/
 
- //------------------ Réalisation de la classe <Data> (fichier Data.cpp) ------------
+ //------------------ Réalisation de la classe <DataType> (fichier DataType.cpp) ------------
 
  //------------------------------------------------------------------------------ INCLUDE
  //---------------------------------------------------------------------- Include système
@@ -14,21 +14,18 @@
 using namespace std;
 
 //--------------------------------------------------------------------- Include personnel
-#include "Data.h"
-
+#include "DataType.h"
 
 //-------------------------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------------- Constructeurs - destructeur
 
-Data::Data(int mesureId, time_t timestamp, double value, Sensor sensor,DataType type) {
-	this->mesureId = mesureId;
-	this->timestamp = timestamp;
-	this->value = value;
-	this->sensor = sensor;
-	this->type = type; 
+DataType::DataType(int attributeId, string unit, string description) {
+	this->attributeId = attributeId;
+	this->unit = unit;
+	this->description = description;
 }
 
-Data::~Data() {
+DataType::~DataType() {
 
 }
