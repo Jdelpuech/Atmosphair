@@ -18,9 +18,9 @@ using namespace std;
 #include "Sensor.h"
 
 //-------------------------------------------------------------------------------- PUBLIC
-/*int Sensor::calculateAtmo(time_t t){
-    
-}*/
+int Sensor::calculateAtmo(time_t t){
+	return 0; 
+}
 
 int Sensor::getSensorID(){
     return sensorID ;
