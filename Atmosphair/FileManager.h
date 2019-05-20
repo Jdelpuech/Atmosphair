@@ -12,6 +12,10 @@
 
 #include <string>
 #include <time.h>
+#include <iostream>
+#include <cstring>
+#include <fstream>
+using namespace std;
 
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <FileManager>
@@ -27,7 +31,7 @@ public:
 
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	FileManager(); 
+	FileManager(FILE *fileSave);
 
 	virtual ~FileManager(); 
 	// Mode d'emploi : aucun
@@ -42,6 +46,7 @@ private:
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
+	FILE * fileSave;
 
 	//------------------------------------------------------------ Attributs protégés
 
