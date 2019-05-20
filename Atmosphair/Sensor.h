@@ -12,6 +12,10 @@
 
 #include <string>
 #include <ctime>
+#include <list>
+#include "Data.h"
+//-------------------------------------------------------------------------------Types
+typedef std::list<Data> listData; 
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <Sensor>
 /*La classe User modélise un utilisateur lambda de l’organisation. Ainsi, il se définit par son login, son mot de passe, ainsi que son nom. Lors du lancement de l’application, une méthode init() permet d’initialiser la base de données des utilisateurs pouvant se connecter à l’application : cette méthode appartient à la classe Dataset. Elle prend en entrée un fichier .txt contenant les informations sur tous les utilisateurs. 
@@ -76,6 +80,7 @@ protected:
     double lat ;
     string description ;
     bool dysfonctionning ;
+	listData data; 
 };
 
 

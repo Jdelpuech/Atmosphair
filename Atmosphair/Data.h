@@ -46,6 +46,10 @@ public:
 		return sensor; 
 	}
 
+	inline DataType getDataType() {
+		return type; 
+	}
+
 	//---------------------------------------------------- Constructeurs - destructeur
 	Data(int mesureIdD,time_t timestamp,double value,Sensor sensor, DataType type);
 	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv

@@ -19,7 +19,25 @@ using namespace std;
 
 //-------------------------------------------------------------------------------- PUBLIC
 int Sensor::calculateAtmo(time_t t){
+	int maxsSO2[24] = {0};
+	int maxsNO2[24] = {0};
+	int maxs02[24] = {0};
+	listData::iterator it = data.begin(); 
+	
+	while (it != data.end()) {
+		time_t time = (*it).getTimeStamp(); 
+		DataType type = (*it).getDataType(); 
+		if (time == t) {
+			struct tm * format = localtime(&time);
+			int hour = format->tm_hour; 
+			if (type.getUnit().compare("")) {
 
+			}
+
+		}
+
+		it++;
+	}
 	return 0; 
 }
 
