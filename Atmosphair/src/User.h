@@ -14,7 +14,11 @@
 #include <time.h>
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <User>
-/*La classe Sensor modélise les capteurs ici utilisés. Un capteur se définit donc par sa localisation (latitude, longitude, description ainsi qu’un id permettant de l’identifier). Cette classe est pourvue d’une méthode permettant de calculer l’indice Atmo à une date donnée (alors les données utilisées sont celle de ce même capteur). Cette méthode est surchargée pour permettre de calculer une variante de l’indice Atmo en utilisant deux dates.
+/*La classe Sensor modélise les capteurs ici utilisés. Un capteur se définit donc par sa localisation 
+(latitude, longitude, description ainsi qu’un id permettant de l’identifier). Cette classe est pourvue 
+d’une méthode permettant de calculer l’indice Atmo à une date donnée (alors les données utilisées sont
+celle de ce même capteur). Cette méthode est surchargée pour permettre de calculer une variante de l’indice 
+Atmo en utilisant deux dates.
  */
 //-------------------------------------------------------------------------------------
 class User
