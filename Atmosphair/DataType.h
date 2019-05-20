@@ -28,7 +28,7 @@ class DataType
 
 public:
 	//------------------------------------------------------------- Méthodes publiques
-	inline int getAttributeId() {
+	inline string getAttributeId() {
 		return attributeId;
 	}
 
@@ -43,7 +43,7 @@ public:
 
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	DataType(int attributeId, string unit, string description);
+	DataType(string attributeId, string unit, string description);
 	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
 	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
 	//la construction d'un objet DataType.
@@ -63,7 +63,7 @@ protected:
 	//------------------------------------------------------------ Méthodes protégées
 
 	//------------------------------------------------------------ Attributs protégés
-	int attributeId; 
+	string attributeId; 
 	string unit; 
 	string description; 
 	

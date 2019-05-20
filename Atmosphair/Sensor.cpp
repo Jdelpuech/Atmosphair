@@ -21,17 +21,30 @@ using namespace std;
 int Sensor::calculateAtmo(time_t t){
 	int maxsSO2[24] = {0};
 	int maxsNO2[24] = {0};
-	int maxs02[24] = {0};
+	int maxsO3[24] = {0};
 	listData::iterator it = data.begin(); 
 	
 	while (it != data.end()) {
 		time_t time = (*it).getTimeStamp(); 
 		DataType type = (*it).getDataType(); 
+		//revoir pour comparer deux dates 
 		if (time == t) {
 			struct tm * format = localtime(&time);
 			int hour = format->tm_hour; 
-			if (type.getUnit().compare("")) {
-
+			if (type.getAttributeId().compare("O3")) {
+				if ((*it).getValue() > maxsO3[hour]) {
+					maxsO3[hour] = (*it).getValue();
+				}
+			}
+			else if (type.getAttributeId().compare("NO2")) {
+				if ((*it).getValue() > maxsNO2[hour]) {
+					maxsNO2[hour] = (*it).getValue();
+				}
+			}
+			else if (type.getAttributeId().compare("SO2")) {
+				if ((*it).getValue() > maxsSO2[hour]) {
+					maxsSO2[hour] = (*it).getValue();
+				}
 			}
 
 		}
