@@ -12,6 +12,9 @@
 #include <string>
 #include <ctime>
 #include "User.h"
+#include "ApplicationManager.h"
+#include "Sensor.h"
+
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <ApplicationManager>
 /*Application Manager est le noyau de notre application. En tant que dispatcher, il gèrera
@@ -33,7 +36,7 @@ public:
     
     
     //-----------------------------------------------------------------------------PROTEGE
-protected:
+	protected:
     //------------------------------------------------------------ Méthodes protégées
     
     //------------------------------------------------------------ Attributs protégés
