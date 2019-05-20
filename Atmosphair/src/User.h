@@ -10,8 +10,8 @@
 #define User_H
 //---------------------------------------------------------------- Interfaces utilisées
 
-#include <string.h>
-#include <time.h>
+#include <string>
+#include <ctime>
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <User>
 /*La classe Sensor modélise les capteurs ici utilisés. Un capteur se définit donc par sa localisation 
