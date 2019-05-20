@@ -19,7 +19,7 @@ using namespace std;
 
 //-------------------------------------------------------------------------------- PUBLIC
 int Sensor::calculateAtmo(time_t t){
-    
+	return 0; 
 }
 
 int Sensor::getSensorID(){
