@@ -11,7 +11,11 @@
 //---------------------------------------------------------------- Interfaces utilisées
 
 #include <string>
-#include <ctime>
+#include <time.h>
+#include <iostream>
+#include <cstring>
+#include <fstream>
+using namespace std;
 
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <FileManager>
@@ -27,9 +31,9 @@ public:
 
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	FileManager(){}
+	FileManager(FILE *fileSave);
 
-	virtual ~FileManager(){}
+	virtual ~FileManager(); 
 	// Mode d'emploi : aucun
     // Contrat : aucun
 
@@ -42,6 +46,7 @@ private:
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
+	FILE * fileSave;
 
 	//------------------------------------------------------------ Attributs protégés
 
