@@ -26,7 +26,7 @@ class ApplicationManager
 public:
     //------------------------------------------------------------------ Méthodes publiques
     
-    int Main() ;
+    int main() ;
     
     
     

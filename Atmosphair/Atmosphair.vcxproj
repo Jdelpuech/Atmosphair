@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\ApplicationManager.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\User.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h" />
     <ClInclude Include="src\ApplicationManager.h" />
     <ClInclude Include="src\Sensor.h" />
     <ClInclude Include="src\User.h" />

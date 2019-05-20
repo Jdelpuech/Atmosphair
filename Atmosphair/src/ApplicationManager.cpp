@@ -15,8 +15,11 @@ using namespace std;
 
 //--------------------------------------------------------------------- Include personnel
 #include "ApplicationManager.h"
+#include "Sensor.h"
+#include "User.h"
 
 //-------------------------------------------------------------------------------- PUBLIC
-int main(){
-    
+int ApplicationManager::main(){
+
+	return 0; 
 }
