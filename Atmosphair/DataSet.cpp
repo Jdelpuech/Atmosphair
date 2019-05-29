@@ -17,4 +17,20 @@ using namespace std;
 //--------------------------------------------------------------------- Include personnel
 
 //-------------------------------------------------------------------------------- PUBLIC
+//----------------------------------------------------- Méthodes publiques
+void DataSet::addSensor(Sensor &sensor) 
+{
+	liSensor.insert(sensor);
+}
+
+void DataSet::addDataType(DataType &dataType) 
+{
+
+}
+//-------------------------------------------- Constructeurs - destructeur
+DataSet::DataSet() {
+
+}
+
+
 

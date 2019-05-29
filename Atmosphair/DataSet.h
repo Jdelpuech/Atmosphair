@@ -11,7 +11,13 @@
 //---------------------------------------------------------------- Interfaces utilisées
 #include "Sensor.h"
 #include "User.h"
-//-------------------------------------------------------------------------------------
+#include "DataType.h"
+#include <list>
+//------------------------------------------------------------------ Types
+typedef std::list<User> listUser;
+typedef std::list<DataType> listDataType;
+typedef std::list<Sensor> listSensor;
+
 // Rôle de la classe <DataSet>
 /*Application Manager est le noyau de notre application. En tant que dispatcher, il gèrera
  l’appel aux méthodes de chaque classe afin de répondre aux attentes de l'utilisateur.
@@ -23,13 +29,17 @@ class DataSet
 
 public:
 	//------------------------------------------------------------------ Méthodes publiques
-
+	void addSensor(Sensor &sensor);
+	void addDataType(DataType &dataType);
+	bool connect(std::string user, std::string password);
 	//---------------------------------------------------- Constructeurs - destructeur
 	DataSet();
 	//------------------------------------------------------------------------------ PRIVE
 private:
 	//------------------------------------------------------------ Attributs privé
-	
+	listUser liUser;
+	listDataType liDataType;
+	listSensor liSensor;
 
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
