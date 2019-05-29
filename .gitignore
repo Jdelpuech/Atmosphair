@@ -261,5 +261,3 @@ __pycache__/
 *.pyc
 
 #ajout perso
-**/*.vcxproj
-**/*.vcxproj.*

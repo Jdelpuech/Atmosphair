@@ -12,21 +12,20 @@
  //---------------------------------------------------------------------- Include système
 #include <iostream>
 using namespace std;
-
 //--------------------------------------------------------------------- Include personnel
 #include "Data.h"
-
-
+#include "Sensor.h"
+#include "DataType.h"
 //-------------------------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------------- Constructeurs - destructeur
 
-Data::Data(int mesureId, time_t timestamp, double value, Sensor sensor,DataType type) {
-	this->mesureId = mesureId;
-	this->timestamp = timestamp;
-	this->value = value;
-	this->sensor = sensor;
-	this->type = type; 
+Data::Data(int mesureId, time_t timestamp, double value, Sensor *sensor,DataType *type){
+	mesureId = mesureId;
+	timestamp = timestamp;
+	value = value;
+	sensor = sensor;
+	type = type; 
 }
 
 Data::~Data() {

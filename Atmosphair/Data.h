@@ -9,12 +9,10 @@
 #if !defined ( Data_H )
 #define Data_H
 //---------------------------------------------------------------- Interfaces utilisées
-
 #include <string>
 #include <ctime>
-#include "Sensor.h"
-#include "DataType.h"
-
+class Sensor;
+class DataType;
 using namespace std;
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <Data>
@@ -42,16 +40,16 @@ public:
 		return value; 
 	}
 
-	inline Sensor getSensor() {
+	inline Sensor* getSensor() {
 		return sensor; 
 	}
 
-	inline DataType getDataType() {
+	inline DataType* getDataType() {
 		return type; 
 	}
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	Data(int mesureIdD,time_t timestamp,double value,Sensor sensor, DataType type);
+	Data(int mesureIdD,time_t timestamp,double value,Sensor *sensor, DataType *type);
 	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
 	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
 	//la construction d'un objet Data.
@@ -64,8 +62,6 @@ public:
 
 //------------------------------------------------------------------------------ PRIVE
 private:
-
-
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
@@ -74,8 +70,8 @@ protected:
 	int mesureId; 
 	time_t timestamp; 
 	double value; 
-	Sensor sensor; 
-	DataType type;
+	Sensor* sensor; 
+	DataType* type;
 
 };
 

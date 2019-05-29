@@ -9,13 +9,12 @@
 #if !defined ( Sensor_H )
 #define Sensor_H
 //---------------------------------------------------------------- Interfaces utilisées
-
 #include <string>
 #include <ctime>
 #include <list>
-#include "Data.h"
+class Data;
 //-------------------------------------------------------------------------------Types
-typedef std::list<Data> listData; 
+typedef std::list<Data *> listData; 
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <Sensor>
 /*La classe User modélise un utilisateur lambda de l’organisation. Ainsi, il se définit par son login, son mot de passe, ainsi que son nom. Lors du lancement de l’application, une méthode init() permet d’initialiser la base de données des utilisateurs pouvant se connecter à l’application : cette méthode appartient à la classe Dataset. Elle prend en entrée un fichier .txt contenant les informations sur tous les utilisateurs. 
@@ -36,7 +35,7 @@ public:
     // Mode d'emploi : renvoie l'état de fonctionnement du capteur
     // Contrat : aucun
     
-    string getDescription();
+    std::string getDescription();
     // Mode d'emploi : renvoie la description du capteur.
     // Contrat : aucun
     
@@ -55,7 +54,7 @@ public:
 
     
     //---------------------------------------------------- Constructeurs - destructeur
-    Sensor (int sensorID, long lat, long lon, string description, bool dysfonctionning);
+    Sensor (int sensorID, long lat, long lon, std::string description, bool dysfonctionning);
     // Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
     //décrivant les capteurs, le constructeur permet de modéliser ce dernier à travers
     //la construction d'un objet Sensor.
@@ -78,7 +77,7 @@ protected:
     int sensorID ;
     double lon ;
     double lat ;
-    string description ;
+    std::string description ;
     bool dysfonctionning ;
 	listData data; 
 };
