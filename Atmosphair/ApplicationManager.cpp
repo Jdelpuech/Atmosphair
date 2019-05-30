@@ -19,9 +19,11 @@ using namespace std;
 #include "ApplicationManager.h"
 #include "Sensor.h"
 #include "User.h"
+#include "DataSet.h"
 
 //-------------------------------------------------------------------------------- PUBLIC
 int main(){
-
+	double result = DataSet::calculateDistance(-8.157588883, -34.76924879, -30.06473877, -76.34391476);
+	std::cout << result;
 	return 0; 
 }
