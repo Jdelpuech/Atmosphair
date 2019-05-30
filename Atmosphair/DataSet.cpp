@@ -23,6 +23,11 @@ using namespace std;
 #include "DataType.h"
 //-------------------------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- Méthodes publiques
+
+list<Sensor> DataSet::getListSensors() {
+    return liSensor ;
+}
+
 void DataSet::addSensor(Sensor *sensor) 
 {
 	liSensor.push_back(sensor);
@@ -135,6 +140,7 @@ list<int> generateResultAtmo(list<Sensor*> l, time_t t1, time_t t2){
                        format_t.tm_mon = 0 ;
                        format_t.tm_year +=1;
                    }
+               t = mktime(&format_t);
                }
         }
         results.push_back((int)(moyenne/nbrJours));
