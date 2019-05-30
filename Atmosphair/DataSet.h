@@ -36,6 +36,7 @@ public:
 	void addUser(User *user);
 	bool connectionRequest(std::string user, std::string password);
 	static double calculateDistance(double lat1, double lon1,double lat2, double lon2);
+	Sensor getSensorById(string id);
 	std::list<Sensor*> getListSensorsInZone(double lat, double lon, double rayon);
 
 	int generateResultAtmo(std::list<Sensor*> l, time_t t);

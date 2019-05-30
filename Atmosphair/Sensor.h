@@ -51,7 +51,7 @@ public:
     // Mode d'emploi : renvoie la latitude du capteur.
     // Contrat : aucun
     
-
+	void addData(Data* data);
     
     //---------------------------------------------------- Constructeurs - destructeur
     Sensor (int sensorID, long lat, long lon, std::string description, bool dysfonctionning);
