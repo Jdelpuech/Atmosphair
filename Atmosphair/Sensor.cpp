@@ -19,6 +19,7 @@ using namespace std;
 #include "Sensor.h"
 #include "Data.h"
 #include "DataType.h"
+
 //-------------------------------------------------------------------------------- PUBLIC
 int Sensor::calculateAtmo(time_t t){
     
@@ -37,16 +38,17 @@ int Sensor::calculateAtmo(time_t t){
     listData::iterator it = data.begin();
 
     //extraction des données sur la date
-    
+	time(&t);
     struct tm format_t = *localtime(&t);
     int day_t = format_t.tm_mday;
     int month_t = format_t.tm_mon ;
     int year_t = format_t.tm_year;
 
     while (it != data.end()) {
-        time_t time = (**it).getTimeStamp();
+        time_t time1 = (**it).getTimeStamp();
         string type = (**it).getDataType();
-        struct tm format = *localtime(&time);
+		time(&time1);
+        struct tm format = *localtime(&time1);
         int day = format.tm_mday;
         int month = format.tm_mon ;
         int year = format.tm_year;

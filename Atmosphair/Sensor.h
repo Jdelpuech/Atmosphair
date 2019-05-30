@@ -12,6 +12,7 @@
 #include <string>
 #include <ctime>
 #include <list>
+
 class Data;
 //-------------------------------------------------------------------------------Types
 typedef std::list<Data *> listData; 

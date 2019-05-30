@@ -43,6 +43,7 @@ public:
     // Contrat : aucun
 
 	bool importDataFromFile(DataSet data, string path, int type);
+	bool openSave(string path, DataSet dataS);
 
 
 	//------------------------------------------------------------------------------ PRIVE

@@ -16,6 +16,39 @@ FileManager::~FileManager()
 {
 }
 
+bool FileManager::openSave(string path, DataSet dataS)
+{
+	bool ok = false;
+	ifstream f(path.c_str());
+	while (!f)
+	{
+		string type;
+		getline(f, type, ';');
+
+		string fpath;
+		string tmp;
+		getline(f, tmp);
+		fpath = tmp.c_str();
+
+		switch (atoi(type.c_str()))
+		{
+			case 0:
+				importDataFromFile(dataS, fpath, 0);
+				break;
+			case 1:
+				importDataFromFile(dataS, fpath, 1);
+				break;
+			case 2:
+				importDataFromFile(dataS, fpath, 2);
+				break;
+			default:
+				cout << "invalid type";
+				break;
+		}
+	}
+	return ok;
+}
+
 bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 	ifstream f(path.c_str());
 	bool ok = false;
@@ -70,7 +103,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 			timestamp->tm_year = atoi(tmp.c_str());
 			tmp = "";
 			getline(f, tmp, '-');
-			timestamp->tm_mon = atoi(tmp.c_str());
+			timestamp->tm_mon = atoi(tmp.c_str())+1;
 			tmp = "";
 			getline(f, tmp, 'T');
 			timestamp->tm_mday= atoi(tmp.c_str());
@@ -138,3 +171,5 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 	}
 	return ok;
 }
+
+
