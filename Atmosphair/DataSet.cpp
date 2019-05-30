@@ -80,7 +80,68 @@ bool DataSet::connectionRequest(string user, string password) {
 	return false;
 }
 
-
+//A TESTER
+list<int> generateResultAtmo(list<Sensor*> l, time_t t){
+    list<int> results ;
+    list<Sensor*>::iterator it;
+    it = l.begin();
+    while (it != l.end()) {
+        results.push_back((**it).calculateAtmo(t));
+        ++it;
+    }
+    return results ; 
+}
+//A TESTER
+list<int> generateResultAtmo(list<Sensor*> l, time_t t1, time_t t2){
+    list<int> results ;
+    //dates
+    struct tm format_t1 = *localtime(&t1);
+    int day_t1 = format_t1.tm_mday;
+    int month_t1 = format_t1.tm_mon ;
+    int year_t1 = format_t1.tm_year;
+    
+    struct tm format_t2 = *localtime(&t2);
+    int day_t2 = format_t2.tm_mday;
+    int month_t2 = format_t2.tm_mon ;
+    int year_t2 = format_t2.tm_year;
+    
+    //variable
+    
+    struct tm format_t ;
+    format_t.tm_mon= month_t1 ;
+    format_t.tm_mday= day_t1 ;
+    format_t.tm_year= year_t1;
+    format_t.tm_hour = 0 ;
+    format_t.tm_min = 0 ;
+    time_t t = mktime(&format_t);
+   
+    
+    list<Sensor*>::iterator it;
+    it = l.begin();
+    while (it != l.end()) {
+        int moyenne = 0 ;
+        int nbrJours = 0 ;
+        while (format_t.tm_mday!=day_t2 || format_t.tm_mon!=month_t2 || format_t.tm_year!=year_t2){
+               moyenne +=(**it).calculateAtmo(t);
+               nbrJours ++ ;
+               if (format_t.tm_mday!=31)
+                 format_t.tm_mday += 1 ;
+               else {
+                   format_t.tm_mday = 0 ;
+                   if (format_t.tm_mon!=11){
+                      format_t.tm_mon += 1;
+                   }
+                   else {
+                       format_t.tm_mon = 0 ;
+                       format_t.tm_year +=1;
+                   }
+               }
+        }
+        results.push_back((int)(moyenne/nbrJours));
+        ++it;
+    }
+    return results ;
+}
 //-------------------------------------------- Constructeurs - destructeur
 DataSet::DataSet() {
 
