@@ -33,6 +33,7 @@ public:
 	//------------------------------------------------------------------ Méthodes publiques
 	void addSensor(Sensor *sensor);
 	void addDataType(DataType *dataType);
+	void addData(Data *data);
 	bool connectionRequest(std::string user, std::string password);
 	long calculateDisatance(Sensor s1, Sensor s2)const;
 	std::list<Sensor*> getListSensorsInZone(double lat, double lon, double rayon);

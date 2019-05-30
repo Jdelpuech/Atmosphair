@@ -31,6 +31,9 @@ void DataSet::addDataType(DataType *dataType)
 	liDataType.push_back(dataType);
 }
 
+
+
+
 bool DataSet::connectionRequest(string user, string password) {
 	listUser::iterator it;
 	it = liUser.begin();

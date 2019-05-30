@@ -55,6 +55,7 @@ public:
 	//la construction d'un objet Data.
 	// Contrat : le fichier .csv est aux normes.
 
+	Data(int mesureId, time_t timestamp, double value, string sensorId, string dataTypeId);
 
 	virtual ~Data();
 	// Mode d'emploi : aucun
@@ -72,6 +73,8 @@ protected:
 	double value; 
 	Sensor* sensor; 
 	DataType* type;
+	string sensorId;
+	string dataTypeId;
 
 };
 

@@ -15,6 +15,11 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include "DataSet.h"
+#include "DataType.h"
+#include "Data.h"
+#include "Sensor.h"
+
 using namespace std;
 
 //-------------------------------------------------------------------------------------
@@ -31,12 +36,13 @@ public:
 
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	FileManager(FILE *fileSave);
+	FileManager();
 
 	virtual ~FileManager(); 
 	// Mode d'emploi : aucun
     // Contrat : aucun
 
+	bool importDataFromFile(DataSet data, string path, int type);
 
 
 	//------------------------------------------------------------------------------ PRIVE
@@ -47,6 +53,7 @@ private:
 protected:
 	//------------------------------------------------------------ Méthodes protégées
 	FILE * fileSave;
+
 
 	//------------------------------------------------------------ Attributs protégés
 

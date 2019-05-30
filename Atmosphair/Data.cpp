@@ -28,6 +28,14 @@ Data::Data(int mesureId, time_t timestamp, double value, Sensor *sensor,DataType
 	type = type; 
 }
 
+Data::Data(int mesureId, time_t timestamp, double value, string sensorId, string dataTypeId) {
+	mesureId = mesureId;
+	timestamp = timestamp;
+	value = value;
+	sensorId = sensorId;
+	dataTypeId = dataTypeId;
+}
+
 Data::~Data() {
 
 }
