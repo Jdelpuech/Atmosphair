@@ -43,6 +43,10 @@ public:
 	inline Sensor* getSensor() {
 		return sensor; 
 	}
+    
+    inline string getSensorId(){
+        return sensorId; 
+    }
 
 	inline DataType* getDataType() {
 		return type; 

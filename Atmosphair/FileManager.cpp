@@ -24,14 +24,14 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 	case 0:/*fichier de Sensors*/
 		while (!f)
 		{
-			int id;
-			long lon;
-			long lat;
+			string id;
+			double lon;
+			double lat;
 			string descr;
 			string tmp;
 
 			getline(f, tmp, ';');
-			id= atoi(tmp.c_str());
+			id= tmp.c_str();
 			tmp = "";
 			getline(f, tmp, ';');
 			lon = atol(tmp.c_str());
@@ -55,17 +55,17 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 		while (!f)
 		{
 			/*Timestamp;SensoTrID;AttributeID;Value;*/
-			int id;
+			static int id;
 			struct tm *timestamp=NULL;/*timestamp*/
 			double value;/*value*/
 			string sensorId;/*sensorID*/
 			string dataTypeId;/*attributeID*/
 			string tmp;
-
-			getline(f, tmp, ';');
-			id = atoi(tmp.c_str());
-			tmp = "";
-
+  
+			/*getline(f, tmp, ';');
+			id = tmp.c_str();
+			tmp = "";*/
+            id++;
 			getline(f, tmp, '-');/* strptime(tmp, sizeof(tmp), , timestamp.);*/
 			timestamp->tm_year = atoi(tmp.c_str());
 			tmp = "";
@@ -103,20 +103,20 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 			Data *d=NULL;
 			*d = Data(id,finalTime, value, sensorId, dataTypeId);
 			/*ajout au sensor*/
-			dataS.getSensorById(id).addData(d);
+			(dataS.getSensorById(sensorId)).addData(d);
 			ok = true;
 		}
 		break;
 	case 2: /*dataType*/
 		while (!f)
 		{
-			int attributeId;
+			string attributeId;
 			string unit;
 			string description;
 			string tmp;
 
 			getline(f, tmp, ';');
-			attributeId = atoi(tmp.c_str()); ;
+			attributeId = tmp.c_str() ;
 			tmp = "";
 			getline(f, tmp, ';');
 			unit = tmp;

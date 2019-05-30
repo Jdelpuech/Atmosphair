@@ -21,19 +21,19 @@ using namespace std;
 //----------------------------------------------------------- Constructeurs - destructeur
 
 Data::Data(int mesureId, time_t timestamp, double value, Sensor *sensor,DataType *type){
-	mesureId = mesureId;
-	timestamp = timestamp;
-	value = value;
-	sensor = sensor;
-	type = type; 
+	this->mesureId = mesureId;
+	this->timestamp = timestamp;
+	this->value = value;
+	this->sensor = sensor;
+	this->type = type;
 }
 
 Data::Data(int mesureId, time_t timestamp, double value, string sensorId, string dataTypeId) {
-	mesureId = mesureId;
-	timestamp = timestamp;
-	value = value;
-	sensorId = sensorId;
-	dataTypeId = dataTypeId;
+	this->mesureId = mesureId;
+	this->timestamp = timestamp;
+	this->value = value;
+	this->sensorId = sensorId;
+	this->dataTypeId = dataTypeId;
 }
 
 Data::~Data() {

@@ -39,7 +39,7 @@ public:
     // Mode d'emploi : renvoie la description du capteur.
     // Contrat : aucun
     
-    int getSensorID();
+    string getSensorID();
     // Mode d'emploi : renvoie l'identifiant du capteur.
     // Contrat : aucun
     
@@ -54,7 +54,9 @@ public:
 	void addData(Data* data);
     
     //---------------------------------------------------- Constructeurs - destructeur
-    Sensor (int sensorID, long lat, long lon, std::string description, bool dysfonctionning);
+    Sensor () {} ; 
+    // Mode d'emploi : constructeur par défaut
+    Sensor (string sensorID, double lat, double lon, std::string description, bool dysfonctionning);
     // Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
     //décrivant les capteurs, le constructeur permet de modéliser ce dernier à travers
     //la construction d'un objet Sensor.
@@ -74,7 +76,7 @@ protected:
     //------------------------------------------------------------ Méthodes protégées
     
     //------------------------------------------------------------ Attributs protégés
-    int sensorID ;
+    string sensorID ;
     double lon ;
     double lat ;
     std::string description ;

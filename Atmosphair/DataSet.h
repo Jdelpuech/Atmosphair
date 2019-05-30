@@ -15,6 +15,8 @@ class Sensor;
 class Data;
 class DataType;
 class User;
+
+using namespace std ; 
 //------------------------------------------------------------------ Types
 typedef std::list<User*> listUser;
 typedef std::list<DataType*> listDataType;
@@ -38,7 +40,6 @@ public:
 	static double calculateDistance(double lat1, double lon1,double lat2, double lon2);
 	Sensor getSensorById(string id);
 	std::list<Sensor*> getListSensorsInZone(double lat, double lon, double rayon);
-
 	int generateResultAtmo(std::list<Sensor*> l, time_t t);
 	std::list<int> generateResultAtmo(std::list<Sensor*> l, time_t t1, time_t t2);
 	std::list<Data> generateResultGas(std::list<Sensor*> l, time_t t, int choix);

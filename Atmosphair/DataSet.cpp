@@ -33,15 +33,20 @@ void DataSet::addDataType(DataType *dataType)
 	liDataType.push_back(dataType);
 }
 
-Sensor DataSet::getSensorById(string id) {
-	Sensor res = NULL;
-	for (Sensor s : liSensor) {
-		if (s.getSensorID==id) {
-			res = s;
-		}
-	}
-	return res;
+Sensor  DataSet::getSensorById(string id) {
+    Sensor * res = NULL ;
+    listSensor::iterator it = liSensor.begin();
+    while (it != liSensor.end()) {
+        if ((**it).getSensorID().compare(id)==0){
+            * res = (Sensor) (**it);
+        }
+        
+        it++;
+    }
+    
+    return *res;
 }
+
 void DataSet::addUser(User *user)
 {
 	liUser.push_back(user);

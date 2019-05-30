@@ -1,12 +1,12 @@
 /**************************************************************************************
- DataType  -  Réalisation
+ DataType  -  RŽalisation
  -------------------
  début                : 20/11/2018
  copyright            : (C)2018 par Atmosph'Air
 
  ***************************************************************************************/
 
- //------------------ Réalisation de la classe <DataType> (fichier DataType.cpp) ------------
+ //------------------ RŽalisation de la classe <DataType> (fichier DataType.cpp) ------------
 
  //------------------------------------------------------------------------------ INCLUDE
  //---------------------------------------------------------------------- Include système
@@ -20,7 +20,7 @@ using namespace std;
 
 //----------------------------------------------------------- Constructeurs - destructeur
 
-DataType::DataType(int attributeId, string unit, string description) {
+DataType::DataType(string attributeId, string unit, string description) {
 	this->attributeId = attributeId;
 	this->unit = unit;
 	this->description = description;
