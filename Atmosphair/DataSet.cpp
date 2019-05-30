@@ -79,6 +79,8 @@ bool DataSet::connectionRequest(string user, string password) {
 	}
 	return false;
 }
+
+
 //-------------------------------------------- Constructeurs - destructeur
 DataSet::DataSet() {
 
