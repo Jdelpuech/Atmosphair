@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+
 using namespace std;
 
 //--------------------------------------------------------------------- Include personnel
@@ -26,13 +27,13 @@ using namespace std;
 
 //-------------------------------------------------------------------------------- PUBLIC
 int main(){
-    struct tm * instant;
-    instant->tm_mon= 1 ;
-    instant->tm_mday= 1 ;
-    instant->tm_year= 2017;
-    instant->tm_hour = 1 ;
-    instant->tm_min = 0 ;
-    time_t time = mktime(instant);
+    struct tm instant ;
+    instant.tm_mon= 1 ;
+    instant.tm_mday= 1 ;
+    instant.tm_year= 2017;
+    instant.tm_hour = 1 ;
+    instant.tm_min = 0 ;
+    time_t time = mktime(&instant);
     
     //créations type de données
     DataType type_O3 = DataType("O3","µg/m3","concentration d'ozone");
@@ -45,12 +46,24 @@ int main(){
     Sensor sensor_1= Sensor("Sensor1",(long)-30.0647387677174,(long)-76.3439147576429,"",false);
     
     //une vague de données
-    Data data_0 = Data(0,time,67.9284748555273,"Sensor0","O3");
-    Data data_1 = Data(1,time,98.979984192197,"Sensor0","NO2");
-    Data data_2 = Data(2,time,119.423041339039,"Sensor0","SO2");
-    Data data_3 = Data(3,time,16.7564963001065,"Sensor0","PM10");
+    Data * data_0 = new Data(0,time,67.9284748555273,"Sensor0","O3");
+    Data * data_1 = new Data(1,time,98.979984192197,"Sensor0","NO2");
+    Data * data_2 = new Data(2,time,119.423041339039,"Sensor0","SO2");
+    Data * data_3 = new Data(3,time,16.7564963001065,"Sensor0","PM10");
+    sensor_0.addData(data_0);
+    sensor_0.addData(data_1);
+    sensor_0.addData(data_2);
+    sensor_0.addData(data_3);
+    std::list<Data *> listeDonnees = sensor_0.getData();
+    
+    std::list<Data *>::const_iterator it = listeDonnees.cbegin();
+    while (it!=listeDonnees.cend()){
+        cout << (**it).getValue() << endl ;
+        it++;
+    }
+    std::cout <<"ATMO :"<<sensor_0.calculateAtmo(time)<< endl ;
     
     double result = DataSet::calculateDistance(-8.157588883, -34.76924879, -30.06473877, -76.34391476);
-    std::cout << result;
+    std::cout << result << endl;
 	return 0; 
 }

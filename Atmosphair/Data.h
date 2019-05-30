@@ -48,8 +48,8 @@ public:
         return sensorId; 
     }
 
-	inline DataType* getDataType() {
-		return type; 
+	inline string getDataType() {
+		return dataTypeId;
 	}
 
 	//---------------------------------------------------- Constructeurs - destructeur

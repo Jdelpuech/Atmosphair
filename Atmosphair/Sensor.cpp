@@ -38,37 +38,38 @@ int Sensor::calculateAtmo(time_t t){
 
     //extraction des données sur la date
     
-    struct tm * format_t = localtime(&t);
-    int day_t = format_t->tm_mday;
-    int month_t = format_t->tm_mon ;
-    int year_t = format_t->tm_year;
- 
+    struct tm format_t = *localtime(&t);
+    int day_t = format_t.tm_mday;
+    int month_t = format_t.tm_mon ;
+    int year_t = format_t.tm_year;
+
     while (it != data.end()) {
         time_t time = (**it).getTimeStamp();
-        DataType type = *(**it).getDataType();
-        struct tm * format = localtime(&time);
-        int day = format->tm_mday;
-        int month = format->tm_mon ;
-        int year = format->tm_year;
-        int hour = format->tm_hour;
-
+        string type = (**it).getDataType();
+        struct tm format = *localtime(&time);
+        int day = format.tm_mday;
+        int month = format.tm_mon ;
+        int year = format.tm_year;
+        int hour = format.tm_hour;
+        cout <<"date :"<<day<<"/"<<month<<"/"<<year<<" hour :"<<hour<<endl;
         if (day_t==day && month_t==month && year_t==year) {
-            if (type.getAttributeId().compare("O3")==0) {
+            cout<<"condition verified"<<endl; 
+            if (type.compare("O3")==0) {
                 if ((**it).getValue() > maxsO3[hour]) {
                     maxsO3[hour] = (**it).getValue();
                 }
             }
-            else if (type.getAttributeId().compare("NO2")==0) {
+            else if (type.compare("NO2")==0) {
                 if ((**it).getValue() > maxsNO2[hour]) {
                     maxsNO2[hour] = (**it).getValue();
                 }
             }
-            else if (type.getAttributeId().compare("SO2")==0) {
+            else if (type.compare("SO2")==0) {
                 if ((**it).getValue() > maxsSO2[hour]) {
                     maxsSO2[hour] = (**it).getValue();
                 }
             }
-            else if (type.getAttributeId().compare("PM10")==0){
+            else if (type.compare("PM10")==0){
                 if ((**it).getValue() > particules[hour]) {
                     particules[hour] = (**it).getValue();
                 }
@@ -76,6 +77,18 @@ int Sensor::calculateAtmo(time_t t){
         }
         it++;
     }
+    
+    cout <<"valeurs O3 : [" ;
+    for (int i = 0 ; i<23 ; i++){
+        cout <<maxsO3[i]<<";";
+    }
+    cout<<maxsO3[23]<<"]"<<endl ; ;
+    
+    cout <<"valeurs NO2 : [" ;
+    for (int i = 0 ; i<23 ; i++){
+        cout <<maxsNO2[i]<<";";
+    }
+    cout<<maxsNO2[23]<<"]"<<endl;
     
     int nbP=0 ;
     int nbS=0 ;
@@ -210,6 +223,11 @@ bool Sensor::dysfonction(){
 void Sensor::addData(Data * dataE)
 {
 	data.push_back(dataE);
+}
+
+listData Sensor::getData()
+{
+    return data;
 }
 
 //----------------------------------------------------------- Constructeurs - destructeur

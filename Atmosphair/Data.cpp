@@ -26,6 +26,7 @@ Data::Data(int mesureId, time_t timestamp, double value, Sensor *sensor,DataType
 	this->value = value;
 	this->sensor = sensor;
 	this->type = type;
+    this->dataTypeId = type->getAttributeId(); 
 }
 
 Data::Data(int mesureId, time_t timestamp, double value, string sensorId, string dataTypeId) {

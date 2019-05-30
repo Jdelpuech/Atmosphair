@@ -52,6 +52,12 @@ public:
     // Contrat : aucun
     
 	void addData(Data* data);
+    // Mode d'emploi : ajoute une donnée a la liste des données du capteur.
+    // Contrat : aucun
+    
+    listData getData();
+    // Mode d'emploi : renvoie la liste des données du capteur
+    // Contrat : aucun
     
     //---------------------------------------------------- Constructeurs - destructeur
     Sensor () {} ; 
