@@ -102,8 +102,8 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 			time_t finalTime=mktime(timestamp);
 			Data *d=NULL;
 			*d = Data(id,finalTime, value, sensorId, dataTypeId);
-			/*ajout au dataset*/
-			/*dataS.addData(d);	*/
+			/*ajout au sensor*/
+			dataS.getSensorById(id).addData(d);
 			ok = true;
 		}
 		break;

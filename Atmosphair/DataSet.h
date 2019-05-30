@@ -36,6 +36,7 @@ public:
 	void addData(Data *data);
 	bool connectionRequest(std::string user, std::string password);
 	long calculateDisatance(Sensor s1, Sensor s2)const;
+	Sensor getSensorById(string id);
 	std::list<Sensor*> getListSensorsInZone(double lat, double lon, double rayon);
 
 	int generateResultAtmo(std::list<Sensor*> l, time_t t);

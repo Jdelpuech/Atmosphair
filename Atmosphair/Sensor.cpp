@@ -76,6 +76,11 @@ bool Sensor::dysfonction(){
     return dysfonctionning ;
 }
 
+void Sensor::addData(Data * data)
+{
+	liData.push_back(data);
+}
+
 //----------------------------------------------------------- Constructeurs - destructeur
 Sensor::Sensor(int sensorID, long lat, long lon, string description, bool dysfonctionning){
     this->sensorID = sensorID ;

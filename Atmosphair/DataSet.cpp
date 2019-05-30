@@ -31,7 +31,15 @@ void DataSet::addDataType(DataType *dataType)
 	liDataType.push_back(dataType);
 }
 
-
+Sensor DataSet::getSensorById(string id) {
+	Sensor res = NULL;
+	for (Sensor s : liSensor) {
+		if (s.getSensorID==id) {
+			res = s;
+		}
+	}
+	return res;
+}
 
 
 bool DataSet::connectionRequest(string user, string password) {
