@@ -24,7 +24,7 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- Méthodes publiques
 
-list<Sensor*> DataSet::getListSensors() {
+listSensor DataSet::getListSensors() {
     return liSensor ;
 }
 
@@ -85,10 +85,24 @@ bool DataSet::connectionRequest(string user, string password) {
 	return false;
 }
 
+listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
+	listSensor result = listSensor();
+	listSensor::iterator it;
+	it = liSensor.begin();
+	while (it != liSensor.end()) {
+		double distance = calculateDistance(lat, lon, (**it).getLatitude(), (**it).getLongitude());
+		if (distance <= rayon) {
+			result.push_back((*it));
+		}
+		++it;
+	}
+	return result;
+}
+
 //A TESTER
-list<int> generateResultAtmo(list<Sensor*> l, time_t t){
+list<int> generateResultAtmo(listSensor l, time_t t){
     list<int> results ;
-    list<Sensor*>::iterator it;
+	listSensor::iterator it;
     it = l.begin();
     while (it != l.end()) {
         results.push_back((**it).calculateAtmo(t));
@@ -97,7 +111,7 @@ list<int> generateResultAtmo(list<Sensor*> l, time_t t){
     return results ; 
 }
 //A TESTER
-list<int> generateResultAtmo(list<Sensor*> l, time_t t1, time_t t2){
+list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2){
     list<int> results ;
     //dates
     struct tm format_t1 = *localtime(&t1);
@@ -121,7 +135,7 @@ list<int> generateResultAtmo(list<Sensor*> l, time_t t1, time_t t2){
     time_t t = mktime(&format_t);
    
     
-    list<Sensor*>::iterator it;
+	listSensor::iterator it;
     it = l.begin();
     while (it != l.end()) {
         int moyenne = 0 ;
