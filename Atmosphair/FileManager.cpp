@@ -94,7 +94,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 				getline(f, descr, ';');
 				cout << "descr : " << descr << endl;
 				getline(f, flush);
-				Sensor *s = new Sensor(id, lat, lon, descr, false);
+				Sensor *s = new Sensor(id, lat, lon, descr);
 
 				/*ajout au dataset*/
 				dataS.addSensor(s);
@@ -107,8 +107,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 			{
 				/*Timestamp;SensoTrID;AttributeID;Value;*/
 				static int id;
-				time_t t = time(NULL);
-				struct tm *timestamp = localtime(&t);/*timestamp*/
+				struct tm *timestamp = NULL;/*timestamp*/
 				double value;/*value*/
 				string sensorId;/*sensorID*/
 				string dataTypeId;/*attributeID*/
@@ -119,7 +118,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 				tmp = "";*/
 				id++;
 				getline(f, tmp, '"');
-				tmp = "";/*pour enlèver le guimet initial*/
+				tmp = "";/*pour enlï¿½ver le guimet initial*/
 				getline(f, tmp, '-');/* strptime(tmp, sizeof(tmp), , timestamp.);*/
 				timestamp->tm_year = atoi(tmp.c_str());
 				tmp = "";
