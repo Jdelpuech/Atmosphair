@@ -93,16 +93,18 @@ int main(){
 	FileManager fm = FileManager();
 
 	/*string s = "./sauvegardes.txt";*/
-	fm.openSave("./sauvegardes.txt", d);
 
-	list<Sensor*> lS =d.getListSensors();
+	fm.openSave("C:/Users/hcann/Documents/INSA/IF/GL-UML/Jdelpuech/Atmosphair/Atmosphair/sauvegardes.txt", d);
+
+	listSensor liSensor =d.getListSensors();
 	std::cout << "SENSORS" << endl;
-	for (list<Sensor*>::iterator it = lS.begin(); it != lS.end(); ++it)
-	{
-		cout << (*(*it)).toString() <<endl;
+	listSensor::iterator it;
+	it = liSensor.begin();
+	while (it != liSensor.end()) {
+		cout << (**it).toString()<< endl;
+		++it;
 	}
-
-	std::cout << "DATA" << endl;
+	/*std::cout << "DATA" << endl;
 	for (list<Sensor*>::iterator it = lS.begin(); it != lS.end(); ++it)
 	{
 		list<Data*> lD=(*(*it)).getData(); 
@@ -117,7 +119,9 @@ int main(){
 	for (list<DataType*>::iterator it = lDT.begin(); it != lDT.end(); ++it)
 	{
 		cout << (*(*it)).toString() << endl;
-	}
+	}*/
+
+	cout << endl << "Test Hugo" << endl;
 
 	DataSet d1 = DataSet();
 

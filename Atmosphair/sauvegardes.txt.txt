@@ -1,3 +1,0 @@
-0;sensors.txt
-1;data.txt
-2;dataType.txt

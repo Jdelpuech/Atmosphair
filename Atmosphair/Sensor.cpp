@@ -51,10 +51,10 @@ int Sensor::calculateAtmo(time_t t){
         int month = format.tm_mon ;
         int year = format.tm_year;
         int hour = format.tm_hour;
-		std::cout << ctime(&time1);
+		//std::cout << ctime(&time1);
         //cout <<"date :"<<day<<"/"<<month<<"/"<<year<<" hour :"<<hour<<endl;
         if (day_t==day && month_t==month && year_t==year) {
-            std::cout<<"condition verified"<<endl; 
+            //std::cout<<"condition verified"<<endl; 
             if (type.compare("O3")==0) {
                 if ((**it).getValue() > maxsO3[hour]) {
                     maxsO3[hour] = (**it).getValue();
