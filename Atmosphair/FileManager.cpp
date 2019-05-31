@@ -18,6 +18,7 @@ FileManager::~FileManager()
 
 bool FileManager::openSave(string path, DataSet dataS)
 {
+	cout << "path :" << path << endl;
 	bool ok = false;
 	ifstream f(path.c_str());
 	if (f) {
@@ -32,7 +33,7 @@ bool FileManager::openSave(string path, DataSet dataS)
 
 			string fpath;
 			getline(f, fpath);
-			cout << "path :" << fpath << endl;
+			cout << "fpath :" << fpath << endl;
 
 
 			switch (atoi(type.c_str()))
@@ -107,7 +108,8 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 		{
 			/*Timestamp;SensoTrID;AttributeID;Value;*/
 			static int id;
-			struct tm *timestamp=NULL;/*timestamp*/
+			time_t tc = time(NULL);/*pour avoir la date de auj et ne pas initialiser à null*/
+			struct tm *timestamp = localtime(&tc); /*timestamp*/
 			double value;/*value*/
 			string sensorId;/*sensorID*/
 			string dataTypeId;/*attributeID*/

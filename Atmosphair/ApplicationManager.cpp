@@ -95,8 +95,8 @@ int main(){
 	/*string s = "./sauvegardes.txt";*/
 
 	fm.openSave("sauvegardes.txt",d);
-	int a;
-	cin >> a;
+	/*t a;
+	cin >> a;*/
 
 	listSensor liSensor =d.getListSensors();
 	std::cout << "SENSORS" << endl;
