@@ -29,7 +29,7 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 int main(){
 
-	/*std::cout << "Test Julie" << endl;
+	std::cout << "Test Julie" << endl;
     struct tm instant ;
     instant.tm_mon= 1-1 ;
     instant.tm_mday= 1 ;
@@ -71,6 +71,15 @@ int main(){
     sensor_0.addData(data_5);
     sensor_0.addData(data_6);
     sensor_0.addData(data_7);
+
+	sensor_2.addData(data_0);
+	sensor_2.addData(data_1);
+	sensor_2.addData(data_2);
+	sensor_2.addData(data_3);
+	sensor_2.addData(data_4);
+	sensor_2.addData(data_5);
+	sensor_2.addData(data_6);
+	sensor_2.addData(data_7);
     std::list<Data *> listeDonnees = sensor_0.getData();
 
     int indice = sensor_0.calculateAtmo(time);
@@ -78,15 +87,9 @@ int main(){
     
     double result = DataSet::calculateDistance(-8.157588883, -34.76924879, -8.0647387677174,-34.3439147576429);
     std::cout << result << endl <<endl;
-	
-
-
-	DataSet d = DataSet();
-	d.addSensor(&sensor_0);*/
 
 	std::cout << "Test Grazia" << endl;
 	DataSet d = DataSet();
-
 	FileManager fm = FileManager();
 
 	/*string s = "./sauvegardes.txt";*/
@@ -116,19 +119,28 @@ int main(){
 		cout << (*(*it)).toString() << endl;
 	}
 
-	d.addSensor(&sensor_0);
-	d.addSensor(&sensor_1);
-	d.addSensor(&sensor_2);
-	d.addSensor(&sensor_3);
+	DataSet d1 = DataSet();
 
-	listSensor liSen= d.getListSensorsInZone((double)-8.15758888291083, (double)-34.7692487876719, (double)100);
-	listSensor::iterator it;
-	it = liSen.begin();
-	while (it != liSen.end()) {
-		cout << (**it).getDescription()<<endl;
-		++it;
+	d1.addSensor(&sensor_0);
+	d1.addSensor(&sensor_1);
+	d1.addSensor(&sensor_2);
+	d1.addSensor(&sensor_3);
+
+	listSensor liSen= d1.getListSensorsInZone((double)-8.15758888291083, (double)-34.7692487876719, (double)100);
+	listSensor::iterator it1;
+	it1 = liSen.begin();
+	while (it1 != liSen.end()) {
+		cout << (**it1).getDescription()<<endl;
+		++it1;
 	}
 
+	list<int> atmo = d1.generateResultAtmo(liSen, time);
+	list<int>::iterator it2;
+	it2 = atmo.begin();
+	while (it2 != atmo.end()) {
+		cout << *it2 << endl;
+		++it2;
+	}
 
 	return 0;
 }

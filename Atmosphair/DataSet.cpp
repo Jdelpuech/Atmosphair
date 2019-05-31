@@ -21,10 +21,42 @@ using namespace std;
 #include "User.h"
 #include "Sensor.h"
 #include "DataType.h"
+#include "Data.h"
 //-------------------------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- Méthodes publiques
 
-listSensor DataSet::getListSensors() {
+std::list<Data*> DataSet::generateDataSensor(string id, time_t t1, time_t t2)
+{
+	Sensor s = getSensorById(id);
+	list<Data*> result;
+	listData::iterator it;
+	it = s.getData().begin();
+
+	while (it != s.getData().end()) {
+		if ((difftime(t1, (**it).getTimeStamp()) <= 0) && (difftime(t2, (**it).getTimeStamp()) >= 0)) {
+			result.push_back(*it);
+		}
+		++it;
+	}
+	return result;
+}
+
+listSensor DataSet::getListDysfonctionningSensors()
+{
+	listSensor result;
+	listSensor::iterator it;
+	it = liSensor.begin();
+	while (it != liSensor.end()) {
+		if ((**it).dysfonction() == true) {
+			result.push_back((*it));
+		}
+		++it;
+	}
+	return result;
+}
+
+listSensor DataSet::getListSensors() 
+{
     return liSensor ;
 }
 
@@ -100,8 +132,9 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 	return result;
 }
 
-//A TESTER
-list<int> generateResultAtmo(listSensor l, time_t t){
+
+//A TESTER -> OK
+list<int> DataSet::generateResultAtmo(listSensor l, time_t t){
     list<int> results ;
 	listSensor::iterator it;
     it = l.begin();
@@ -112,7 +145,7 @@ list<int> generateResultAtmo(listSensor l, time_t t){
     return results ; 
 }
 //A TESTER
-list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2){
+list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
     list<int> results ;
     //dates
     struct tm format_t1 = *localtime(&t1);
@@ -166,7 +199,8 @@ list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2){
 
 
 
-std::list<DataType*> DataSet::getListDataType()
+
+listDataType DataSet::getListDataType()
 {
 	return liDataType;
 }

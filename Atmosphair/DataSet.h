@@ -65,26 +65,26 @@ public:
     //geographique se defissant par un point (centre) et un rayon (en km).
     // Contrat : aucun
     
-    std::list<int> generateResultAtmo(std::list<Sensor*> l, time_t t);
+    std::list<int> generateResultAtmo(listSensor l, time_t t);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l a la date t.
     // Contrat : aucun
     
-	std::list<int> generateResultAtmo(std::list<Sensor*> l, time_t t1, time_t t2);
+	std::list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l, moyennes des indices entre les dates t1 et t2.
     // Contrat : aucun
     
-	std::list<Data> generateResultGas(std::list<Sensor*> l, time_t t, int choix);
+	std::list<Data*> generateResultGas(listSensor l, time_t t, int choix);
     // Mode d'emploi : renvoie la liste des resultats des moyennes demandees par l'utilisateur
     // Contrat : aucun
     
-	std::list<Data> generateDataSensor(int id, time_t t1, time_t t2);
+	std::list<Data*> generateDataSensor(std::string id, time_t t1, time_t t2);
     // Mode d'emploi : renvoie toutes les donnees brutes entre t1 et t2 du capteur d'identifiant
     //id. 
     // Contrat : aucun
 
-	std::list<Sensor*> getListDysfonctionningSensors();
+	listSensor getListDysfonctionningSensors();
     // Mode d'emploi : renvoie une liste de l'ensemble des sensors dysfonctionnants
     // Contrat : aucun
     
@@ -92,7 +92,7 @@ public:
     // Mode d'emploi : renvoie une liste de l'ensemble des sensors
     // Contrat : aucun
 
-	std::list<DataType*> getListDataType();
+	listDataType getListDataType();
 	//--------------------------------------------------------- Constructeurs - destructeur
 	DataSet();
 	// Mode d'emploi : aucun
