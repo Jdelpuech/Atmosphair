@@ -249,7 +249,7 @@ bool Sensor::dysfonction(){
 
         }
     }
-    dysfonctionning=working ; 
+    dysfonctionning=!(working) ; 
     return working ;
 }
 
