@@ -93,7 +93,6 @@ int main(){
 	FileManager fm = FileManager();
 
 	/*string s = "./sauvegardes.txt";*/
-
 	fm.openSave("sauvegardes.txt",&d);
 
 	listSensor liSensor =d.getListSensors();
