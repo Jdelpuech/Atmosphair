@@ -36,15 +36,15 @@ public:
 
 
 	//---------------------------------------------------- Constructeurs - destructeur
+	FileManager(string save);
 	FileManager();
-
 	virtual ~FileManager(); 
 	// Mode d'emploi : aucun
     // Contrat : aucun
 
 	bool importDataFromFile(DataSet* dataS, string path, int type);
 	bool openSave(string path, DataSet* dataS);
-
+	bool save(DataSet*dataS, string path, int type);
 
 	//------------------------------------------------------------------------------ PRIVE
 private:
@@ -53,7 +53,7 @@ private:
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
-	/*FILE * fileSave;*/
+	string savef;
 
 
 	//------------------------------------------------------------ Attributs protégés
