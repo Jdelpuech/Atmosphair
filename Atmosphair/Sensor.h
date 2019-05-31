@@ -65,7 +65,7 @@ public:
     //---------------------------------------------------- Constructeurs - destructeur
     Sensor () {} ; 
     // Mode d'emploi : constructeur par défaut
-    Sensor (string sensorID, double lat, double lon, std::string description, bool dysfonctionning);
+    Sensor (string sensorID, double lat, double lon, std::string description);
     // Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
     //décrivant les capteurs, le constructeur permet de modéliser ce dernier à travers
     //la construction d'un objet Sensor.
