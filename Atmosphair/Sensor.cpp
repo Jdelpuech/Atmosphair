@@ -114,10 +114,22 @@ int Sensor::calculateAtmo(time_t t){
         }
     }
     //calculs des moyennes
-    moyO3=moyO3/nbO;
-    moyNO2=moyNO2/nbN;
-    moyParticules=moyParticules/nbP;
-    moySO2=moySO2/nbS;
+    if (nbO!=0)
+        moyO3=moyO3/nbO;
+    else 
+        cout <<"Attention : aucune valeur de O3 prise en compte lors de ce calcul"<<endl; 
+    if (nbN!=0)
+        moyNO2=moyNO2/nbN;
+    else 
+        cout <<"Attention : aucune valeur de NO2 prise en compte lors de ce calcul"<<endl;
+    if (nbP!=0)
+        moyParticules=moyParticules/nbP;
+    else 
+        cout <<"Attention : aucune valeur de PM10 prise en compte lors de ce calcul"<<endl;
+    if (nbS!=0)
+        moySO2=moySO2/nbS;
+    else 
+        cout <<"Attention : aucune valeur de SO2 prise en compte lors de ce calcul"<<endl;
     
     //calcul du max des moyennes
     int max1 ;
@@ -218,7 +230,27 @@ string Sensor::getDescription(){
 }
 
 bool Sensor::dysfonction(){
-    return dysfonctionning ;
+    bool working = true ; 
+    if (data.size()==0){
+        working = false ; 
+    }else {
+        listData::iterator it = data.begin();
+        while (it!=data.end()){
+            //test de cohérence
+            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataType()=="PM10"){
+                working = false ; 
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataType()=="SO2"){
+                working = false ; 
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataType()=="NO2"){
+                working = false ; 
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataType()=="O3"){
+                working = false ; 
+            }
+
+        }
+    }
+    dysfonctionning=working ; 
+    return working ;
 }
 
 void Sensor::addData(Data * dataE)
@@ -237,12 +269,12 @@ string Sensor::toString()
 }
 
 //----------------------------------------------------------- Constructeurs - destructeur
-Sensor::Sensor(string sensorID, double lat, double lon, string description, bool dysfonctionning){
+Sensor::Sensor(string sensorID, double lat, double lon, string description){
     this->sensorID = sensorID ;
     this->lat = lat ;
     this->lon = lon ;
     this->description = description ;
-    this->dysfonctionning = dysfonctionning ;
+    dysfonctionning = dysfonction() ;
     
 }
 
