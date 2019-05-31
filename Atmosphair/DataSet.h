@@ -88,7 +88,7 @@ public:
     // Mode d'emploi : renvoie une liste de l'ensemble des sensors dysfonctionnants
     // Contrat : aucun
     
-	std::list<Sensor> getListSensors();
+	std::list<Sensor*> getListSensors();
     // Mode d'emploi : renvoie une liste de l'ensemble des sensors
     // Contrat : aucun
 

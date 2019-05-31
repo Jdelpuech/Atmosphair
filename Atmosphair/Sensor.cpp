@@ -38,7 +38,6 @@ int Sensor::calculateAtmo(time_t t){
     listData::iterator it = data.begin();
 
     //extraction des données sur la date
-	time(&t);
     struct tm format_t = *localtime(&t);
     int day_t = format_t.tm_mday;
     int month_t = format_t.tm_mon ;
@@ -47,7 +46,6 @@ int Sensor::calculateAtmo(time_t t){
     while (it != data.end()) {
         time_t time1 = (**it).getTimeStamp();
         string type = (**it).getDataType();
-		time(&time1);
         struct tm format = *localtime(&time1);
         int day = format.tm_mday;
         int month = format.tm_mon ;

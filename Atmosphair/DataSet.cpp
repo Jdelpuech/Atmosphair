@@ -24,7 +24,7 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- Méthodes publiques
 
-list<Sensor> DataSet::getListSensors() {
+list<Sensor*> DataSet::getListSensors() {
     return liSensor ;
 }
 
