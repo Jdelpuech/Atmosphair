@@ -231,6 +231,11 @@ listData Sensor::getData()
     return data;
 }
 
+string Sensor::toString()
+{
+	return string(sensorID +";"+ to_string(lon) +";"+ to_string(lat) + ";"+description + ";"+to_string(dysfonctionning));
+}
+
 //----------------------------------------------------------- Constructeurs - destructeur
 Sensor::Sensor(string sensorID, double lat, double lon, string description, bool dysfonctionning){
     this->sensorID = sensorID ;

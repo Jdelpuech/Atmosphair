@@ -20,7 +20,12 @@ using namespace std;
 
 //----------------------------------------------------------- Constructeurs - destructeur
 
-DataType::DataType(string attributeId, string unit, string description) {
+ string DataType::toString()
+ {
+	 return string(attributeId+";"+unit + ";" + description);
+ }
+
+ DataType::DataType(string attributeId, string unit, string description) {
 	this->attributeId = attributeId;
 	this->unit = unit;
 	this->description = description;

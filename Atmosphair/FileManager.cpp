@@ -8,7 +8,7 @@ using namespace std;
 
 FileManager::FileManager()
 {
-	fileSave= nullptr;
+	
 }
 
 
@@ -20,32 +20,46 @@ bool FileManager::openSave(string path, DataSet dataS)
 {
 	bool ok = false;
 	ifstream f(path.c_str());
-	while (!f)
+	while (f)
 	{
+		cout << "1";
+		string tmp;
 		string type;
-		getline(f, type, ';');
+		cout << "2";
+		getline(f, tmp, ';');
+		cout << tmp;
+		cout << "3";
+		type = tmp.c_str();
+		cout << type;
+		tmp = "";
 
 		string fpath;
-		string tmp;
 		getline(f, tmp);
+		cout << "4";
 		fpath = tmp.c_str();
-
+		tmp = "";
+		
 		switch (atoi(type.c_str()))
 		{
 			case 0:
-				importDataFromFile(dataS, fpath, 0);
+				ok=importDataFromFile(dataS, fpath, 0);
+				type = "";
 				break;
 			case 1:
-				importDataFromFile(dataS, fpath, 1);
+				ok=importDataFromFile(dataS, fpath, 1);
+				type = "";
 				break;
 			case 2:
-				importDataFromFile(dataS, fpath, 2);
+				ok=importDataFromFile(dataS, fpath, 2);
+				type = "";
 				break;
 			default:
 				cout << "invalid type";
+				type = "";
 				break;
 		}
 	}
+	f.close();
 	return ok;
 }
 
@@ -55,7 +69,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 	switch (type)
 	{
 	case 0:/*fichier de Sensors*/
-		while (!f)
+		while (f)
 		{
 			string id;
 			double lon;
@@ -85,7 +99,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 		}
 		break;
 	case 1: /*data*/
-		while (!f)
+		while (f)
 		{
 			/*Timestamp;SensoTrID;AttributeID;Value;*/
 			static int id;
@@ -99,6 +113,8 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 			id = tmp.c_str();
 			tmp = "";*/
             id++;
+			getline(f, tmp, '"');
+			tmp="";/*pour enlèver le guimet initial*/
 			getline(f, tmp, '-');/* strptime(tmp, sizeof(tmp), , timestamp.);*/
 			timestamp->tm_year = atoi(tmp.c_str());
 			tmp = "";
@@ -141,7 +157,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 		}
 		break;
 	case 2: /*dataType*/
-		while (!f)
+		while (f)
 		{
 			string attributeId;
 			string unit;
@@ -169,6 +185,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 		cout << "invalid type"  ;
 		break;
 	}
+	f.close();
 	return ok;
 }
 

@@ -20,7 +20,13 @@ using namespace std;
 
 //----------------------------------------------------------- Constructeurs - destructeur
 
-Data::Data(int mesureId, time_t timestamp, double value, Sensor *sensor,DataType *type){
+ string Data::toString()
+ {
+	 return string(to_string(mesureId) + ";" + to_string(timestamp) + ";" + to_string(value) + ";" + sensor->toString() +
+		 ";" + type->toString() + ";" + sensorId + dataTypeId);
+ }
+
+ Data::Data(int mesureId, time_t timestamp, double value, Sensor *sensor,DataType *type){
 	this->mesureId = mesureId;
 	this->timestamp = timestamp;
 	this->value = value;
