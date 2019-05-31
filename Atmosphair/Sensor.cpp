@@ -237,13 +237,13 @@ bool Sensor::dysfonction(){
         listData::iterator it = data.begin();
         while (it!=data.end()){
             //test de cohérence
-            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataType()=="PM10"){
+            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataTypeId()=="PM10"){
                 working = false ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataType()=="SO2"){
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataTypeId()=="SO2"){
                 working = false ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataType()=="NO2"){
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataTypeId()=="NO2"){
                 working = false ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataType()=="O3"){
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataTypeId()=="O3"){
                 working = false ; 
             }
 
