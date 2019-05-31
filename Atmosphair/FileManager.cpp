@@ -94,7 +94,7 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				getline(f, descr, ';');
 				cout << "descr : " << descr << endl;
 				getline(f, flush);
-				Sensor *s = new Sensor(id, lat, lon, descr, false);
+				Sensor *s = new Sensor(id, lat, lon, descr);
 
 				/*ajout au dataset*/
 				dataS->addSensor(s);

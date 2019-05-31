@@ -47,10 +47,10 @@ int main(){
     
     
     //création sensors
-    Sensor sensor_0 = Sensor("Sensor0",(double)-8.15758888291083,(double)-34.7692487876719,"0",false);
-    Sensor sensor_1= Sensor("Sensor1",(double)-30.0647387677174,(double)-76.3439147576429,"1",false);
-	Sensor sensor_2 = Sensor("Sensor2", (double)-8.0647387677174, (double)-34.3439147576429, "2", false);
-	Sensor sensor_3 = Sensor("Sensor3", (double)-30.1, (double)-76.1, "3", false);
+    Sensor sensor_0 = Sensor("Sensor0",(double)-8.15758888291083,(double)-34.7692487876719,"0");
+    Sensor sensor_1= Sensor("Sensor1",(double)-30.0647387677174,(double)-76.3439147576429,"1");
+	Sensor sensor_2 = Sensor("Sensor2", (double)-8.0647387677174, (double)-34.3439147576429, "2");
+	Sensor sensor_3 = Sensor("Sensor3", (double)-30.1, (double)-76.1, "3");
     
     //une vague de données
     Data * data_0 = new Data(time,67.9284748555273,"Sensor0","O3");
