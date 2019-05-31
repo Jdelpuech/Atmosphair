@@ -9,7 +9,7 @@
 //------------------ Réalisation de la classe <Sensor> (fichier Sensor.cpp) ------------
 
 //------------------------------------------------------------------------------ INCLUDE
-#pragma warning(disable : 4996)
+
 //---------------------------------------------------------------------- Include système
 #include <iostream>
 #include <ctime>
@@ -51,9 +51,10 @@ int Sensor::calculateAtmo(time_t t){
         int month = format.tm_mon ;
         int year = format.tm_year;
         int hour = format.tm_hour;
-        cout <<"date :"<<day<<"/"<<month<<"/"<<year<<" hour :"<<hour<<endl;
+		std::cout << ctime(&time1);
+        //cout <<"date :"<<day<<"/"<<month<<"/"<<year<<" hour :"<<hour<<endl;
         if (day_t==day && month_t==month && year_t==year) {
-            cout<<"condition verified"<<endl; 
+            std::cout<<"condition verified"<<endl; 
             if (type.compare("O3")==0) {
                 if ((**it).getValue() > maxsO3[hour]) {
                     maxsO3[hour] = (**it).getValue();
@@ -78,17 +79,17 @@ int Sensor::calculateAtmo(time_t t){
         it++;
     }
     
-    cout <<"valeurs O3 : [" ;
+	std::cout <<"valeurs O3 : [" ;
     for (int i = 0 ; i<23 ; i++){
-        cout <<maxsO3[i]<<";";
+		std::cout <<maxsO3[i]<<";";
     }
-    cout<<maxsO3[23]<<"]"<<endl ; ;
+	std::cout <<maxsO3[23]<<"]"<<endl ; ;
     
-    cout <<"valeurs NO2 : [" ;
+	std::cout <<"valeurs NO2 : [" ;
     for (int i = 0 ; i<23 ; i++){
-        cout <<maxsNO2[i]<<";";
+		std::cout <<maxsNO2[i]<<";";
     }
-    cout<<maxsNO2[23]<<"]"<<endl;
+	std::cout <<maxsNO2[23]<<"]"<<endl;
     
     int nbP=0 ;
     int nbS=0 ;

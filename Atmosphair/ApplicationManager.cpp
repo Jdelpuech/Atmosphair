@@ -28,11 +28,12 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 int main(){
     struct tm instant ;
-    instant.tm_mon= 1 ;
+    instant.tm_mon= 1-1 ;
     instant.tm_mday= 1 ;
-    instant.tm_year= 2017;
+    instant.tm_year= 2017-1900;
     instant.tm_hour = 1 ;
     instant.tm_min = 0 ;
+	instant.tm_sec = 0;
     time_t time = mktime(&instant);
     
     //créations type de données
@@ -43,8 +44,8 @@ int main(){
     
     
     //création sensors
-    Sensor sensor_0 = Sensor("Sensor0",(long)-8.15758888291083,(long)-34.7692487876719,"",false);
-    Sensor sensor_1= Sensor("Sensor1",(long)-30.0647387677174,(long)-76.3439147576429,"",false);
+    Sensor sensor_0 = Sensor("Sensor0",(double)-8.15758888291083,(double)-34.7692487876719,"",false);
+    Sensor sensor_1= Sensor("Sensor1",(double)-30.0647387677174,(double)-76.3439147576429,"",false);
     
     //une vague de données
     Data * data_0 = new Data(0,time,67.9284748555273,"Sensor0","O3");
@@ -72,5 +73,9 @@ int main(){
     
     double result = DataSet::calculateDistance(-8.157588883, -34.76924879, -30.06473877, -76.34391476);
     std::cout << result << endl;
-	return 0; 
+	
+
+	DataSet d = DataSet();
+	d.addSensor(&sensor_0);
+	return 0;
 }
