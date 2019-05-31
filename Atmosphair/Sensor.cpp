@@ -45,7 +45,7 @@ int Sensor::calculateAtmo(time_t t){
 
     while (it != data.end()) {
         time_t time1 = (**it).getTimeStamp();
-        string type = (**it).getDataType();
+        string type = (**it).getDataTypeId();
         struct tm format = *localtime(&time1);
         int day = format.tm_mday;
         int month = format.tm_mon ;
@@ -228,7 +228,7 @@ double Sensor::calculateMoyenneGaz(time_t t, string type){
     int nbrData = 0 ; 
     while (it != data.end()) {
         time_t time1 = (**it).getTimeStamp();
-        string type1 = (**it).getDataType();
+        string type1 = (**it).getDataTypeId();
         struct tm format = *localtime(&time1);
         int day = format.tm_mday;
         int month = format.tm_mon ;
@@ -267,16 +267,16 @@ void Sensor::dysfonction(){
         listData::iterator it = data.begin();
         while (it!=data.end()){
             //test de cohérence
-            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataType()=="PM10"){
+            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataTypeId()=="PM10"){
                 working = false ; 
                 cout << "1"<< endl ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataType()=="SO2"){
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataTypeId()=="SO2"){
                 working = false ; 
                 cout << "2"<< endl ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataType()=="NO2"){
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataTypeId()=="NO2"){
                 working = false ; 
                 cout << "3"<< endl ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataType()=="O3"){
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataTypeId()=="O3"){
                 working = false ; 
                 cout << "4"<< endl ; 
             }

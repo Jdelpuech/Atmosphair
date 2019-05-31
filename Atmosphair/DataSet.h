@@ -55,7 +55,7 @@ public:
     //et longitude connu. Elle renvoie un nombre � virgule correspondant au nombre de km.
     // Contrat : aucun
     
-	Sensor getSensorById(string id);
+	Sensor * getSensorById(string id);
     // Mode d'emploi : methode permettant de renvoyer l'objec sensor correspondant a l'id passe
     //en parametre.
     // Contrat : l'id existe.

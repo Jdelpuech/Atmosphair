@@ -27,12 +27,12 @@ using namespace std;
 
 std::list<Data*> DataSet::generateDataSensor(string id, time_t t1, time_t t2)
 {
-	Sensor s = getSensorById(id);
+	Sensor* s = getSensorById(id);
 	list<Data*> result;
 	listData::iterator it;
-	it = s.getData().begin();
+	it = s->getData().begin();
 
-	while (it != s.getData().end()) {
+	while (it != s->getData().end()) {
 		if ((difftime(t1, (**it).getTimeStamp()) <= 0) && (difftime(t2, (**it).getTimeStamp()) >= 0)) {
 			result.push_back(*it);
 		}
@@ -70,18 +70,18 @@ void DataSet::addDataType(DataType *dataType)
 	liDataType.push_back(dataType);
 }
 
-Sensor  DataSet::getSensorById(string id) {
-    Sensor * res = NULL ;
+Sensor* DataSet::getSensorById(string id) {
+    Sensor * res = nullptr;
     listSensor::iterator it = liSensor.begin();
     while (it != liSensor.end()) {
-        if ((**it).getSensorID().compare(id)==0){
-            * res = (Sensor) (**it);
+        if ((**it).getSensorID()==id){
+            res =*it;
         }
         
         it++;
     }
     
-    return *res;
+    return res;
 }
 
 void DataSet::addUser(User *user)
