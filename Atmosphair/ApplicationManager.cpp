@@ -18,6 +18,7 @@ using namespace std;
 
 //--------------------------------------------------------------------- Include personnel
 #include "ApplicationManager.h"
+#include "FileManager.h"
 #include "Sensor.h"
 #include "User.h"
 #include "DataType.h"
@@ -27,6 +28,8 @@ using namespace std;
 
 //-------------------------------------------------------------------------------- PUBLIC
 int main(){
+
+	/*std::cout << "Test Julie" << endl;
     struct tm instant ;
     instant.tm_mon= 1-1 ;
     instant.tm_mday= 1 ;
@@ -79,6 +82,40 @@ int main(){
 
 
 	DataSet d = DataSet();
+	d.addSensor(&sensor_0);*/
+
+	std::cout << "Test Grazia" << endl;
+	DataSet d = DataSet();
+
+	FileManager fm = FileManager();
+
+	/*string s = "./sauvegardes.txt";*/
+	fm.openSave("./sauvegardes.txt", d);
+
+	list<Sensor*> lS =d.getListSensors();
+	std::cout << "SENSORS" << endl;
+	for (list<Sensor*>::iterator it = lS.begin(); it != lS.end(); ++it)
+	{
+		cout << (*(*it)).toString() <<endl;
+	}
+
+	std::cout << "DATA" << endl;
+	for (list<Sensor*>::iterator it = lS.begin(); it != lS.end(); ++it)
+	{
+		list<Data*> lD=(*(*it)).getData(); 
+		for (listData::iterator it2 = lD.begin(); it2 != lD.end(); ++it)
+		{
+			cout << (*(*it2)).toString() << endl;
+		}
+	}
+
+	list<DataType*> lDT = d.getListDataType();
+	std::cout << "DATA_TYPE" << endl;
+	for (list<DataType*>::iterator it = lDT.begin(); it != lDT.end(); ++it)
+	{
+		cout << (*(*it)).toString() << endl;
+	}
+
 	d.addSensor(&sensor_0);
 	d.addSensor(&sensor_1);
 	d.addSensor(&sensor_2);

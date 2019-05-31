@@ -60,6 +60,8 @@ public:
     // Mode d'emploi : renvoie la liste des données du capteur
     // Contrat : aucun
     
+	string toString();
+
     //---------------------------------------------------- Constructeurs - destructeur
     Sensor () {} ; 
     // Mode d'emploi : constructeur par défaut

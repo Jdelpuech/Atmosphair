@@ -92,6 +92,7 @@ public:
     // Mode d'emploi : renvoie une liste de l'ensemble des sensors
     // Contrat : aucun
 
+	std::list<DataType*> getListDataType();
 	//--------------------------------------------------------- Constructeurs - destructeur
 	DataSet();
 	// Mode d'emploi : aucun

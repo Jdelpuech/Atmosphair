@@ -40,7 +40,7 @@ public:
 		return description;
 	}
 
-
+	string toString();
 
 	//---------------------------------------------------- Constructeurs - destructeur
 	DataType(string attributeId, string unit, string description);

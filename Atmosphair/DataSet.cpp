@@ -62,6 +62,7 @@ double deg2rad(double deg) {
 	return (deg * M_PI / 180);
 }
 
+
 double DataSet::calculateDistance(double lat1, double lon1, double lat2, double lon2){
 	double lat1r, lon1r, lat2r, lon2r, u, v;
 	lat1r = deg2rad(lat1);
@@ -162,6 +163,14 @@ list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2){
     }
     return results ;
 }
+
+
+
+std::list<DataType*> DataSet::getListDataType()
+{
+	return liDataType;
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 DataSet::DataSet() {
 
