@@ -20,34 +20,36 @@ bool FileManager::openSave(string path, DataSet dataS)
 {
 	bool ok = false;
 	ifstream f(path.c_str());
-	while (f)
-	{
-		string tmp;
-		string type;
-		
-		getline(f, type, ';');
-		cout << "type :"<<type<<endl;
+	if (f) {
 
-		string fpath;
-		getline(f, fpath);
-		cout << "path :" << fpath << endl;
-		
-
-		switch (atoi(type.c_str()))
+		while (f)
 		{
+			string tmp;
+			string type;
+
+			getline(f, type, ';');
+			cout << "type :" << type << endl;
+
+			string fpath;
+			getline(f, fpath);
+			cout << "path :" << fpath << endl;
+
+
+			switch (atoi(type.c_str()))
+			{
 			case 0:
 				cout << "ok" << endl;
-				ok=importDataFromFile(dataS, fpath, 0);
+				ok = importDataFromFile(dataS, fpath, 0);
 
 				break;
 			case 1:
 				cout << "ok" << endl;
-				ok=importDataFromFile(dataS, fpath, 1);
+				ok = importDataFromFile(dataS, fpath, 1);
 
 				break;
 			case 2:
 				cout << "ok" << endl;
-				ok=importDataFromFile(dataS, fpath, 2);
+				ok = importDataFromFile(dataS, fpath, 2);
 
 				break;
 			default:
@@ -55,7 +57,11 @@ bool FileManager::openSave(string path, DataSet dataS)
 				cout << "invalid type";
 
 				break;
+			}
 		}
+	}
+	else {
+		cout << "erreur ouverture fichier : " << path << endl;
 	}
 	f.close();
 	return ok;

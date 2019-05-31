@@ -94,7 +94,9 @@ int main(){
 
 	/*string s = "./sauvegardes.txt";*/
 
-	fm.openSave("C:/Users/hcann/Documents/INSA/IF/GL-UML/Jdelpuech/Atmosphair/Atmosphair/sauvegardes.txt", d);
+	fm.openSave("sauvegardes.txt",d);
+	int a;
+	cin >> a;
 
 	listSensor liSensor =d.getListSensors();
 	std::cout << "SENSORS" << endl;
