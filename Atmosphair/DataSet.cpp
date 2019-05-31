@@ -1,15 +1,15 @@
 /**************************************************************************************
- DataSet  -  Réalisation
+ DataSet  -  Rï¿½alisation
  -------------------
- début                : 20/11/2018
+ dï¿½but                : 20/11/2018
  copyright            : (C)2018 par Atmosph'Air
 
  ***************************************************************************************/
 
- //-- Réalisation de la classe <DataSet> (fichier DataSet.cpp) ----
+ //-- Rï¿½alisation de la classe <DataSet> (fichier DataSet.cpp) ----
 
  //------------------------------------------------------------------------------ INCLUDE
- //---------------------------------------------------------------------- Include système
+ //---------------------------------------------------------------------- Include systï¿½me
 #define _USE_MATH_DEFINES
 #include <iostream>
 #include <ctime>
@@ -23,16 +23,16 @@ using namespace std;
 #include "DataType.h"
 #include "Data.h"
 //-------------------------------------------------------------------------------- PUBLIC
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Mï¿½thodes publiques
 
 std::list<Data*> DataSet::generateDataSensor(string id, time_t t1, time_t t2)
 {
-	Sensor *s = getSensorById(id);
+	Sensor s = getSensorById(id);
 	list<Data*> result;
 	listData::iterator it;
-	it = s->getData().begin();
+	it = s.getData().begin();
 
-	while (it != s->getData().end()) {
+	while (it != s.getData().end()) {
 		if ((difftime(t1, (**it).getTimeStamp()) <= 0) && (difftime(t2, (**it).getTimeStamp()) >= 0)) {
 			result.push_back(*it);
 		}
@@ -47,7 +47,7 @@ listSensor DataSet::getListDysfonctionningSensors()
 	listSensor::iterator it;
 	it = liSensor.begin();
 	while (it != liSensor.end()) {
-		if ((**it).dysfonction() == true) {
+		if ((**it).getDysfonctionning() == true) {
 			result.push_back((*it));
 		}
 		++it;
@@ -70,17 +70,18 @@ void DataSet::addDataType(DataType *dataType)
 	liDataType.push_back(dataType);
 }
 
-Sensor * DataSet::getSensorById(string id) {
+Sensor  DataSet::getSensorById(string id) {
+    Sensor * res = NULL ;
     listSensor::iterator it = liSensor.begin();
     while (it != liSensor.end()) {
-        if ((**it).getSensorID()==id){
-           return *it;
+        if ((**it).getSensorID().compare(id)==0){
+            * res = (Sensor) (**it);
         }
         
         it++;
     }
-	cout << "aucun element correspondant" << endl;
-    return nullptr;
+    
+    return *res;
 }
 
 void DataSet::addUser(User *user)
@@ -131,6 +132,72 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 	return result;
 }
 
+//A TESTER 
+list<double> generateResultGas(listSensor l, time_t t, string choix){
+    list<double> results ;
+    if (choix.find('1') != string::npos){
+        listSensor::iterator it;
+        it = l.begin();
+        double sum = 0 ; 
+        int nbrData = 0 ; 
+        while (it != l.end()) {
+           sum+= (**it).calculateMoyenneGaz(t,"O3"); 
+           nbrData++ ; 
+           it++; 
+        }
+        if (nbrData!=0)
+            results.push_back(sum/nbrData); 
+        else 
+            results.push_back(0); 
+    }
+    if (choix.find('2') != string::npos){
+        listSensor::iterator it;
+        it = l.begin();
+        double sum = 0 ; 
+        int nbrData = 0 ; 
+        while (it != l.end()) {
+           sum+= (**it).calculateMoyenneGaz(t,"SO2"); 
+           nbrData++ ; 
+           it++; 
+        }
+        if (nbrData!=0)
+            results.push_back(sum/nbrData); 
+        else 
+            results.push_back(0); 
+    }
+    if (choix.find('3') != string::npos){
+        listSensor::iterator it;
+        it = l.begin();
+        double sum = 0 ; 
+        int nbrData = 0 ; 
+        while (it != l.end()) {
+           sum+= (**it).calculateMoyenneGaz(t,"NO2"); 
+           nbrData++ ; 
+           it++; 
+        }
+        if (nbrData!=0)
+            results.push_back(sum/nbrData); 
+        else 
+            results.push_back(0); 
+    }
+    if (choix.find('4') != string::npos){
+        listSensor::iterator it;
+        it = l.begin();
+        double sum = 0 ; 
+        int nbrData = 0 ; 
+        while (it != l.end()) {
+           sum+= (**it).calculateMoyenneGaz(t,"PM10"); 
+           nbrData++ ; 
+           it++; 
+        }
+        if (nbrData!=0)
+            results.push_back(sum/nbrData); 
+        else 
+            results.push_back(0); 
+    }
+
+    return results ; 
+}
 
 //A TESTER -> OK
 list<int> DataSet::generateResultAtmo(listSensor l, time_t t){

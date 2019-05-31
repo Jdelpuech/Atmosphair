@@ -45,7 +45,7 @@ int Sensor::calculateAtmo(time_t t){
 
     while (it != data.end()) {
         time_t time1 = (**it).getTimeStamp();
-        string type = (**it).getDataTypeId();
+        string type = (**it).getDataType();
         struct tm format = *localtime(&time1);
         int day = format.tm_mday;
         int month = format.tm_mon ;
@@ -213,6 +213,35 @@ int Sensor::calculateAtmo(time_t t){
     return indiceAtmo ;
 }
 
+//A TESTER -> fait 
+double Sensor::calculateMoyenneGaz(time_t t, string type){
+    listData::iterator it = data.begin() ; 
+
+    //extraction des données sur la date
+    struct tm format_t = *localtime(&t);
+    int day_t = format_t.tm_mday;
+    int month_t = format_t.tm_mon ;
+    int year_t = format_t.tm_year;
+
+    //données 
+    double sum = 0 ; 
+    int nbrData = 0 ; 
+    while (it != data.end()) {
+        time_t time1 = (**it).getTimeStamp();
+        string type1 = (**it).getDataType();
+        struct tm format = *localtime(&time1);
+        int day = format.tm_mday;
+        int month = format.tm_mon ;
+        int year = format.tm_year;
+        if (day_t==day && month_t==month && year_t==year && type1.compare(type)==0){
+            sum+=(**it).getValue();
+            nbrData ++ ;  
+        }
+
+        it++ ; 
+    }
+    return ((double)(sum/nbrData)); 
+}
 string Sensor::getSensorID(){
     return sensorID ;
 }
@@ -229,28 +258,32 @@ string Sensor::getDescription(){
     return description ;
 }
 
-bool Sensor::dysfonction(){
+void Sensor::dysfonction(){
     bool working = true ; 
-    if (data.size()==0){
+    if (data.empty()){
         working = false ; 
-    }else {
+        cout << "no elements"<< endl ; 
+    } else {
         listData::iterator it = data.begin();
         while (it!=data.end()){
             //test de cohérence
-            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataTypeId()=="PM10"){
+            if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataType()=="PM10"){
                 working = false ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataTypeId()=="SO2"){
+                cout << "1"<< endl ; 
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataType()=="SO2"){
                 working = false ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataTypeId()=="NO2"){
+                cout << "2"<< endl ; 
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataType()=="NO2"){
                 working = false ; 
-            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataTypeId()=="O3"){
+                cout << "3"<< endl ; 
+            }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataType()=="O3"){
                 working = false ; 
+                cout << "4"<< endl ; 
             }
-
+            it++ ; 
         }
     }
     dysfonctionning=!(working) ; 
-    return working ;
 }
 
 void Sensor::addData(Data * dataE)
@@ -263,6 +296,11 @@ listData Sensor::getData()
     return data;
 }
 
+bool Sensor::getDysfonctionning(){
+    dysfonction(); 
+    return dysfonctionning ; 
+}
+
 string Sensor::toString()
 {
 	return string(sensorID +";"+ to_string(lon) +";"+ to_string(lat) + ";"+description + ";"+to_string(dysfonctionning));
@@ -273,8 +311,7 @@ Sensor::Sensor(string sensorID, double lat, double lon, string description){
     this->sensorID = sensorID ;
     this->lat = lat ;
     this->lon = lon ;
-    this->description = description ;
-    dysfonctionning = dysfonction() ;
+    dysfonction() ;
     
 }
 

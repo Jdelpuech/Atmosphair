@@ -1,14 +1,14 @@
 /**************************************************************************************
  DataSet  -  Interface
  -------------------
- début                : 10/05/2019
+ dï¿½but                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
  //- Interface de la classe <DataSet> (fichier DataSet.h) ---------
 #if !defined ( DataSet_H )
 #define DataSet_H
-//---------------------------------------------------------------- Interfaces utilisées
+//---------------------------------------------------------------- Interfaces utilisï¿½es
 #include <ctime>
 #include <list>
 class Sensor;
@@ -22,9 +22,9 @@ typedef std::list<User*> listUser;
 typedef std::list<DataType*> listDataType;
 typedef std::list<Sensor*> listSensor;
 
-// Rôle de la classe <DataSet>
-/*Application Manager est le noyau de notre application. En tant que dispatcher, il gèrera
- l’appel aux méthodes de chaque classe afin de répondre aux attentes de l'utilisateur.
+// Rï¿½le de la classe <DataSet>
+/*Application Manager est le noyau de notre application. En tant que dispatcher, il gï¿½rera
+ lï¿½appel aux mï¿½thodes de chaque classe afin de rï¿½pondre aux attentes de l'utilisateur.
  */
  //-------------------------------------------------------------------------------------
 class DataSet
@@ -32,17 +32,17 @@ class DataSet
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
-	//------------------------------------------------------------------ Méthodes publiques
+	//------------------------------------------------------------------ Mï¿½thodes publiques
 	void addSensor(Sensor *sensor);
-    // Mode d'emploi : ajoute un sensor ˆ notre ensemble de donnees.
+    // Mode d'emploi : ajoute un sensor ï¿½ notre ensemble de donnees.
     // Contrat : aucun
     
 	void addDataType(DataType *dataType);
-    // Mode d'emploi : ajoute un type de donnee ˆ notre ensemble de donnees.
+    // Mode d'emploi : ajoute un type de donnee ï¿½ notre ensemble de donnees.
     // Contrat : aucun
     
 	void addUser(User *user);
-    // Mode d'emploi : ajoute un utilisateur ˆ notre ensemble de donnees.
+    // Mode d'emploi : ajoute un utilisateur ï¿½ notre ensemble de donnees.
     // Contrat : aucun
     
 	bool connectionRequest(std::string user, std::string password);
@@ -52,10 +52,10 @@ public:
     
 	static double calculateDistance(double lat1, double lon1,double lat2, double lon2);
     // Mode d'emploi : methode calculant la distance entre deux points geolocalises de latitude
-    //et longitude connu. Elle renvoie un nombre ˆ virgule correspondant au nombre de km.
+    //et longitude connu. Elle renvoie un nombre ï¿½ virgule correspondant au nombre de km.
     // Contrat : aucun
     
-	Sensor* getSensorById(string id);
+	Sensor getSensorById(string id);
     // Mode d'emploi : methode permettant de renvoyer l'objec sensor correspondant a l'id passe
     //en parametre.
     // Contrat : l'id existe.
@@ -75,7 +75,7 @@ public:
     //de la liste l, moyennes des indices entre les dates t1 et t2.
     // Contrat : aucun
     
-	std::list<Data*> generateResultGas(listSensor l, time_t t, int choix);
+	std::list<double> generateResultGas(listSensor l, time_t t, string choix);
     // Mode d'emploi : renvoie la liste des resultats des moyennes demandees par l'utilisateur
     // Contrat : aucun
     

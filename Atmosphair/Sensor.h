@@ -28,14 +28,21 @@ class Sensor
 public:
     //------------------------------------------------------------- Méthodes publiques
     int calculateAtmo(time_t t);
-    // Mode d'emploi : calcul l'indice ATMO à une date donnée selon les calculs indiqués
+    // Mode d'emploi : calcule l'indice ATMO à une date donnée selon les calculs indiqués
     //dans notre livrable.
     // Contrat : aucun
-    
-    bool dysfonction();
-    // Mode d'emploi : renvoie l'état de fonctionnement du capteur
+
+    double calculateMoyenneGaz(time_t t, string type); 
+    //Mode d'emploi : calcule la moyenne du gaz de type type a la date t.
+    //contrat : aucun 
+
+    void dysfonction();
+    // Mode d'emploi : calcul l'état du capteur 
     // Contrat : aucun
     
+    bool getDysfonctionning(); 
+    // Mode d'emploi : renvoie l'état de fonctionnement du capteur
+    // Contrat : aucun
     std::string getDescription();
     // Mode d'emploi : renvoie la description du capteur.
     // Contrat : aucun
