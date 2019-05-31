@@ -1,4 +1,4 @@
-O3;µg/m3;concentration d'ozone
-NO2;µg/m3;concentration de dioxyde d'azote
-SO2;µg/m3;concentration de dioxyde de soufre
-PM10;µg/m3;concentration de particules fines
+O3;µg/m3;concentration d'ozone;
+NO2;µg/m3;concentration de dioxyde d'azote;
+SO2;µg/m3;concentration de dioxyde de soufre;
+PM10;µg/m3;concentration de particules fines;

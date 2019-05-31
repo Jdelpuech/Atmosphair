@@ -16,12 +16,12 @@ FileManager::~FileManager()
 {
 }
 
-bool FileManager::openSave(string path, DataSet dataS)
+bool FileManager::openSave(string path, DataSet* dataS)
 {
 	bool ok = false;
 	ifstream f(path.c_str());
 	if (f) {
-		while (f)
+		while (!f.eof())
 		{
 			string tmp;
 			string type;
@@ -66,7 +66,7 @@ bool FileManager::openSave(string path, DataSet dataS)
 	return ok;
 }
 
-bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
+bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 	ifstream f(path.c_str());
 	bool ok = false;
 	if (f) {
@@ -97,7 +97,7 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 				Sensor *s = new Sensor(id, lat, lon, descr, false);
 
 				/*ajout au dataset*/
-				dataS.addSensor(s);
+				dataS->addSensor(s);
 
 				ok = true;
 			}
@@ -106,57 +106,47 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 			while (f)
 			{
 				/*Timestamp;SensoTrID;AttributeID;Value;*/
-				static int id;
-				struct tm *timestamp = NULL;/*timestamp*/
-				double value;/*value*/
+				struct tm timestamp;
 				string sensorId;/*sensorID*/
 				string dataTypeId;/*attributeID*/
+				double value;/*value*/
 				string tmp;
 
-				/*getline(f, tmp, ';');
-				id = tmp.c_str();
-				tmp = "";*/
-				id++;
-				getline(f, tmp, '"');
-				tmp = "";/*pour enlèver le guimet initial*/
-				getline(f, tmp, '-');/* strptime(tmp, sizeof(tmp), , timestamp.);*/
-				timestamp->tm_year = atoi(tmp.c_str());
-				tmp = "";
+				//debut recuperation temps
 				getline(f, tmp, '-');
-				timestamp->tm_mon = atoi(tmp.c_str()) + 1;
-				tmp = "";
+				timestamp.tm_year = stoi(tmp)-1900; //year
+				getline(f, tmp, '-');
+				timestamp.tm_mon = stoi(tmp) - 1;
 				getline(f, tmp, 'T');
-				timestamp->tm_mday = atoi(tmp.c_str());
-				tmp = "";
+				timestamp.tm_mday = stoi(tmp);
 				getline(f, tmp, ':');
-				timestamp->tm_hour = atoi(tmp.c_str());
-				tmp = "";
+				timestamp.tm_hour = stoi(tmp);
 				getline(f, tmp, ':');
-				timestamp->tm_min = atoi(tmp.c_str());
-				tmp = "";
+				timestamp.tm_min = stoi(tmp);
 				getline(f, tmp, '.');
-				timestamp->tm_sec = atoi(tmp.c_str());
-				tmp = "";
-				getline(f, tmp);
-				tmp = "";
-
-				getline(f, tmp, ';');
-				value = atof(tmp.c_str());
-				tmp = "";
+				timestamp.tm_sec = stoi(tmp);
+				getline(f, tmp,';');
+				//fin recuperation temps
+				time_t finalTime = mktime(&timestamp);
+				std::cout << ctime(&finalTime);
 
 				getline(f, tmp, ';');
 				sensorId = tmp;
-				tmp = "";
+				cout << "sensorId : " << sensorId << endl;
 
 				getline(f, tmp, ';');
 				dataTypeId = tmp;
-				tmp = "";
+				cout << "dataTypeId : " << dataTypeId << endl;
 
-				time_t finalTime = mktime(timestamp);
-				Data *d = NULL;
-				*d = Data(id, finalTime, value, sensorId, dataTypeId);
+				getline(f, tmp, ';');
+				value = stof(tmp);
+				cout << "value : " << value << endl;
+
+				getline(f, tmp);
+				
+				Data *d = new Data(finalTime, value, sensorId, dataTypeId);
 				/*ajout au sensor*/
-				(dataS.getSensorById(sensorId)).addData(d);
+				dataS->getSensorById(sensorId)->addData(d);
 				ok = true;
 			}
 			break;
@@ -166,22 +156,18 @@ bool FileManager::importDataFromFile(DataSet dataS, string path, int type) {
 				string attributeId;
 				string unit;
 				string description;
-				string tmp;
+				string flush;
 
-				getline(f, tmp, ';');
-				attributeId = tmp.c_str();
-				tmp = "";
-				getline(f, tmp, ';');
-				unit = tmp;
-				tmp = "";
-				getline(f, tmp, ';');
-				description = tmp;
-				tmp = "";
+				getline(f, attributeId, ';');
 
-				DataType*dT = NULL;
-				*dT = DataType(attributeId, unit, description);
+				getline(f, unit, ';');
+
+				getline(f, description, ';');
+				getline(f, flush);
+
+				DataType*dT = new DataType(attributeId, unit, description);
 				/*ajout au dataset*/
-				dataS.addDataType(dT);
+				dataS->addDataType(dT);
 				ok = true;
 			}
 			break;

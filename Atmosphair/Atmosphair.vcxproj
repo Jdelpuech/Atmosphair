@@ -36,9 +36,6 @@
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\x64\Debug\sauvegardes.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{84136468-52BF-4ABB-985E-B14928B55640}</ProjectGuid>

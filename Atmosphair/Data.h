@@ -28,9 +28,6 @@ class Data
 
 public:
 	//------------------------------------------------------------- Méthodes publiques
-	inline int getMesureID() {
-		return mesureId; 
-	}
 
 	inline time_t getTimeStamp() {
 		return timestamp; 
@@ -40,28 +37,23 @@ public:
 		return value; 
 	}
 
-	inline Sensor* getSensor() {
-		return sensor; 
-	}
     
     inline string getSensorId(){
         return sensorId; 
     }
 
-	inline string getDataType() {
+	inline string getDataTypeId() {
 		return dataTypeId;
 	}
 
 	string toString();
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	Data(int mesureIdD,time_t timestamp,double value,Sensor *sensor, DataType *type);
+	Data(time_t timestamp, double value, string sensorId, string dataTypeId);
 	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
 	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
 	//la construction d'un objet Data.
 	// Contrat : le fichier .csv est aux normes.
-
-	Data(int mesureId, time_t timestamp, double value, string sensorId, string dataTypeId);
 
 	virtual ~Data();
 	// Mode d'emploi : aucun
@@ -74,11 +66,8 @@ protected:
 	//------------------------------------------------------------ Méthodes protégées
 
 	//------------------------------------------------------------ Attributs protégés
-	int mesureId; 
 	time_t timestamp; 
 	double value; 
-	Sensor* sensor; 
-	DataType* type;
 	string sensorId;
 	string dataTypeId;
 

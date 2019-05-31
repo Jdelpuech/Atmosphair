@@ -53,16 +53,16 @@ int main(){
 	Sensor sensor_3 = Sensor("Sensor3", (double)-30.1, (double)-76.1, "3", false);
     
     //une vague de données
-    Data * data_0 = new Data(0,time,67.9284748555273,"Sensor0","O3");
-    Data * data_1 = new Data(1,time,98.979984192197,"Sensor0","NO2");
-    Data * data_2 = new Data(2,time,119.423041339039,"Sensor0","SO2");
-    Data * data_3 = new Data(3,time,16.7564963001065,"Sensor0","PM10");
+    Data * data_0 = new Data(time,67.9284748555273,"Sensor0","O3");
+    Data * data_1 = new Data(time,98.979984192197,"Sensor0","NO2");
+    Data * data_2 = new Data(time,119.423041339039,"Sensor0","SO2");
+    Data * data_3 = new Data(time,16.7564963001065,"Sensor0","PM10");
     instant.tm_hour += 1 ;
     time = mktime(&instant);
-    Data * data_4 = new Data(4,time,36.7797600526823,"Sensor0","O3");
-    Data * data_5 = new Data(5,time,80.2280346451481,"Sensor0","NO2");
-    Data * data_6 = new Data(6,time,38.151540049253,"Sensor0","SO2");
-    Data * data_7 = new Data(7,time,1.99603267330184,"Sensor0","PM10");
+    Data * data_4 = new Data(time,36.7797600526823,"Sensor0","O3");
+    Data * data_5 = new Data(time,80.2280346451481,"Sensor0","NO2");
+    Data * data_6 = new Data(time,38.151540049253,"Sensor0","SO2");
+    Data * data_7 = new Data(time,1.99603267330184,"Sensor0","PM10");
     sensor_0.addData(data_0);
     sensor_0.addData(data_1);
     sensor_0.addData(data_2);
@@ -94,34 +94,34 @@ int main(){
 
 	/*string s = "./sauvegardes.txt";*/
 
-	fm.openSave("sauvegardes.txt",d);
-	int a;
-	cin >> a;
+	fm.openSave("sauvegardes.txt",&d);
 
 	listSensor liSensor =d.getListSensors();
-	std::cout << "SENSORS" << endl;
+	std::cout << "DATA" << endl;
 	listSensor::iterator it;
 	it = liSensor.begin();
 	while (it != liSensor.end()) {
 		cout << (**it).toString()<< endl;
 		++it;
 	}
-	/*std::cout << "DATA" << endl;
-	for (list<Sensor*>::iterator it = lS.begin(); it != lS.end(); ++it)
-	{
-		list<Data*> lD=(*(*it)).getData(); 
-		for (listData::iterator it2 = lD.begin(); it2 != lD.end(); ++it)
-		{
-			cout << (*(*it2)).toString() << endl;
-		}
-	}
+	cout << endl;
+	listData liD = d.getSensorById("Sensor0")->getData();
+	listData::iterator itD;
+	itD = liD.begin();
 
-	list<DataType*> lDT = d.getListDataType();
-	std::cout << "DATA_TYPE" << endl;
-	for (list<DataType*>::iterator it = lDT.begin(); it != lDT.end(); ++it)
-	{
-		cout << (*(*it)).toString() << endl;
-	}*/
+	while (itD != liD.end()) {
+		cout << (**itD).toString() << endl;
+		++itD;
+	}
+	
+	listDataType liDT = d.getListDataType();
+	listDataType::iterator itT;
+	itT = liDT.begin();
+
+	while (itT != liDT.end()) {
+		cout << (**itT).toString() << endl;
+		++itT;
+	}
 
 	cout << endl << "Test Hugo" << endl;
 

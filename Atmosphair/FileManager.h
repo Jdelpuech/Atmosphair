@@ -42,8 +42,8 @@ public:
 	// Mode d'emploi : aucun
     // Contrat : aucun
 
-	bool importDataFromFile(DataSet data, string path, int type);
-	bool openSave(string path, DataSet dataS);
+	bool importDataFromFile(DataSet* dataS, string path, int type);
+	bool openSave(string path, DataSet* dataS);
 
 
 	//------------------------------------------------------------------------------ PRIVE

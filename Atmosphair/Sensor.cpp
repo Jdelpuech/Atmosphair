@@ -45,7 +45,7 @@ int Sensor::calculateAtmo(time_t t){
 
     while (it != data.end()) {
         time_t time1 = (**it).getTimeStamp();
-        string type = (**it).getDataType();
+        string type = (**it).getDataTypeId();
         struct tm format = *localtime(&time1);
         int day = format.tm_mday;
         int month = format.tm_mon ;
