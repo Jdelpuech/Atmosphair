@@ -24,10 +24,225 @@ using namespace std;
 #include "DataType.h"
 #include "Data.h"
 #include "DataSet.h"
+#include "Display.h"
 
 
 //-------------------------------------------------------------------------------- PUBLIC
-int main(){
+int main() {
+
+	Display myDisplay;
+	int navigation, selFonction;
+	string login, pwd;
+	string fileSensor, fileMeasure, fileLinks;
+	string inspectionZone, jour, date, choix;
+	string dateDebut, dateFin;
+	char entree = 'a';
+
+	cout << "---------------------------------------------------------------------";
+	cout << "Bienvenue chez Atmosph'Air! Afin d’obtenir l'accès à nos services, veuillez vous authentifier.";
+	cout << "Login : ";
+	cin >> login;
+	cout << "Mot de passe : ";
+	cin >> pwd;
+
+	myDisplay.ShowMenuPrincipal();
+	cin >> navigation;
+	//si l'utilisatuer entre 6, il souhaite quitter l'application
+	while (navigation != 6)
+	{
+		switch ((int)navigation)
+		{
+		case 0:
+			// Chargement de fichiers
+			myDisplay.ShowChargementFichiers();
+			cout << "Fichiers relatifs aux capteurs: ";
+			cin >> fileSensor;
+			cout << "Fichiers relatifs aux mesures : ";
+			cin >> fileMeasure;
+			cout << "Fichiers de lien : ";
+			cin >> fileLinks;
+			cout << "Merci! Bon travail!";
+
+			// Charger les fichiers correspondants
+
+
+			break;
+		case 1:
+			// Affichage des capteurs disfonctionnants : appel de la méthode correspondante
+
+
+			break;
+		case 2:
+			// Inspection d'une zone
+			cout << "2-Inspecter une zone.";
+			cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS sous le format lat;long;rayon : ";
+			cin >> inspectionZone;
+			myDisplay.ShowMenu2();
+			cin >> selFonction;
+			//on a selectionné l'action que l'on souhaite effectuer sur la zone
+			//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
+			while (selFonction != 4)
+			{
+				switch (selFonction)
+				{
+				case 1:
+					//la date est demandée à l'utilisateur
+					//myDisplay.ShowZoneIndiceAtmoJournee(); //peut etre pas utile pour 2 lignes
+					cout << "2.1 Indice Atmo dans une journée.";
+					cout << "Veuillez entrer la date souhaitée[yyyy - MM - dd] : ";
+					//on récupère le jour entré par l'utilisateur
+					cin >> jour;
+
+					cout << "Appuyez sur q pour revenir à l'inspection de la zone";
+					while (entree != 'q')
+					{
+						cin >> entree;
+					}
+					entree = 'a';
+					break;
+				case 2:
+					cout << "2.2-Indice Atmo moyen entre t1 et t2.";
+					cout << "Veuillez entrer les deux dates sous la forme[yyyy - MM - dd]; [yyyy - MM - dd]";
+					cin >> date;
+
+					//decoupage de la date en 2 dates
+					
+
+					//Appel de la méthode correspondante
+					cout << "Indice ATMO moyen correspondant : ";
+					cout << "Souhaitez vous visualiser toutes les valeurs de l’indice ATMO dans l’intervalle choisi? oui/non.";
+					cin >> choix;
+					while ((choix != "oui") && (choix != "non"))
+					{
+						cout << "Veuillez entrer oui ou non";
+						cin >> choix;
+					}
+					if (choix == "oui")
+					{
+						//Appel au calcul de l'indice ATMO pour chaque jour compris dans l'intervalle
+						//Format :
+						//Date : yyyy-MM-dd ATMO:X
+
+
+					}
+					cout << "Appuyez sur q pour revenir à l'inspection de la zone";
+					while (entree != 'q')
+					{
+						cin >> entree;
+					}
+					entree = 'a';
+					break;
+
+				case 3 :
+					cout << "2.3-Taux moyen de substances dans une journée";
+					cout << "Veuillez entrer la date souhaitée [yyyy-MM-dd] : ";
+					cin >> date;
+					cout << "Veuillez choisir parmis les choix  :  1- O3 |  2- SO2 | 3- NO2 | 4- PM10";
+					cout << "Pour visualiser plusieurs taux, veuillez concaténer les chiffres.Exemple :";
+					cout << "134";
+					cout << "Choix : ";
+					cin >> choix;
+					//Appel a la methode de calcul du taux moyen de chaque substance
+
+					//Taux moyen de [substance] dans la journée : xxx
+
+					cout << "Appuyez sur q pour revenir à l'inspection de la zone";
+					while (entree != 'q')
+					{
+						cin >> entree;
+					}
+					entree = 'a';
+					break;
+				default:
+					break;
+				}//fin du switch du menu Zone
+			
+			}//on quitte le menu "Zone"
+
+			break;
+		case 3:
+			myDisplay.ShowMenu3();
+			cin >> selFonction;
+
+			if (selFonction == 1)
+			{
+				//Affichage de la liste des capteurs existants
+
+			}
+
+			cout << "Veuillez saisir l’ID du capteur souhaité (ex. Sensor9) : ";
+			cin >> choix;
+			myDisplay.ShowMenu3MessageChoix();
+			cout << "Saisissez une date de début (yyyy-MM-dd) : ";
+			cin >> dateDebut;
+			cout << "Saisissez une date de fin(yyyy - MM - dd) : ";
+			cin >> dateFin;
+			if ((dateDebut != "") && (dateFin != ""))
+			{
+				//Appel de la méthode d'affichage des données du capteur
+				/* ( format : )
+				======================Données du capteur[xxx] ================================ =
+					Statistiques correspondant à la période aaaa - bbbb
+					[Si période inférieure à une journée : message d’avertissement concernant la                  non - fiabilité des résultats]
+				Latitude : xxx Longitude : xxx
+					Description : xxx
+					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1min : a max : b
+					10 derniers taux de O3 : [n1 | … | n10]   --->moyenne : m2 min : a max : b
+					10 derniers taux de SO2 : [n1 | … | n10]  --->moyenne : m3min : a max : b
+					10 derniers taux de NO2 : [n1 | … | n10]  --->moyenne : m4min : a max : b
+					10 derniers taux de PM10 : [n1 | … | n10]  --->moyenne : m5min : a max : b
+				===============================================================================
+				*/
+
+				cout << "Appuyez sur q pour revenir au menu précédent";
+				while (entree != 'q')
+				{
+					cin >> entree;
+				}
+				entree = 'a';
+			}
+
+			break;
+		case 4:
+			//Affichage des zones a risque
+			myDisplay.ShowMenu4();
+			cin >> selFonction;
+			myDisplay.ShowMenu4SelectionSeuil(selFonction);
+			
+			cout << "Appuyez sur q pour revenir au choix du facteur";
+			while (entree != 'q')
+			{
+				cin >> entree;
+			}
+			entree = 'a';
+
+			break;
+		case 5:
+			cout << "5-Visualiser les similarités détectées.";
+			//appel de la fonction qui affiche les similiarités entre les capteurs
+
+			cout << "Appuyez sur q pour revenir au menu principal.";
+			while (entree != 'q')
+			{
+				cin >> entree;
+			}
+			entree = 'a';
+			break;
+		case 6:
+			break;
+		default:
+			break;
+		}//fin du switch de menu principal
+
+		//on affiche a nouveau le menu principal
+		myDisplay.ShowMenuPrincipal();
+		cin >> navigation;
+	}
+	return 0; 
+}
+
+
+int test(){
 
 	std::cout << "Test Julie" << endl;
     struct tm instant ;
