@@ -77,7 +77,7 @@ int main() {
 			cout << "2-Inspecter une zone.";
 			cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS sous le format lat;long;rayon : ";
 			cin >> inspectionZone;
-			myDisplay.ShowMenu2();
+			myDisplay.ShowMenuInspectionZone();
 			cin >> selFonction;
 			//on a selectionné l'action que l'on souhaite effectuer sur la zone
 			//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
