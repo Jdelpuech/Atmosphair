@@ -57,6 +57,8 @@ int main() {
 	regex patternCSV(".*\\.csv$");
 	listSensor liste ; 
 	listSensor::iterator it; 
+	listData listeData ; 
+	listData::iterator itData ; 
 
 
 	ApplicationManager::init(&dataSet, &fm);
@@ -233,14 +235,29 @@ int main() {
 					break;
 				case 2:
 					cout << "2.2-Indice Atmo moyen entre t1 et t2."<<endl;
-					cout << "Veuillez entrer les deux dates :"<<endl;
+					cout << "Veuillez entrer la premiere date. "<<endl;
 					//recuperation des 2 dates
 					date1 = myDisplay.getDate();
+					cout << "Veuillez entrer la deuxieme date. "<<endl;
 					date2 = myDisplay.getDate();
 					
 
 					//Appel de la méthode correspondante
-					cout << "Indice ATMO moyen correspondant : "<<endl;
+					cout << "Indice ATMO moyen correspondant : "; 
+					valeurs.clear(); 
+					liste = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
+					valeurs = dataSet.generateResultAtmo(liste,date1,date2); 
+					it_1 = valeurs.begin() ; 
+                    moyenne = 0 ; 
+					nbr = 0 ; 
+					while(it_1!=valeurs.end()){
+						moyenne+=(*it_1); 
+						nbr++ ; 
+						it_1++; 
+					}
+					if (nbr!=0)
+						moyenne = (int) (moyenne/nbr) ; 
+				    cout << moyenne << endl ; 
 					cout << "Souhaitez vous visualiser toutes les valeurs de l’indice ATMO dans l’intervalle choisi? oui/non."<<endl;
 					cin >> choix;
 					while ((choix != "oui") && (choix != "non"))
@@ -250,6 +267,17 @@ int main() {
 					}
 					if (choix == "oui")
 					{
+						it = liste.begin(); 
+						while (it!=liste.end()){
+							listeData = dataSet.generateDataSensor((**it).getSensorID(),date1,date2);
+							itData = listeData.begin(); 
+							while (itData!=listeData.end()){
+								time_t t = (**itData).getTimeStamp() ; 
+								struct tm format_t1 = *localtime(&t);
+								cout << "Date :"<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<"ATMO :"<< endl ; 
+							}
+							
+						}
 						//Appel au calcul de l'indice ATMO pour chaque jour compris dans l'intervalle
 						//Format :
 						//Date : yyyy-MM-dd ATMO:X

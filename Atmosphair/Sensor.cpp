@@ -79,7 +79,7 @@ int Sensor::calculateAtmo(time_t t){
         it++;
     }
     
-	std::cout <<"valeurs O3 : [" ;
+	/*std::cout <<"valeurs O3 : [" ;
     for (int i = 0 ; i<23 ; i++){
 		std::cout <<maxsO3[i]<<";";
     }
@@ -89,7 +89,7 @@ int Sensor::calculateAtmo(time_t t){
     for (int i = 0 ; i<23 ; i++){
 		std::cout <<maxsNO2[i]<<";";
     }
-	std::cout <<maxsNO2[23]<<"]"<<endl;
+	std::cout <<maxsNO2[23]<<"]"<<endl; */ 
     
     int nbP=0 ;
     int nbS=0 ;

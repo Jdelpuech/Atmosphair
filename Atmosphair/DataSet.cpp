@@ -220,44 +220,32 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
     int month_t1 = format_t1.tm_mon ;
     int year_t1 = format_t1.tm_year;
     
-    struct tm format_t2 = *localtime(&t2);
-    int day_t2 = format_t2.tm_mday;
-    int month_t2 = format_t2.tm_mon ;
-    int year_t2 = format_t2.tm_year;
-    
-    //variable
-    
-    struct tm format_t ;
-    format_t.tm_mon= month_t1 ;
-    format_t.tm_mday= day_t1 ;
-    format_t.tm_year= year_t1;
-    format_t.tm_hour = 0 ;
-    format_t.tm_min = 0 ;
-    time_t t = mktime(&format_t);
-   
-    
 	listSensor::iterator it;
     it = l.begin();
     while (it != l.end()) {
         int moyenne = 0 ;
         int nbrJours = 0 ;
-        while (format_t.tm_mday!=day_t2 || format_t.tm_mon!=month_t2 || format_t.tm_year!=year_t2){
-               moyenne +=(**it).calculateAtmo(t);
+        int nbrIncrementation = 0 ; 
+        //cout << difftime(t2,t1) << endl ; 
+        while (difftime(t2,t1)>0){
+               ++nbrIncrementation ; 
+               moyenne +=(**it).calculateAtmo(t1);
                nbrJours ++ ;
-               if (format_t.tm_mday!=31)
-                 format_t.tm_mday += 1 ;
+               if (format_t1.tm_mday!=31)
+                 format_t1.tm_mday += 1 ;
                else {
-                   format_t.tm_mday = 0 ;
-                   if (format_t.tm_mon!=11){
-                      format_t.tm_mon += 1;
+                   format_t1.tm_mday = 0 ;
+                   if (format_t1.tm_mon!=11){
+                      format_t1.tm_mon += 1;
                    }
                    else {
-                       format_t.tm_mon = 0 ;
-                       format_t.tm_year +=1;
+                       format_t1.tm_mon = 0 ;
+                       format_t1.tm_year +=1;
                    }
-               t = mktime(&format_t);
-               }
+            }
+            t1 = mktime(&format_t1); 
         }
+        //cout <<"nombre incrémentation : "<<nbrIncrementation << endl ; 
         results.push_back((int)(moyenne/nbrJours));
         ++it;
     }
