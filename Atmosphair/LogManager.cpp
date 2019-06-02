@@ -21,18 +21,18 @@ using namespace std;
 
 
 
-void LogManager::writeLog(std::string logtxt, User user)
+void LogManager::writeLog(std::string logtxt)
 {
 	time_t actualTime;
 	time(&actualTime);
 	string sTime = ctime(&actualTime);
 	sTime.erase(sTime.size() - 1);
-	logFile << sTime << ";" << user.getNom() << ";" << logtxt<<";"<<endl;
+	logFile << sTime << ";" << user->getNom() << ";" << logtxt<<";"<<endl;
 }
 
 
 //-------------------------------------------- Constructeurs - destructeur
-LogManager::LogManager() : logFile(logPath,ios::app){
+LogManager::LogManager(User * u) : logFile(logPath,ios::app), user(u){
 	if (!logFile) cout << "erreur pendant l'ouverture du fichier de log" << endl; 
 }
 

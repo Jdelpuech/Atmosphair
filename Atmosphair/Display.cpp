@@ -49,10 +49,10 @@ void Display::ShowMenuPrincipal()
 void Display::ShowChargementFichiers()
 {
 	cout << "--------------------------------------------------------------------"<<endl;
-	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), separes par des points-virgules et appuyez sur entree."<<endl;
+	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), laisser vide si vous ne souhaitez pas modifier, et appuyez sur entree."<<endl;
 	cout << "Attention : "<<endl ;
 	cout <<" \t- Les donnees precedemment utilisees seront ecrasees"<<endl;
-	cout << "\t- Seul les fichiers .csv sont autorises."<<endl;
+	cout << "\t- Seul les fichiers au format csv sont autorises."<<endl;
 	
 }
 

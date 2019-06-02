@@ -42,8 +42,6 @@ protected:
     //------------------------------------------------------------ Méthodes protégées
     
     //------------------------------------------------------------ Attributs protégés
-	//FileManager fileManager;
-	//DataSet dataSet;
 };
 
 

@@ -45,7 +45,7 @@ public:
     // Mode d'emploi : ajoute un utilisateur � notre ensemble de donnees.
     // Contrat : aucun
     
-	bool connectionRequest(std::string user, std::string password);
+	User * connectionRequest(std::string user, std::string password);
     // Mode d'emploi : verifie la connection d'un utilisateur : si l'utilisateur et le mot de
     //passe correspondent, alors la fonction renvoie vrai. Sinon, la methode renvoie faux.
     // Contrat : aucun
@@ -99,6 +99,8 @@ public:
     listUser getListUsers(); 
      // Mode d'emploi : renvoie une liste de l'ensemble des users
     // Contrat : aucun
+
+	void dropListSensors();
 
 	//--------------------------------------------------------- Constructeurs - destructeur
 	DataSet();

@@ -24,10 +24,10 @@ class LogManager
 
 public:
 	//------------------------------------------------------------------ Méthodes publiques
-	void writeLog(std::string logtxt, User user);
+	void writeLog(std::string logtxt);
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	LogManager();
+	LogManager(User * u);
 	virtual ~LogManager();
 	// Mode d'emploi : aucun
 	// Contrat : aucun
@@ -41,6 +41,7 @@ protected:
 	//------------------------------------------------------------ Méthodes protégées
 	std::string const logPath = "atmoLog.log";
 	std::ofstream logFile;
+	User * user;
 	//------------------------------------------------------------ Attributs protégés
 
 };

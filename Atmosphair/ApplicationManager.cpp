@@ -30,15 +30,14 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 bool ApplicationManager::init(DataSet * d, FileManager * fm) {
 	(*fm).openSave(d);
-	User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
+	User * user_1 = new User("user@atmo.com", "123", "user Atmosph'air");
 	(*d).addUser(user_1);
 	return true;
 }
 
-int test() {
-	DataSet * d = new DataSet();
-	FileManager * fm = new FileManager();
-    ApplicationManager::init(d,fm); 
+int main() {
+	DataSet d;
+	User * user=nullptr;
 	Display myDisplay;
 	char choice ; 
 	int selFonction;
@@ -55,14 +54,19 @@ int test() {
 		cin >> login;
 		cout << "Mot de passe : ";
 		cin >> pwd;
-		if ((*d).connectionRequest(login,pwd)==1){
+		user = d.connectionRequest(login, pwd);
+		if (user!=nullptr){
 			connection = true ; 
 		} else {
 			cout<<"Erreur : veuillez réessayer."<<endl; 
 		} 
 
 	}
-	
+
+	FileManager fm;
+	ApplicationManager::init(&d, &fm);
+	LogManager lm(user);
+
 	myDisplay.ShowMenuPrincipal();
 	int navigation = 0 ; 
 	bool  valid = false ; 
@@ -83,10 +87,22 @@ int test() {
 			myDisplay.ShowChargementFichiers();
 			cout << "Fichiers relatifs aux capteurs: ";
 			cin >> fileSensor;
+			if (fileSensor != "") {
+				fm.save(fileSensor, 0);
+				lm.writeLog("modification sauvegarde capteurs : " + fileSensor);
+			}
 			cout << "Fichiers relatifs aux mesures : ";
 			cin >> fileMeasure;
-			cout << "Fichiers de lien : ";
+			if (fileMeasure != "") {
+				fm.save(fileMeasure, 0);
+				lm.writeLog("modification sauvegarde mesures : " + fileMeasure);
+			}
+			cout << "Fichiers relatifs au type de mesures : ";
 			cin >> fileLinks;
+			if (fileLinks != "") {
+				fm.save(fileLinks, 0);
+				lm.writeLog("modification sauvegarde type de mesures : " + fileLinks);
+			}
 			cout << "Merci! Bon travail!"<<endl;
 
 			// Charger les fichiers correspondants
@@ -267,7 +283,7 @@ int test() {
 	return 0; 
 }
 
-int main(){
+int test(){
 
 	/*std::cout << "Test Julie" << endl;
     struct tm instant ;
@@ -404,9 +420,10 @@ int main(){
 	delete data_7;
 	*/
 
-	LogManager log;
+	
 	User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
-	log.writeLog("nom de l'action", *user_1);
+	LogManager logM(user_1);
+	logM.writeLog("nom de l'action");
 	FileManager fm;
 	fm.save("test", 0);
 

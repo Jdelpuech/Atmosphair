@@ -106,17 +106,17 @@ double DataSet::calculateDistance(double lat1, double lon1, double lat2, double 
 	return 2.0 * 6371.0 * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
 }
 
-bool DataSet::connectionRequest(string user, string password) {
+User * DataSet::connectionRequest(string user, string password) {
 	listUser::iterator it;
 	it = liUser.begin();
     
 	while (it != liUser.end()) {
 		if ((**it).getLogin().compare(user)==0 && (**it).getMdp().compare(password)==0) {
-			return true;
+			return (*it);
 		}
 		++it;
 	}
-	return false;
+	return nullptr;
 }
 
 listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
