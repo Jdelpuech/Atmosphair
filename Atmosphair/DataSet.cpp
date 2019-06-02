@@ -125,7 +125,7 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 	it = liSensor.begin();
 	while (it != liSensor.end()) {
 		double distance = calculateDistance(lat, lon, (**it).getLatitude(), (**it).getLongitude());
-		if (distance <= rayon) {
+        if (distance <= rayon) {
 			result.push_back((*it));
 		}
 		++it;
