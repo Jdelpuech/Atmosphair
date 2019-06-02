@@ -53,7 +53,7 @@ bool FileManager::save(string path, int type)
 	{
 		o << complete0 << endl;
 		o << complete1 << endl;
-		o << complete2 << endl;
+		o << complete2;
 		o.close();
 	}
 			

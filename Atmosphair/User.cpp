@@ -38,9 +38,9 @@ string User::toString(){
     return rep ; 
 }
 //----------------------------------------------------------- Constructeurs - destructeur
-
+int User::id = 1;
 User::User(string login, string mdp, string name){
-    userID = 0 ;
+    userID = id++ ;
     login = login ;
     mdp = mdp ;
     name = name ;
