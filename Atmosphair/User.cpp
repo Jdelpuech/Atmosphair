@@ -40,10 +40,10 @@ string User::toString(){
 //----------------------------------------------------------- Constructeurs - destructeur
 
 User::User(string login, string mdp, string name){
-    this->userID = id++ ;
-    this->login = login ;
-    this->mdp = mdp ;
-    this->name = name ;
+    userID = 0 ;
+    login = login ;
+    mdp = mdp ;
+    name = name ;
 }
 
 User::~User(){

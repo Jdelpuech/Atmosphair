@@ -25,14 +25,20 @@ using namespace std;
 #include "Data.h"
 #include "Display.h"
 #include "LogManager.h"
+#include "DataSet.h"	
 
-int User::id = 1 ; 
-bool init(DataSet * d,FileManager * fm); 
 //-------------------------------------------------------------------------------- PUBLIC
+bool ApplicationManager::init(DataSet * d, FileManager * fm) {
+	(*fm).openSave(d);
+	User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
+	(*d).addUser(user_1);
+	return true;
+}
+
 int test() {
 	DataSet * d = new DataSet();
 	FileManager * fm = new FileManager();
-    init(d,fm); 
+    ApplicationManager::init(d,fm); 
 	Display myDisplay;
 	char choice ; 
 	int selFonction;
@@ -261,13 +267,6 @@ int test() {
 	return 0; 
 }
 
-bool init(DataSet * d, FileManager * fm){
-	(*fm).openSave("sauvegardes.txt",d);
-	User * user_1 = new User("jdelpuech@atmosphair.com","123","Julie Delpuech");
-	(*d).addUser(user_1);
-	return true ; 
-}
-
 int main(){
 
 	/*std::cout << "Test Julie" << endl;
@@ -408,5 +407,8 @@ int main(){
 	LogManager log;
 	User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
 	log.writeLog("nom de l'action", *user_1);
+	FileManager fm;
+	fm.save("test", 0);
+
 	return 0;
 }

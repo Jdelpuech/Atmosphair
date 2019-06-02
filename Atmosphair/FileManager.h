@@ -13,14 +13,11 @@
 #include <string>
 #include <time.h>
 #include <iostream>
-#include <cstring>
 #include <fstream>
 #include "DataSet.h"
 #include "DataType.h"
 #include "Data.h"
 #include "Sensor.h"
-
-using namespace std;
 
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <FileManager>
@@ -36,15 +33,14 @@ public:
 
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	FileManager(string save);
 	FileManager();
 	virtual ~FileManager(); 
 	// Mode d'emploi : aucun
     // Contrat : aucun
 
-	bool importDataFromFile(DataSet* dataS, string path, int type);
-	bool openSave(string path, DataSet* dataS);
-	bool save(DataSet*dataS, string path, int type);
+	bool importDataFromFile(DataSet* dataS, std::string path, int type);
+	bool openSave(DataSet* dataS);
+	bool save(std::string path, int type);
 
 	//------------------------------------------------------------------------------ PRIVE
 private:
@@ -53,15 +49,11 @@ private:
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
-	string savef;
-
+	std::string const savePath="sauvegardes.txt";
 
 	//------------------------------------------------------------ Attributs protégés
 
 };
-
-
-
 #endif // FileManager_H
 
 

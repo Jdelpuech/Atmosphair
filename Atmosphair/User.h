@@ -27,7 +27,7 @@ class User
     
 public:
     //------------------------------------------------------------- Méthodes publiques
-    static int id ; 
+    static int id; 
     
     int getUserID();
     // Mode d'emploi : renvoie l'identifiant de l'utilisateur.

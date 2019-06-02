@@ -1,18 +1,9 @@
 #include "FileManager.h"
 #include <iostream>
-#include <cstring>
 #include <fstream>
 #include <time.h>
+#include <string>
 using namespace std;
-
-
-
-
-
-FileManager::FileManager(string save)
-{
-	savef = save;
-}
 
 FileManager::FileManager()
 {
@@ -22,101 +13,58 @@ FileManager::~FileManager()
 {
 }
 
-bool FileManager::save(DataSet* dataS, string path, int type)
+bool FileManager::save(string path, int type)
 {
 	bool ok = true;
-	ifstream f(savef.c_str());//ouvre sauvegarde
+	ifstream f(savePath.c_str());//ouvre sauvegarde
+	string complete0 = "";//sensors
+	string complete1 = "";//data
+	string complete2 = "";//datatype
 	if (f) {
-		
 		while (!f.eof())
 		{
-			cout << "fichier ouvert" << endl;
-			/*memorise les 3 lignes en sostitunt cellle du meme type que celle en parametre*/
-			string tmp;
-			string typePrec;
+			/*memorise les 3 lignes en substituant celle du meme type que celle en parametre*/
+			string oldType;
+			getline(f, oldType, ';');
+			cout << "type :" << oldType << endl;
 
-			getline(f, typePrec, ';');
-			cout << "type :" << typePrec << endl;
+			string oldPath;
+			getline(f, oldPath);
+			cout << "path :" << oldPath << endl;
 
-			string fpath;
-			getline(f, fpath);
-			cout << "path :" << fpath << endl;
-
-			string complete1="";
-
-			if (atoi(typePrec.c_str()) != type){
-				complete1 =typePrec + ';' + fpath;
+			string newPath = oldPath;
+			if (stoi(oldType) == type) {
+				newPath = path;
 			}
-			else 
-			{
-				complete1 = type + ';';
-				complete1+=path;
+			switch (stoi(oldType)) {
+			case 0:
+				complete0 = oldType + ";" + newPath;
+			case 1:
+				complete1 = oldType + ";" + newPath;
+			case 2:
+				complete2 = oldType + ";" + newPath;
 			}
-
-			typePrec = "";
-			fpath = "";
-			getline(f, typePrec, ';');
-			cout << "type :" << typePrec << endl;
-
-			
-			getline(f, fpath);
-			cout << "path :" << fpath << endl;
-
-			string complete2 = "";
-
-			if (atoi(typePrec.c_str()) != type) {
-				complete2 = typePrec + ';' + fpath;
-			}
-			else
-			{
-				complete2 = type + ';';
-				complete2+= path;
-			}
-
-			typePrec = "";
-			fpath = "";
-			getline(f, typePrec, ';');
-			cout << "type :" << typePrec << endl;
-
-			
-			getline(f, fpath);
-			cout << "path :" << fpath << endl;
-
-			string complete3 = "";
-
-			if (atoi(typePrec.c_str()) != type) {
-				complete3 = typePrec + ';' + fpath;
-			}
-			else
-			{
-				complete3 = type + ';';
-				complete3+=path;
-				importDataFromFile(dataS, path, type);
-			}
-
-			/*efface le contenu*/
-			f.clear();
-			f.close();
-
-			/*reouvre et ecrit les bonnes lignes*/
-			ofstream o(savef.c_str());
-			if (o.is_open())
-			{
-				o.write(complete1.c_str(), sizeof(complete1.c_str()));
-				o.write(complete2.c_str(), sizeof(complete2.c_str()));
-				o.write(complete3.c_str(), sizeof(complete3.c_str()));
-			}
-			o.close();
 		}
 	}
+
+	/*reouvre et ecrit les bonnes lignes*/
+	ofstream o(savePath.c_str(),ios::trunc);
+	if (o)
+	{
+		o << complete0 << endl;
+		o << complete1 << endl;
+		o << complete2 << endl;
+		o.close();
+	}
+			
 	return ok;
 }
 
 
-bool FileManager::openSave(string path, DataSet* dataS)
+bool FileManager::openSave(DataSet* dataS)
 {
 	bool ok = false;
-	ifstream f(path.c_str());
+	ifstream f(savePath);
 	if (f) {
 		while (!f.eof())
 		{
@@ -157,7 +105,7 @@ bool FileManager::openSave(string path, DataSet* dataS)
 		}
 	}
 	else {
-		cout << "erreur ouverture fichier : " << path << endl;
+		cout << "erreur ouverture fichier : " << savePath << endl;
 	}
 	f.close();
 	return ok;

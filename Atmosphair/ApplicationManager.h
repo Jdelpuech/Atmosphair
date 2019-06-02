@@ -12,7 +12,9 @@
 #include <string>
 #include <ctime>
 #include "User.h"
-#include "DataSet.h"
+
+class FileManager;
+class DataSet;
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <ApplicationManager>
 /*Application Manager est le noyau de notre application. En tant que dispatcher, il gèrera
@@ -26,7 +28,7 @@ class ApplicationManager
 public:
     //------------------------------------------------------------------ Méthodes publiques
     
-     //bool init(DataSet * d); 
+     bool static init(DataSet * d, FileManager * fm);
      //mode d'emploi : initialise le dataset et l'ensemble des utilisateurs. 
      //contrat : aucun. 
     
@@ -40,7 +42,8 @@ protected:
     //------------------------------------------------------------ Méthodes protégées
     
     //------------------------------------------------------------ Attributs protégés
-    
+	//FileManager fileManager;
+	//DataSet dataSet;
 };
 
 
