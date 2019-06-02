@@ -27,8 +27,10 @@ bool FileManager::save(DataSet* dataS, string path, int type)
 	bool ok = true;
 	ifstream f(savef.c_str());//ouvre sauvegarde
 	if (f) {
+		
 		while (!f.eof())
 		{
+			cout << "fichier ouvert" << endl;
 			/*memorise les 3 lignes en sostitunt cellle du meme type que celle en parametre*/
 			string tmp;
 			string typePrec;

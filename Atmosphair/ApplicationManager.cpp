@@ -123,6 +123,15 @@ int main(){
 		++itT;
 	}
 
+	/*cout << endl << "Test Save" << endl;*/
+	FileManager fmSave = FileManager("sauvegardes.txt");
+	DataSet dSave= DataSet();
+	fm.openSave("sauvegardes.txt", &dSave);
+
+	cout << endl << "Debut Test Save" << endl;
+	fm.save(&dSave, "sensors2.txt", 0);
+	cout << endl << "Fin Test Save" << endl;
+
 	cout << endl << "Test Hugo" << endl;
 
 	DataSet d1 = DataSet();
