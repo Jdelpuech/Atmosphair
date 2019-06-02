@@ -93,6 +93,13 @@ public:
     // Contrat : aucun
 
 	listDataType getListDataType();
+     // Mode d'emploi : renvoie une liste de l'ensemble des types de données
+    // Contrat : aucun
+
+    listUser getListUsers(); 
+     // Mode d'emploi : renvoie une liste de l'ensemble des users
+    // Contrat : aucun
+
 	//--------------------------------------------------------- Constructeurs - destructeur
 	DataSet();
 	// Mode d'emploi : aucun
