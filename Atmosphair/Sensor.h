@@ -66,6 +66,8 @@ public:
     listData getData();
     // Mode d'emploi : renvoie la liste des données du capteur
     // Contrat : aucun
+
+	void dropData();
     
 	string toString();
 

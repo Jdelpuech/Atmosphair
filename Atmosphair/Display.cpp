@@ -16,7 +16,6 @@ using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Display.h"
-
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -49,7 +48,7 @@ void Display::ShowMenuPrincipal()
 void Display::ShowChargementFichiers()
 {
 	cout << "--------------------------------------------------------------------"<<endl;
-	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), laisser vide si vous ne souhaitez pas modifier, et appuyez sur entree."<<endl;
+	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), rentrer 0 pour ne pas modifier le chemin, et appuyez sur entree."<<endl;
 	cout << "Attention : "<<endl ;
 	cout <<" \t- Les donnees precedemment utilisees seront ecrasees"<<endl;
 	cout << "\t- Seul les fichiers au format csv sont autorises."<<endl;
@@ -128,6 +127,28 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 		break;
 	}
 	cout<< "Veuillez entrer la valeur seuil souhaitee pour le facteur semalectionne :";
+}
+
+time_t Display::getDate() {
+	struct tm date;
+	int tmp;
+	cout << "Entrer l'année souhaitée : ";
+	cin >> tmp;
+	date.tm_year = tmp - 1900;
+
+	cout << "Entrer le mois souhaitée : ";
+	cin >> tmp;
+	date.tm_mon = tmp;
+
+	cout << "Entrer le jour souhaitée : ";
+	cin >> tmp;
+	date.tm_mday = tmp;
+
+	date.tm_hour = 0;
+	date.tm_min = 0;
+	date.tm_sec = 0;
+	time_t temps = mktime(&date);
+	return temps;
 }
 
 //------------------------------------------------- Surcharge d'op�rateurs

@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <regex>
 
 using namespace std;
 
@@ -30,42 +31,47 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 bool ApplicationManager::init(DataSet * d, FileManager * fm) {
 	(*fm).openSave(d);
-	User * user_1 = new User("user@atmo.com", "123", "user Atmosph'air");
+	User * user_1 = new User("user", "123", "user Atmosph'air");
 	(*d).addUser(user_1);
 	return true;
 }
 
 int main() {
-	DataSet d;
+	DataSet dataSet; 
+	FileManager fm;
 	User * user=nullptr;
 	Display myDisplay;
 	char choice ; 
 	int selFonction;
 	string login, pwd;
 	string fileSensor, fileMeasure, fileLinks;
-	string inspectionZone, jour, date, choix;
-	string dateDebut, dateFin;
+	string inspectionZone, date, choix;
+	int intTmp;
+	time_t date1, date2;
 	char entree = 'a';
-	bool connection = false ; 
+	bool connection = false ;
+	regex patternCSV(".*\\.csv$");
+
+	ApplicationManager::init(&dataSet, &fm);
+
 	while (!connection){
 		cout << "---------------------------------------------------------------------"<<endl; ;
-		cout << "Bienvenue chez Atmosph'Air! Afin d’obtenir l'accès à nos services, veuillez vous authentifier."<<endl;
+		cout << "Bienvenue chez Atmosph'Air! Afin d’obtenir l'acces à nos services, veuillez vous authentifier."<<endl;
 		cout << "Login : ";
 		cin >> login;
 		cout << "Mot de passe : ";
 		cin >> pwd;
-		user = d.connectionRequest(login, pwd);
+		user = dataSet.connectionRequest(login, pwd);
 		if (user!=nullptr){
 			connection = true ; 
 		} else {
-			cout<<"Erreur : veuillez réessayer."<<endl; 
+			cout<<"Erreur : veuillez reessayer."<<endl; 
 		} 
 
 	}
 
-	FileManager fm;
-	ApplicationManager::init(&d, &fm);
 	LogManager lm(user);
+	lm.writeLog("Connection de " + user->getNom());
 
 	myDisplay.ShowMenuPrincipal();
 	int navigation = 0 ; 
@@ -78,7 +84,7 @@ int main() {
 		}
 	}
 	//si l'utilisatuer entre 6, il souhaite quitter l'application
-	while (navigation != '6')
+	while (navigation != 6)
 	{
 		switch ((int)navigation)
 		{
@@ -86,27 +92,50 @@ int main() {
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
 			cout << "Fichiers relatifs aux capteurs: ";
+			capteur:
 			cin >> fileSensor;
-			if (fileSensor != "") {
-				fm.save(fileSensor, 0);
-				lm.writeLog("modification sauvegarde capteurs : " + fileSensor);
+			if (fileSensor != "0") {
+				if (regex_match(fileSensor, patternCSV)) {
+					lm.writeLog("modification sauvegarde capteurs : " + fileSensor);
+					fm.save(fileSensor, 0);
+					fm.importDataFromFile(&dataSet, fileSensor, 0);
+				}
+				else {
+					cout << "mauvais format" << endl;
+					goto capteur;
+				}
 			}
 			cout << "Fichiers relatifs aux mesures : ";
+			measure:
 			cin >> fileMeasure;
-			if (fileMeasure != "") {
-				fm.save(fileMeasure, 0);
-				lm.writeLog("modification sauvegarde mesures : " + fileMeasure);
+			if (fileMeasure != "0") {
+				if (regex_match(fileMeasure, patternCSV)) {
+					lm.writeLog("modification sauvegarde mesures : " + fileMeasure);
+					fm.save(fileMeasure, 1);
+					fm.importDataFromFile(&dataSet, fileMeasure, 1);
+				}
+				else {
+					cout << "mauvais format" << endl;
+					goto measure;
+				}
 			}
 			cout << "Fichiers relatifs au type de mesures : ";
+			link:
 			cin >> fileLinks;
-			if (fileLinks != "") {
-				fm.save(fileLinks, 0);
-				lm.writeLog("modification sauvegarde type de mesures : " + fileLinks);
+			if (fileLinks != "0") {
+				if (regex_match(fileLinks, patternCSV)) {
+					lm.writeLog("modification sauvegarde type de mesures : " + fileLinks);
+					fm.save(fileLinks, 2);
+					fm.importDataFromFile(&dataSet, fileLinks, 2);
+				}
+				else {
+					cout << "mauvais format" << endl;
+					goto link;
+				}
 			}
 			cout << "Merci! Bon travail!"<<endl;
 
 			// Charger les fichiers correspondants
-
 
 			break;
 		case 1:
@@ -117,8 +146,11 @@ int main() {
 		case 2:
 			// Inspection d'une zone
 			cout << "2-Inspecter une zone."<<endl;
-			cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS sous le format lat;long;rayon : "<<endl;
+			cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS : "<<endl;
+			cout << "Lattitude : ";
 			cin >> inspectionZone;
+
+
 			myDisplay.ShowMenuInspectionZone();
 			cin >> selFonction;
 			//on a selectionné l'action que l'on souhaite effectuer sur la zone
@@ -131,9 +163,8 @@ int main() {
 					//la date est demandée à l'utilisateur
 					//myDisplay.ShowZoneIndiceAtmoJournee(); //peut etre pas utile pour 2 lignes
 					cout << "2.1 Indice Atmo dans une journée."<<endl;
-					cout << "Veuillez entrer la date souhaitée[yyyy - MM - dd] : "<<endl;
-					//on récupère le jour entré par l'utilisateur
-					cin >> jour;
+					cout << "Veuillez entrer la date souhaitée :"<<endl;
+					date1 = myDisplay.getDate();
 
 					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
 					while (entree != 'q')
@@ -144,10 +175,10 @@ int main() {
 					break;
 				case 2:
 					cout << "2.2-Indice Atmo moyen entre t1 et t2."<<endl;
-					cout << "Veuillez entrer les deux dates sous la forme[yyyy - MM - dd]; [yyyy - MM - dd]"<<endl;
-					cin >> date;
-
-					//decoupage de la date en 2 dates
+					cout << "Veuillez entrer les deux dates :"<<endl;
+					//recuperation des 2 dates
+					date1 = myDisplay.getDate();
+					date2 = myDisplay.getDate();
 					
 
 					//Appel de la méthode correspondante
@@ -216,10 +247,10 @@ int main() {
 			cin >> choix;
 			myDisplay.ShowMenu3MessageChoix();
 			cout << "Saisissez une date de début (yyyy-MM-dd) : "<<endl;
-			cin >> dateDebut;
+			date1 = myDisplay.getDate();
 			cout << "Saisissez une date de fin(yyyy - MM - dd) : "<<endl;
-			cin >> dateFin;
-			if ((dateDebut != "") && (dateFin != ""))
+			date2 = myDisplay.getDate();
+			if (difftime(date1,date2)!=0)
 			{
 				//Appel de la méthode d'affichage des données du capteur
 				/* ( format : )
@@ -410,22 +441,68 @@ int test(){
 		cout << *it2 << endl;
 		++it2;
 	}
-	delete data_0; 
-	delete data_1; 
-	delete data_2; 
-	delete data_3;
-	delete data_4; 
-	delete data_5; 
-	delete data_6; 
-	delete data_7;
 	*/
 
 	
-	User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
+	/*User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
 	LogManager logM(user_1);
 	logM.writeLog("nom de l'action");
 	FileManager fm;
-	fm.save("test", 0);
+	fm.save("test", 0);*/
+
+	struct tm instant;
+	instant.tm_mon = 1 - 1;
+	instant.tm_mday = 1;
+	instant.tm_year = 2017 - 1900;
+	instant.tm_hour = 1;
+	instant.tm_min = 0;
+	instant.tm_sec = 0;
+	time_t time = mktime(&instant);
+
+	//créations type de données
+	DataType type_O3 = DataType("O3", "µg/m3", "concentration d'ozone");
+	DataType type_NO2 = DataType("NO2", "µg/m3", "concentration de dioxyde d'azote");
+	DataType type_SO2 = DataType("SO2", "µg/m3", "concentration de dioxyde de soufre");
+	DataType type_PM10 = DataType("PM10", "µg/m3", "concentration de particules fines");
+
+
+	//création sensors
+	Sensor * sensor_0 = new Sensor("Sensor0", (double)-8.15758888291083, (double)-34.7692487876719, "0");
+	Sensor * sensor_2 = new Sensor("Sensor2", (double)-30.0647387677174, (double)-76.3439147576429, "1");
+
+	//une vague de données
+	Data * data_0 = new Data(time, 67.9284748555273, "Sensor0", "O3");
+	Data * data_1 = new Data(time, 98.979984192197, "Sensor0", "NO2");
+	Data * data_2 = new Data(time, 119.423041339039, "Sensor0", "SO2");
+	Data * data_3 = new Data(time, 16.7564963001065, "Sensor0", "PM10");
+	instant.tm_hour += 1;
+	time = mktime(&instant);
+	Data * data_4 = new Data(time, 36.7797600526823, "Sensor0", "O3");
+	Data * data_5 = new Data(time, 80.2280346451481, "Sensor0", "NO2");
+	Data * data_6 = new Data(time, 38.151540049253, "Sensor0", "SO2");
+	Data * data_7 = new Data(time, 1.99603267330184, "Sensor0", "PM10");
+	sensor_0->addData(data_0);
+	sensor_0->addData(data_1);
+	sensor_0->addData(data_2);
+	sensor_0->addData(data_3);
+	sensor_0->addData(data_4);
+	sensor_0->addData(data_5);
+	sensor_0->addData(data_6);
+	sensor_0->addData(data_7);
+
+	sensor_2->addData(data_0);
+	sensor_2->addData(data_1);
+	sensor_2->addData(data_2);
+	sensor_2->addData(data_3);
+	sensor_2->addData(data_4);
+	sensor_2->addData(data_5);
+	sensor_2->addData(data_6);
+	sensor_2->addData(data_7);
+
+	DataSet d;
+	d.addSensor(sensor_0);
+
+	d.dropListSensors();
 
 	return 0;
 }

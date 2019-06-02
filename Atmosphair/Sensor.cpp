@@ -306,6 +306,16 @@ string Sensor::toString()
 	return string(sensorID +";"+ to_string(lon) +";"+ to_string(lat) + ";"+description + ";"+to_string(dysfonctionning));
 }
 
+void Sensor::dropData() {
+	listData::iterator it;
+	it = data.begin();
+	while (it != data.end()) {
+		delete (*it);
+		it++;
+	}
+	data.clear();
+}
+
 //----------------------------------------------------------- Constructeurs - destructeur
 Sensor::Sensor(string sensorID, double lat, double lon, string description){
     this->sensorID = sensorID ;
@@ -316,7 +326,12 @@ Sensor::Sensor(string sensorID, double lat, double lon, string description){
 }
 
 Sensor::~Sensor(){
-    
+	listData::iterator it;
+	it = data.begin();
+	while (it != data.end()) {
+		delete(*it);
+		it++;
+	}
 }
 
 //------------------------------------------------------------------ PRIVE

@@ -11,7 +11,7 @@
 #define Display_H
 
 //--------------------------------------------------- Interfaces utilis�es
-
+#include <ctime>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -63,6 +63,8 @@ public:
 	void ShowMenuInspectionZone(); 
 
 	void ShowMenu4SelectionSeuil(int substance);
+
+	time_t getDate();
 
 	//------------------------------------------------- Surcharge d'op�rateurs
 

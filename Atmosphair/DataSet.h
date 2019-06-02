@@ -102,6 +102,10 @@ public:
 
 	void dropListSensors();
 
+	void dropData();
+
+	void dropDataType();
+
 	//--------------------------------------------------------- Constructeurs - destructeur
 	DataSet();
 	// Mode d'emploi : aucun

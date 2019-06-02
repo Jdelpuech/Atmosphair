@@ -39,11 +39,7 @@ string User::toString(){
 }
 //----------------------------------------------------------- Constructeurs - destructeur
 int User::id = 1;
-User::User(string login, string mdp, string name){
-    userID = id++ ;
-    login = login ;
-    mdp = mdp ;
-    name = name ;
+User::User(string login, string mdp, string name):userID(id++),login(login),mdp(mdp),name(name){
 }
 
 User::~User(){

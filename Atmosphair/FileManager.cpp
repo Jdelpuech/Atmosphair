@@ -26,11 +26,9 @@ bool FileManager::save(string path, int type)
 			/*memorise les 3 lignes en substituant celle du meme type que celle en parametre*/
 			string oldType;
 			getline(f, oldType, ';');
-			cout << "type :" << oldType << endl;
 
 			string oldPath;
 			getline(f, oldPath);
-			cout << "path :" << oldPath << endl;
 
 			string newPath = oldPath;
 			if (stoi(oldType) == type) {
@@ -120,106 +118,121 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 		switch (type)
 		{
 		case 0:/*fichier de Sensors*/
-			while (f)
-			{
-				string id;
-				string sLat;
-				double lat;
-				string sLon;
-				double lon;
-				string descr;
-				string flush;
+			try {
+				while (f)
+				{
+					string id;
+					string sLat;
+					double lat;
+					string sLon;
+					double lon;
+					string descr;
+					string flush;
 
-				getline(f, id, ';');
-				//cout <<"id : "<<id << endl;
-				getline(f, sLat, ';');
-				lat = stod(sLat);
-				//cout << "lat : " << lat << endl;
-				getline(f, sLon, ';');
-				lon = stod(sLon);
-				//cout << "lon : " << lon << endl;
-				getline(f, descr, ';');
-				//cout << "descr : " << descr << endl;
-				getline(f, flush);
-				Sensor *s = new Sensor(id, lat, lon, descr);
+					getline(f, id, ';');
+					//cout <<"id : "<<id << endl;
+					getline(f, sLat, ';');
+					lat = stod(sLat);
+					//cout << "lat : " << lat << endl;
+					getline(f, sLon, ';');
+					lon = stod(sLon);
+					//cout << "lon : " << lon << endl;
+					getline(f, descr, ';');
+					//cout << "descr : " << descr << endl;
+					getline(f, flush);
+					Sensor *s = new Sensor(id, lat, lon, descr);
 
-				/*ajout au dataset*/
-				dataS->addSensor(s);
+					/*ajout au dataset*/
+					dataS->addSensor(s);
 
-				ok = true;
+					ok = true;
+				}
+			}
+			catch(...){
+				cout << "erreur chargement fichier de capteurs" << endl;
 			}
 			break;
 		case 1: /*data*/
-			while (f)
-			{
-				/*Timestamp;SensoTrID;AttributeID;Value;*/
-				struct tm timestamp;
-				string sensorId;/*sensorID*/
-				string dataTypeId;/*attributeID*/
-				double value;/*value*/
-				string tmp;
+			try {
+				while (f)
+				{
+					/*Timestamp;SensoTrID;AttributeID;Value;*/
+					struct tm timestamp;
+					string sensorId;/*sensorID*/
+					string dataTypeId;/*attributeID*/
+					double value;/*value*/
+					string tmp;
 
-				//debut recuperation temps
-				getline(f, tmp, '-');
-				timestamp.tm_year = stoi(tmp)-1900; //year
-				getline(f, tmp, '-');
-				timestamp.tm_mon = stoi(tmp) - 1;
-				getline(f, tmp, 'T');
-				timestamp.tm_mday = stoi(tmp);
-				getline(f, tmp, ':');
-				timestamp.tm_hour = stoi(tmp);
-				getline(f, tmp, ':');
-				timestamp.tm_min = stoi(tmp);
-				getline(f, tmp, '.');
-				timestamp.tm_sec = stoi(tmp);
-				getline(f, tmp,';');
-				//fin recuperation temps
-				time_t finalTime = mktime(&timestamp);
-				//std::cout << ctime(&finalTime);
+					//debut recuperation temps
+					getline(f, tmp, '-');
+					timestamp.tm_year = stoi(tmp) - 1900; //year
+					getline(f, tmp, '-');
+					timestamp.tm_mon = stoi(tmp) - 1;
+					getline(f, tmp, 'T');
+					timestamp.tm_mday = stoi(tmp);
+					getline(f, tmp, ':');
+					timestamp.tm_hour = stoi(tmp);
+					getline(f, tmp, ':');
+					timestamp.tm_min = stoi(tmp);
+					getline(f, tmp, '.');
+					timestamp.tm_sec = stoi(tmp);
+					getline(f, tmp, ';');
+					//fin recuperation temps
+					time_t finalTime = mktime(&timestamp);
+					//std::cout << ctime(&finalTime);
 
-				getline(f, tmp, ';');
-				sensorId = tmp;
-				//cout << "sensorId : " << sensorId << endl;
+					getline(f, tmp, ';');
+					sensorId = tmp;
+					//cout << "sensorId : " << sensorId << endl;
 
-				getline(f, tmp, ';');
-				dataTypeId = tmp;
-				//cout << "dataTypeId : " << dataTypeId << endl;
+					getline(f, tmp, ';');
+					dataTypeId = tmp;
+					//cout << "dataTypeId : " << dataTypeId << endl;
 
-				getline(f, tmp, ';');
-				value = stof(tmp);
-				//cout << "value : " << value << endl;
+					getline(f, tmp, ';');
+					value = stof(tmp);
+					//cout << "value : " << value << endl;
 
-				getline(f, tmp);
-				
-				Data *d = new Data(finalTime, value, sensorId, dataTypeId);
-				/*ajout au sensor*/
-				dataS->getSensorById(sensorId)->addData(d);
-				ok = true;
+					getline(f, tmp);
+
+					Data *d = new Data(finalTime, value, sensorId, dataTypeId);
+					/*ajout au sensor*/
+					dataS->getSensorById(sensorId)->addData(d);
+					ok = true;
+				}
+			}
+			catch (...) {
+				cout << "erreur chargement fichier de données" << endl;
 			}
 			break;
 		case 2: /*dataType*/
-			while (f)
-			{
-				string attributeId;
-				string unit;
-				string description;
-				string flush;
+			try {
+				while (f)
+				{
+					string attributeId;
+					string unit;
+					string description;
+					string flush;
 
-				getline(f, attributeId, ';');
+					getline(f, attributeId, ';');
 
-				getline(f, unit, ';');
+					getline(f, unit, ';');
 
-				getline(f, description, ';');
-				getline(f, flush);
+					getline(f, description, ';');
+					getline(f, flush);
 
-				DataType*dT = new DataType(attributeId, unit, description);
-				/*ajout au dataset*/
-				dataS->addDataType(dT);
-				ok = true;
+					DataType*dT = new DataType(attributeId, unit, description);
+					/*ajout au dataset*/
+					dataS->addDataType(dT);
+					ok = true;
+				}
+			}
+			catch (...) {
+				cout << "erreur chargement fichier de type de données" << endl;
 			}
 			break;
 		default:
-			cout << "invalid type";
+			cout << "invalid type"<<endl;
 			break;
 		}
 	}else{

@@ -109,9 +109,9 @@ double DataSet::calculateDistance(double lat1, double lon1, double lat2, double 
 User * DataSet::connectionRequest(string user, string password) {
 	listUser::iterator it;
 	it = liUser.begin();
-    
 	while (it != liUser.end()) {
-		if ((**it).getLogin().compare(user)==0 && (**it).getMdp().compare(password)==0) {
+		cout << (**it).getLogin() << " ; " << (**it).getMdp() << endl;
+		if ((**it).getLogin()==user && (**it).getMdp()==password) {
 			return (*it);
 		}
 		++it;
@@ -269,11 +269,39 @@ listUser DataSet::getListUsers()
     return liUser;
 }
 
-
-
 listDataType DataSet::getListDataType()
 {
 	return liDataType;
+}
+
+void DataSet::dropListSensors() {
+	listSensor::iterator it;
+	it = liSensor.begin();
+	while (it != liSensor.end()) {
+		(*it)->dropData();
+		delete((*it));
+		it++;
+	}
+	liSensor.clear();
+}
+
+void DataSet::dropData() {
+	listSensor::iterator it;
+	it = liSensor.begin();
+	while (it != liSensor.end()) {
+		(*it)->dropData();
+		it++;
+	}
+}
+
+void DataSet::dropDataType() {
+	listDataType::iterator it;
+	it = liDataType.begin();
+	while (it != liDataType.end()) {
+		delete (*it);
+		it++;
+	}
+	liDataType.clear();
 }
 
 //-------------------------------------------- Constructeurs - destructeur
