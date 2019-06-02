@@ -41,7 +41,7 @@ int main() {
 	FileManager fm;
 	User * user=nullptr;
 	Display myDisplay;
-	char choice ; 
+	char choice, back; 
 	int selFonction;
 	string login, pwd;
 	string fileSensor, fileMeasure, fileLinks;
@@ -51,6 +51,8 @@ int main() {
 	char entree = 'a';
 	bool connection = false ;
 	regex patternCSV(".*\\.csv$");
+	listSensor liste ; 
+	listSensor::iterator it; 
 
 	ApplicationManager::init(&dataSet, &fm);
 
@@ -140,8 +142,29 @@ int main() {
 			break;
 		case 1:
 			// Affichage des capteurs disfonctionnants : appel de la méthode correspondante
+			liste = dataSet.getListDysfonctionningSensors(); 
+			it = liste.begin(); 
+			cout << "--------------------------------------------------------------------"<<endl;
+			while(it!=liste.end()){
+				cout <<"IDCapteur : "<<(**it).getSensorID()<<" | Dysfonctionnement : "; 
+				if ((**it).dysfonction()==1){
+					cout<<"période d'échantillonage dépassée"; 
+				}else if ((**it).dysfonction()==2){
+					cout<<"Données incohérentes"; 
+				}else if ((**it).dysfonction()==3){
+					cout<<"Données manquantes";
+				}
+				cout << endl ; 
+				++it ; 
+			}
 
-
+			while (back!='q'){
+				cout << "Appuyez sur q pour revenir au menu principal."<<endl ; 
+				cin >> back ; 
+				if (back!='c'){
+					cout << "Attention, cette entrée ne correspond a aucune action"<<endl; 
+				}
+			}
 			break;
 		case 2:
 			// Inspection d'une zone

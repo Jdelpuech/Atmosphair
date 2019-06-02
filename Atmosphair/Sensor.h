@@ -36,8 +36,13 @@ public:
     //Mode d'emploi : calcule la moyenne du gaz de type type a la date t.
     //contrat : aucun 
 
-    void dysfonction();
-    // Mode d'emploi : calcul l'état du capteur 
+    int dysfonction();
+    // Mode d'emploi : calcul l'état du capteur : renvoie  : 
+    //- 0 pour un fonctionnement normal
+    //- 1 pour un dysfonctionnement de depassement de periode d'echantillonage
+    //- 2 pouru n dysfonctionnement de mauvaise données
+    //- 3 pour absence de données 
+
     // Contrat : aucun
     
     bool getDysfonctionning(); 
