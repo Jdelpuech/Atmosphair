@@ -23,7 +23,9 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="DataType.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="FileManager.cpp" />
+    <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Sensor.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -32,7 +34,9 @@
     <ClInclude Include="Data.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="DataType.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="FileManager.h" />
+    <ClInclude Include="LogManager.h" />
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

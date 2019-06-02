@@ -24,11 +24,12 @@ using namespace std;
 #include "DataType.h"
 #include "Data.h"
 #include "Display.h"
+#include "LogManager.h"
 
 int User::id = 1 ; 
 bool init(DataSet * d,FileManager * fm); 
 //-------------------------------------------------------------------------------- PUBLIC
-int main() {
+int test() {
 	DataSet * d = new DataSet();
 	FileManager * fm = new FileManager();
     init(d,fm); 
@@ -267,9 +268,9 @@ bool init(DataSet * d, FileManager * fm){
 	return true ; 
 }
 
-int test(){
+int main(){
 
-	std::cout << "Test Julie" << endl;
+	/*std::cout << "Test Julie" << endl;
     struct tm instant ;
     instant.tm_mon= 1-1 ;
     instant.tm_mday= 1 ;
@@ -332,7 +333,6 @@ int test(){
 	DataSet d = DataSet();
 	FileManager fm = FileManager();
 
-	/*string s = "./sauvegardes.txt";*/
 	fm.openSave("sauvegardes.txt",&d);
 
 	listSensor liSensor =d.getListSensors();
@@ -362,7 +362,7 @@ int test(){
 		++itT;
 	}
 
-	/*cout << endl << "Test Save" << endl;*/
+	//cout << endl << "Test Save" << endl;
 	FileManager fmSave = FileManager("sauvegardes.txt");
 	DataSet dSave= DataSet();
 	fm.openSave("sauvegardes.txt", &dSave);
@@ -403,5 +403,10 @@ int test(){
 	delete data_5; 
 	delete data_6; 
 	delete data_7;
+	*/
+
+	LogManager log;
+	User * user_1 = new User("jdelpuech@atmosphair.com", "123", "Julie Delpuech");
+	log.writeLog("nom de l'action", *user_1);
 	return 0;
 }
