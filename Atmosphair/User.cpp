@@ -32,10 +32,15 @@ string User::getLogin(){
 string User::getNom(){
     return name ; 
 }
+
+string User::toString(){
+    string rep = to_string(userID)+";"+login+";"+mdp+";"+name ; 
+    return rep ; 
+}
 //----------------------------------------------------------- Constructeurs - destructeur
 
-User::User(int userID, string login, string mdp, string name){
-    this->userID = userID ;
+User::User(string login, string mdp, string name){
+    this->userID = id++ ;
     this->login = login ;
     this->mdp = mdp ;
     this->name = name ;
@@ -44,3 +49,5 @@ User::User(int userID, string login, string mdp, string name){
 User::~User(){
     
 }
+
+

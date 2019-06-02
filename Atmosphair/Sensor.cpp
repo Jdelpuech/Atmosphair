@@ -262,7 +262,7 @@ void Sensor::dysfonction(){
     bool working = true ; 
     if (data.empty()){
         working = false ; 
-        cout << "no elements"<< endl ; 
+        //cout << "no elements"<< endl ; 
     } else {
         listData::iterator it = data.begin();
         while (it!=data.end()){

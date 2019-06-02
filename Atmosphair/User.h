@@ -27,7 +27,7 @@ class User
     
 public:
     //------------------------------------------------------------- Méthodes publiques
- 
+    static int id ; 
     
     int getUserID();
     // Mode d'emploi : renvoie l'identifiant de l'utilisateur.
@@ -45,10 +45,13 @@ public:
     // Mode d'emploi : renvoie le nom de l'utilisateur.
     // Contrat : aucun
     
+    std::string toString(); 
+    //Mode d'emploi : renvoie la description de l'objet. 
+    //Contrat : aucun 
     
     
     //---------------------------------------------------------- Constructeurs - destructeur
-    User (int userID, std::string login, std::string mdp, std::string name);
+    User (std::string login, std::string mdp, std::string name);
     // Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
     //décrivant les utilisateurs, le constructeur permet de modéliser ce dernier à travers
     //la construction d'un objet User.

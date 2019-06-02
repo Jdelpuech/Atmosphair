@@ -109,8 +109,9 @@ double DataSet::calculateDistance(double lat1, double lon1, double lat2, double 
 bool DataSet::connectionRequest(string user, string password) {
 	listUser::iterator it;
 	it = liUser.begin();
+    
 	while (it != liUser.end()) {
-		if ((**it).getLogin() == user && (**it).getMdp() == password) {
+		if ((**it).getLogin().compare(user)==0 && (**it).getMdp().compare(password)==0) {
 			return true;
 		}
 		++it;
@@ -263,6 +264,10 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
     return results ;
 }
 
+listUser DataSet::getListUsers()
+{
+    return liUser;
+}
 
 
 

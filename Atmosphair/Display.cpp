@@ -30,17 +30,17 @@ using namespace std;
 
 void Display::ShowMenuPrincipal()
 {
-	cout << "--------------------------------------------------------------------";
-	cout << "Bienvenue chez Atmosph'Air!";
-	cout << "Tapez [n] pour choisir une action:";
-	cout << "0-Charger de nouveaux fichiers.";
-	cout << "1-Visualiser les capteur dysfonctionnants.";
-	cout << "2-Inspecter une zone.";
-	cout << "3-Interroger un capteur.";
-	cout << "4-Visualiser les zones a risque.";
-	cout << "5-Visualiser les similarites detectees par notre algorithme";
-	cout << "6-Quitter.";
-	cout << "--------------------------------------------------------------------";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "Bienvenue chez Atmosph'Air!"<<endl;
+	cout << "Tapez [n] pour choisir une action:"<<endl;
+	cout << "0-Charger de nouveaux fichiers."<<endl;
+	cout << "1-Visualiser les capteur dysfonctionnants."<<endl;
+	cout << "2-Inspecter une zone."<<endl;
+	cout << "3-Interroger un capteur."<<endl;
+	cout << "4-Visualiser les zones a risque."<<endl;
+	cout << "5-Visualiser les similarites detectees par notre algorithme"<<endl;
+	cout << "6-Quitter."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
 
 
 
@@ -48,54 +48,60 @@ void Display::ShowMenuPrincipal()
 
 void Display::ShowChargementFichiers()
 {
-	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), separes par des points-virgules et appuyez sur entree.";
-	cout << "Attention : \t- Les donnees precedemment utilisees seront ecrasees";
-	cout << "\t- Seul les fichiers .csv sont autorises.";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), separes par des points-virgules et appuyez sur entree."<<endl;
+	cout << "Attention : "<<endl ;
+	cout <<" \t- Les donnees precedemment utilisees seront ecrasees"<<endl;
+	cout << "\t- Seul les fichiers .csv sont autorises."<<endl;
 	
 }
 
 void Display::ShowMenuInspectionZone()
 {
-	cout << "Que souhaitez-vous savoir sur cette zone?";
-	cout << "1-Indice Atmo dans une journee.";
-	cout << "2-Indice Atmo entre t1 et t2.";
-	cout << "3-Taux moyen de substances dans une journee.";
-	cout << "4-Revenir au menu principal.";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "Que souhaitez-vous savoir sur cette zone?"<<endl;
+	cout << "1-Indice Atmo dans une journee."<<endl;
+	cout << "2-Indice Atmo entre t1 et t2."<<endl;
+	cout << "3-Taux moyen de substances dans une journee."<<endl;
+	cout << "4-Revenir au menu principal."<<endl;
 }
 
 void Display::ShowZoneIndiceAtmoJournee() //sert a pas grand chose
 {
-	cout << "2.1 Indice Atmo dans une journee.";
-	cout << "Veuillez entrer la date souhaitee [yyyy - MM - dd] : ";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "2.1 Indice Atmo dans une journee."<<endl;
+	cout << "Veuillez entrer la date souhaitee [yyyy - MM - dd] : "<<endl;
 	
 }
 
 void Display::ShowMenu3()
 {
-	cout << "3 - Interroger un capteur";
-	cout << "Tapez[n] pour selectionner l'action.";
-	cout << "1 - Afficher la liste des capteurs existants.";
-	cout << "2 - Interroger directement un capteur par son identifiant.";
-	cout << "3 - Retour au menu principal.";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "3 - Interroger un capteur"<<endl;
+	cout << "Tapez[n] pour selectionner l'action."<<endl;
+	cout << "1 - Afficher la liste des capteurs existants."<<endl;
+	cout << "2 - Interroger directement un capteur par son identifiant."<<endl;
+	cout << "3 - Retour au menu principal."<<endl;
 }
 
 void Display::ShowMenu3MessageChoix()
 {
-	cout << "Si vous souhaitez obtenir les valeurs issus d'une période précise,"
-		<< "veuillez preciser une date de debut et une date de fin dans les champs ci-dessous."
-		<< "Sinon, laissez-les vide et tapez entree (return).";
+	cout << "Si vous souhaitez obtenir les valeurs issus d'une période précise," <<endl
+		<< "veuillez preciser une date de debut et une date de fin dans les champs ci-dessous."<<endl
+		<< "Sinon, laissez-les vide et tapez entree (return)."<<endl;
 }
 
 void Display::ShowMenu4()
 {
-	cout << "4-Visualiser les zones a risque.";
-	cout << "Quel facteur souhaitez - vous examiner ?";
-	cout << "1 - Indice ATMO";
-	cout << "2 - Taux de O3";
-	cout << "3 - Taux de SO2";
-	cout << "4 - Taux de NO2";
-	cout << "5 - Taux de PM10";
-	cout << "6 - Revenir au menu principal.";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "4-Visualiser les zones a risque."<<endl;
+	cout << "Quel facteur souhaitez - vous examiner ?"<<endl;
+	cout << "1 - Indice ATMO"<<endl;
+	cout << "2 - Taux de O3"<<endl;
+	cout << "3 - Taux de SO2"<<endl;
+	cout << "4 - Taux de NO2"<<endl;
+	cout << "5 - Taux de PM10"<<endl;
+	cout << "6 - Revenir au menu principal."<<endl;
 
 }
 
@@ -104,19 +110,19 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 	switch (substance)
 	{
 	case 1:
-		cout << "4.1-Indice ATMO";
+		cout << "4.1-Indice ATMO"<<endl;
 		break;
 	case 2: 
-		cout << "2-Taux de O3";
+		cout << "2-Taux de O3"<<endl;
 		break;
 	case 3 :
-		cout << "3-Taux de SO2";
+		cout << "3-Taux de SO2"<<endl;
 		break;
 	case 4 :
-		cout << "4-Taux de NO2";
+		cout << "4-Taux de NO2"<<endl;
 		break;
 	case 5 :
-		cout << "5-Taux de PM10";
+		cout << "5-Taux de PM10"<<endl;
 		break;
 	default:
 		break;

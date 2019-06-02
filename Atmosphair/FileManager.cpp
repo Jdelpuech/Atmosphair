@@ -122,32 +122,32 @@ bool FileManager::openSave(string path, DataSet* dataS)
 			string type;
 
 			getline(f, type, ';');
-			cout << "type :" << type << endl;
+			//cout << "type :" << type << endl;
 
 			string fpath;
 			getline(f, fpath);
-			cout << "path :" << fpath << endl;
+			//cout << "path :" << fpath << endl;
 
 
 			switch (atoi(type.c_str()))
 			{
 			case 0:
-				cout << "ok" << endl;
+				//cout << "ok" << endl;
 				ok = importDataFromFile(dataS, fpath, 0);
 
 				break;
 			case 1:
-				cout << "ok" << endl;
+				//cout << "ok" << endl;
 				ok = importDataFromFile(dataS, fpath, 1);
 
 				break;
 			case 2:
-				cout << "ok" << endl;
+				//cout << "ok" << endl;
 				ok = importDataFromFile(dataS, fpath, 2);
 
 				break;
 			default:
-				cout << "ok" << endl;
+				//cout << "ok" << endl;
 				cout << "invalid type";
 
 				break;
@@ -181,15 +181,15 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				string flush;
 
 				getline(f, id, ';');
-				cout <<"id : "<<id << endl;
+				//cout <<"id : "<<id << endl;
 				getline(f, sLat, ';');
 				lat = stod(sLat);
-				cout << "lat : " << lat << endl;
+				//cout << "lat : " << lat << endl;
 				getline(f, sLon, ';');
 				lon = stod(sLon);
-				cout << "lon : " << lon << endl;
+				//cout << "lon : " << lon << endl;
 				getline(f, descr, ';');
-				cout << "descr : " << descr << endl;
+				//cout << "descr : " << descr << endl;
 				getline(f, flush);
 				Sensor *s = new Sensor(id, lat, lon, descr);
 
@@ -225,19 +225,19 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				getline(f, tmp,';');
 				//fin recuperation temps
 				time_t finalTime = mktime(&timestamp);
-				std::cout << ctime(&finalTime);
+				//std::cout << ctime(&finalTime);
 
 				getline(f, tmp, ';');
 				sensorId = tmp;
-				cout << "sensorId : " << sensorId << endl;
+				//cout << "sensorId : " << sensorId << endl;
 
 				getline(f, tmp, ';');
 				dataTypeId = tmp;
-				cout << "dataTypeId : " << dataTypeId << endl;
+				//cout << "dataTypeId : " << dataTypeId << endl;
 
 				getline(f, tmp, ';');
 				value = stof(tmp);
-				cout << "value : " << value << endl;
+				//cout << "value : " << value << endl;
 
 				getline(f, tmp);
 				
