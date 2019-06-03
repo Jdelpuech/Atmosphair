@@ -59,6 +59,8 @@ int main() {
 	listSensor::iterator it; 
 	listData listeData ; 
 	listData::iterator itData ; 
+	vector<double> resultsGaz ; 
+
 
 
 	ApplicationManager::init(&dataSet, &fm);
@@ -273,7 +275,7 @@ int main() {
 						it_1 = valeurs.begin(); 
 						while (it_1!=valeurs.end()){
 								struct tm format_t1 = *localtime(&date1);
-								cout << "Date : "<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<" | ATMO :"<< (*it_1)<<endl ; 
+								cout << "Date : "<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<" | ATMO : "<< (*it_1)<<endl ; 
 								++it_1; 
 								date1 = myDisplay.incrementDate(date1,date2); 
 
@@ -292,18 +294,30 @@ int main() {
 				case 3 :
 				    cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.3-Taux moyen de substances dans une journée"<<endl;
-					cout << "Veuillez entrer la date souhaitée [yyyy-MM-dd] : "<<endl;
-					cin >> date;
+					cout << "Veuillez entrer la date souhaitée : "<<endl;
+					date1 = myDisplay.getDate();
 					cout << "Veuillez choisir parmis les choix  :  1- O3 |  2- SO2 | 3- NO2 | 4- PM10"<<endl;
 					cout << "Pour visualiser plusieurs taux, veuillez concaténer les chiffres."<<endl;
 					cout << "Exemple : 134"<< endl;
 					cout << "Choix : ";
 					cin >> choix;
 					//Appel a la methode de calcul du taux moyen de chaque substance
+					resultsGaz = dataSet.generateResultGas(liste,date1,choix); 
+					
+					if (resultsGaz[0]!=0){
+						cout << "Taux moyen de O3 dans la journée : "<<resultsGaz[0]<<endl ; 
+					}
+					if (resultsGaz[1]!=0){
+						cout << "Taux moyen de SO2 dans la journée : "<<resultsGaz[1]<<endl ; 
+					}
+					if (resultsGaz[2]!=0){
+						cout << "Taux moyen de NO3 dans la journée : "<<resultsGaz[2]<<endl ; 
+					}
+					if (resultsGaz[3]!=0){
+						cout << "Taux moyen de PM10 dans la journée : "<<resultsGaz[3]<<endl ; 
+					}
 
-					//Taux moyen de [substance] dans la journée : xxx
-
-					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
+					cout << "Appuyez sur q pour revenir à l'inspection de la zone. "<<endl;
 					while (entree != 'q')
 					{
 						cin >> entree;

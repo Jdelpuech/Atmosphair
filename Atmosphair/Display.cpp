@@ -160,10 +160,6 @@ time_t Display::getDate() {
 time_t Display::incrementDate(time_t t1, time_t t2){
 
 	struct tm format_t1 = *localtime(&t1);
-    int day_t1 = format_t1.tm_mday;
-    int month_t1 = format_t1.tm_mon ;
-    int year_t1 = format_t1.tm_year;
-
 	if (difftime(t2,t1)>0){
                if (format_t1.tm_mday!=31)
                  format_t1.tm_mday += 1 ;

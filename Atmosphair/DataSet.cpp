@@ -14,6 +14,7 @@
 #include <iostream>
 #include <ctime>
 #include <math.h>
+#include <vector>
 #include <cmath> 
 using namespace std;
 //--------------------------------------------------------------------- Include personnel
@@ -134,8 +135,8 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 }
 
 //A TESTER 
-list<double> generateResultGas(listSensor l, time_t t, string choix){
-    list<double> results ;
+vector<double> DataSet::generateResultGas(listSensor l, time_t t, string choix){
+    vector<double> results(4) ;
     if (choix.find('1') != string::npos){
         listSensor::iterator it;
         it = l.begin();
@@ -147,9 +148,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[0]= (sum/nbrData); 
         else 
-            results.push_back(0); 
+            results[0]= 0;
     }
     if (choix.find('2') != string::npos){
         listSensor::iterator it;
@@ -162,9 +163,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[1]= (sum/nbrData);
         else 
-            results.push_back(0); 
+            results[1]= 0;
     }
     if (choix.find('3') != string::npos){
         listSensor::iterator it;
@@ -177,9 +178,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[2]= (sum/nbrData);
         else 
-            results.push_back(0); 
+            results[2]= 0;
     }
     if (choix.find('4') != string::npos){
         listSensor::iterator it;
@@ -192,9 +193,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[3]= (sum/nbrData);
         else 
-            results.push_back(0); 
+            results[3]= 0;
     }
 
     return results ; 
@@ -216,9 +217,6 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
     list<int> results ;
     //dates
     struct tm format_t1 = *localtime(&t1);
-    int day_t1 = format_t1.tm_mday;
-    int month_t1 = format_t1.tm_mon ;
-    int year_t1 = format_t1.tm_year;
     
 	listSensor::iterator it;
     it = l.begin();
