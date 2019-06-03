@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "../Atmosphair/DataSet.h"
+#include "../Atmosphair/ApplicationManager.h"
+#include "../Atmosphair/Display.h"
+#include "../Atmosphair/LogManager.h"
 #include <iostream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
