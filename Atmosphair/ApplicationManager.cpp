@@ -352,12 +352,13 @@ int main() {
 			cout << "Veuillez saisir l’ID du capteur souhaité (ex. Sensor9) : "<<endl;
 			cin >> choix;
 			myDisplay.ShowMenu3MessageChoix();
-			cout << "Saisissez une date de début (yyyy-MM-dd) : "<<endl;
+			cout << "Saisissez une date de début. "<<endl;
 			date1 = myDisplay.getDate();
-			cout << "Saisissez une date de fin(yyyy - MM - dd) : "<<endl;
+			cout << "Saisissez une date de fin. "<<endl;
 			date2 = myDisplay.getDate();
 			if (difftime(date1,date2)!=0)
 			{
+				myDisplay.ShowValues(dataSet, date1,date2,*dataSet.getSensorById(choix));
 				//Appel de la méthode d'affichage des données du capteur
 				/* ( format : )
 				======================Données du capteur[xxx] ================================ =
@@ -365,11 +366,11 @@ int main() {
 					[Si période inférieure à une journée : message d’avertissement concernant la                  non - fiabilité des résultats]
 				Latitude : xxx Longitude : xxx
 					Description : xxx
-					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1min : a max : b
+					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1 min : a max : b
 					10 derniers taux de O3 : [n1 | … | n10]   --->moyenne : m2 min : a max : b
-					10 derniers taux de SO2 : [n1 | … | n10]  --->moyenne : m3min : a max : b
-					10 derniers taux de NO2 : [n1 | … | n10]  --->moyenne : m4min : a max : b
-					10 derniers taux de PM10 : [n1 | … | n10]  --->moyenne : m5min : a max : b
+					10 derniers taux de SO2 : [n1 | … | n10]  --->moyenne : m3 min : a max : b
+					10 derniers taux de NO2 : [n1 | … | n10]  --->moyenne : m4 min : a max : b
+					10 derniers taux de PM10 : [n1 | … | n10]  --->moyenne : m5 min : a max : b
 				===============================================================================
 				*/
 

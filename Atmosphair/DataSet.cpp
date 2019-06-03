@@ -26,20 +26,71 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- M�thodes publiques
 
-std::list<Data*> DataSet::generateDataSensor(string id, time_t t1, time_t t2)
+std::list<Data*> DataSet::generateDataSensor(Sensor s, time_t t1, time_t t2)
 {
-	Sensor* s = getSensorById(id);
+	//Sensor* s = getSensorById(id);
 	list<Data*> result;
+    list<Data*> all = s.getData(); 
 	listData::iterator it;
-	it = s->getData().begin();
-
-	while (it != s->getData().end()) {
+	it = all.begin(); 
+	while (it != all.end()) {
 		if ((difftime(t1, (**it).getTimeStamp()) <= 0) && (difftime(t2, (**it).getTimeStamp()) >= 0)) {
 			result.push_back(*it);
 		}
 		++it;
 	}
 	return result;
+}
+std::vector<double> DataSet::generateResultGas(Sensor s, time_t t1,time_t t2){
+    vector<double> resultats ; 
+    list<Data*> dataGas = generateDataSensor(s,t1,t2); 
+    int NO2[10] ={0}; 
+    int O3[10]={0};
+    int PM10[10]={0};
+    int SO2[10]={0} ; 
+    int nbrNO2 = 0 ; 
+    int nbrO3 = 0 ; 
+    int nbrPM10 = 0 ; 
+    int nbrSO2 = 0 ; 
+    std::list<Data*>::const_reverse_iterator it; 
+    for (it = dataGas.rbegin(); it != dataGas.rend(); ++it){
+        if (nbrSO2!=10 && ((**it).getDataTypeId().compare("SO2")==0)){
+            cout<<"1"<<endl ; 
+            SO2[nbrSO2]=(**it).getValue(); 
+            nbrSO2++; 
+        }
+        if (nbrO3!=10 && ((**it).getDataTypeId().compare("O3")==0)){
+            cout<<"1"<<endl ; 
+            O3[nbrO3]=(**it).getValue();
+            nbrO3++;  
+        }
+        if (nbrNO2!=10 && ((**it).getDataTypeId().compare("NO2")==0)){
+            cout<<"1"<<endl ; 
+            NO2[nbrNO2]=(**it).getValue(); 
+            nbrNO2++; 
+        }
+        if (nbrPM10!=10 && ((**it).getDataTypeId().compare("PM10")==0)){
+            cout<<"1"<<endl ; 
+            PM10[nbrPM10]=(**it).getValue(); 
+            nbrPM10++; 
+        }
+    }
+
+    for (int i=0 ; i<10 ; i++){
+        cout<<i<< endl ;
+        resultats[i]=SO2[i]; 
+    }
+    for (int i=10 ; i<20 ; i++){
+        resultats[i]=O3[i]; 
+    }
+    for (int i=20 ; i<30 ; i++){
+        resultats[i]=NO2[i]; 
+    }
+    for (int i=30 ; i<40 ; i++){
+        resultats[i]=PM10[i]; 
+    }
+    cout << "FIN"<< endl ; 
+    return resultats; 
 }
 
 listSensor DataSet::getListDysfonctionningSensors()
@@ -75,7 +126,7 @@ Sensor* DataSet::getSensorById(string id) {
     Sensor * res = nullptr;
     listSensor::iterator it = liSensor.begin();
     while (it != liSensor.end()) {
-        if ((**it).getSensorID()==id){
+        if ((**it).getSensorID().compare(id)==0){
             res =*it;
         }
         

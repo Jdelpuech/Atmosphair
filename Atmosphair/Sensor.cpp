@@ -316,7 +316,7 @@ bool Sensor::getDysfonctionning(){
 
 string Sensor::toString()
 {
-	return string(sensorID +";"+ to_string(lon) +";"+ to_string(lat) + ";"+description + ";"+to_string(dysfonctionning));
+	return string(sensorID +" | "+ to_string(lon) +" | "+ to_string(lat) + " | "+description) ;
 }
 
 void Sensor::dropData() {

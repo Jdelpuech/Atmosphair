@@ -78,8 +78,12 @@ public:
 	std::vector<double> generateResultGas(listSensor l, time_t t, string choix);
     // Mode d'emploi : renvoie un vecteur des resultats des moyennes demandees par l'utilisateur
     // Contrat : aucun
+
+    std::vector<double> generateResultGas(Sensor s, time_t t1,time_t t2); 
+    //Mode d'emploi : renvoie un vecteur des resultats des moyennes de tous les gaz. 
+    //Contrat : aucun 
     
-	std::list<Data*> generateDataSensor(std::string id, time_t t1, time_t t2);
+	std::list<Data*> generateDataSensor(Sensor s, time_t t1, time_t t2);
     // Mode d'emploi : renvoie toutes les donnees brutes entre t1 et t2 du capteur d'identifiant
     //id. 
     // Contrat : aucun

@@ -57,7 +57,7 @@ public:
 
 	void ShowMenu3();
 
-	void ShowValues(DataSet d); 
+	void ShowValues(DataSet d,time_t t1, time_t t2,Sensor s); 
 
 	void ShowMenu3MessageChoix();
 

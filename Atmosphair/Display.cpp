@@ -12,10 +12,13 @@
 
 //-------------------------------------------------------- Include syst�me
 #include <iostream>
+#include <vector>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Display.h"
+#include "Sensor.h"
+
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
@@ -44,8 +47,113 @@ void Display::ShowMenuPrincipal()
 
 
 }
-void Display::ShowValues(DataSet d){
+void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor s){
+	struct tm format_t1 = *localtime(&t1);
+	struct tm format_t2 = *localtime(&t2);
+	cout <<"======================Données du capteur[xxx] ================================="<<endl ; 
+	cout <<"Statistiques correspondant à la période "<<format_t1.tm_mday<<"-"<<format_t1.tm_mon+1<<"-"
+	<<format_t1.tm_year+1900<<" a "<<format_t2.tm_mday<<"-"<<format_t2.tm_mon+1<<"-"
+	<<format_t2.tm_year+1900<<endl ; 
+	cout<<s.toString() <<endl ; 
+  list<Sensor*> liste ; 
+	liste.push_back(&s); 
+	list<int> valeurs = d.generateResultAtmo(liste,t1,t2); 
+	if (valeurs.size()<10){
+		cout<<valeurs.size()<<" derniers indices ATMO : ["; 
+	}
+	else {
+		cout<<"10 derniers indices ATMO : ["; 
+	}
+  list<int>::iterator it ; 
+	it = valeurs.begin(); 
+	int moyenne = 0 ; 
+	int nbr = 0 ; 
+	int max = -1 ; 
+	int min = 11 ; 
+	while (it!=valeurs.end()){
+		cout<<(*it)<<(it++==valeurs.end() ? "|" : "") ; 
+		it-- ; 
+		if ((*it)<min){
+			min = (*it);
+		}
+		if ((*it)>max){
+			max = (*it); 
+		}
+		moyenne += (*it); 
+		nbr++; 
+		it++; 
+	}
+	cout<<"] -> moyenne : "<< moyenne/valeurs.size() <<" min : "<< min <<" max : "<< max << endl ; 
+
+	vector<double> values = d.generateResultGas(s,t1,t2); 
+  
+	cout <<" here "<< endl ; 
+
+	 int moyS = 0 ; 
+    int moyP = 0 ; 
+    int moyO = 0 ; 
+    int moyN = 0 ; 
+
+    for (int i=0 ; i<10 ; i++){
+			if (values[i]!=0){
+        moyS+=values[i]; 
+			}
+    }
+    for (int i=10 ; i<20 ; i++){
+			if (values[i]!=0)
+        moyO=values[i]; 
+    }
+    for (int i=20 ; i<30 ; i++){
+			if (values[i]!=0)
+        moyN=values[i]; 
+    }
+    for (int i=30 ; i<40 ; i++){
+			if (values[i]!=0)
+        moyP=values[i]; 
+    }
+
+    moyS=moyS/10 ; 
+    moyP=moyP/10 ;
+    moyO=moyO/10 ; 
+    moyN=moyN/10 ;
+    
+		if (values.size()<10){
+		cout<<values.size()<<" derniers indices SO2 : ["; 
+		}
+		else {
+			cout<<"10 derniers indices SO2 : ["; 
+		}
+    double minV = 1000 ; 
+		double maxV = -1 ; 
+		for (int i=0 ; i<10 ;i++){
+			if (values[i]!=0){
+				cout << values[i] ; 
+				if (values[i]<min)
+				  min = values[i]; 
+				if (values[i]>max){
+					max = values[i]; 
+				}
+
+			}
+			if (values[i+1]!=0){
+				cout << "|"; 
+			}
+			cout <<"] -> moyenne : "<<moyS <<" min : "<<min<<" max : "<<max ; 
+		}
 	
+
+	/* ( format : )
+				======================Données du capteur[xxx] =================================
+					
+				Latitude : xxx Longitude : xxx
+					Description : xxx
+					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1 min : a max : b
+					10 derniers taux de O3 : [n1 | … | n10]   --->moyenne : m2 min : a max : b
+					10 derniers taux de SO2 : [n1 | … | n10]  --->moyenne : m3 min : a max : b
+					10 derniers taux de NO2 : [n1 | … | n10]  --->moyenne : m4 min : a max : b
+					10 derniers taux de PM10 : [n1 | … | n10]  --->moyenne : m5 min : a max : b
+				===============================================================================
+				*/
 }
 
 void Display::ShowChargementFichiers()
