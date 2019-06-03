@@ -41,6 +41,7 @@ public:
 	bool importDataFromFile(DataSet* dataS, std::string path, int type);
 	bool openSave(DataSet* dataS);
 	bool save(std::string path, int type);
+	string getSaveFile();
 
 	//------------------------------------------------------------------------------ PRIVE
 private:

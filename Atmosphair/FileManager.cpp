@@ -44,6 +44,7 @@ bool FileManager::save(string path, int type)
 			}
 		}
 	}
+	
 
 	/*reouvre et ecrit les bonnes lignes*/
 	ofstream o(savePath.c_str(),ios::trunc);
@@ -54,8 +55,14 @@ bool FileManager::save(string path, int type)
 		o << complete2;
 		o.close();
 	}
+
 			
 	return ok;
+}
+
+string FileManager::getSaveFile()
+{
+	return savePath;
 }
 
 

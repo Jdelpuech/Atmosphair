@@ -11,11 +11,13 @@
 //---------------------------------------------------------------- Interfaces utilis�es
 #include <ctime>
 #include <list>
+#include <vector>
 class Sensor;
 class Data;
 class DataType;
 class User;
 
+#define _CRT_SECURE_NO_WARNINGS
 using namespace std ; 
 //------------------------------------------------------------------ Types
 typedef std::list<User*> listUser;
@@ -65,25 +67,25 @@ public:
     //geographique se defissant par un point (centre) et un rayon (en km).
     // Contrat : aucun
     
-    std::list<int> generateResultAtmo(listSensor l, time_t t);
+    list<int> generateResultAtmo(listSensor l, time_t t);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l a la date t.
     // Contrat : aucun
     
-	std::list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2);
+	list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l, moyennes des indices entre les dates t1 et t2.
     // Contrat : aucun
     
-	std::vector<double> generateResultGas(listSensor l, time_t t, string choix);
+	vector<double> generateResultGas(listSensor l, time_t t, string choix);
     // Mode d'emploi : renvoie un vecteur des resultats des moyennes demandees par l'utilisateur
     // Contrat : aucun
 
-    std::vector<double> generateResultGas(Sensor s, time_t t1,time_t t2); 
+    vector<double> generateResultGas(Sensor s, time_t t1,time_t t2); 
     //Mode d'emploi : renvoie un vecteur des resultats des moyennes de tous les gaz. 
     //Contrat : aucun 
     
-	std::list<Data*> generateDataSensor(Sensor s, time_t t1, time_t t2);
+	list<Data*> generateDataSensor(Sensor s, time_t t1, time_t t2);
     // Mode d'emploi : renvoie toutes les donnees brutes entre t1 et t2 du capteur d'identifiant
     //id. 
     // Contrat : aucun
