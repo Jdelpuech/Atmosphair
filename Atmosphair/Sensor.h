@@ -32,7 +32,9 @@ public:
     //dans notre livrable.
     // Contrat : aucun
 
-    double calculateMoyenneGaz(time_t t, string type); 
+    float calculateMoyenneGaz(time_t t, string type);
+	float calculateMoyenneGaz(time_t t1, time_t t2, string type);
+
     //Mode d'emploi : calcule la moyenne du gaz de type type a la date t.
     //contrat : aucun 
 
@@ -56,11 +58,11 @@ public:
     // Mode d'emploi : renvoie l'identifiant du capteur.
     // Contrat : aucun
     
-    double getLongitude();
+    float getLongitude();
     // Mode d'emploi : renvoie la longitude du capteur.
     // Contrat : aucun
     
-    double getLatitude();
+    float getLatitude();
     // Mode d'emploi : renvoie la latitude du capteur.
     // Contrat : aucun
     
@@ -79,7 +81,7 @@ public:
     //---------------------------------------------------- Constructeurs - destructeur
     Sensor () {} ; 
     // Mode d'emploi : constructeur par défaut
-    Sensor (string sensorID, double lat, double lon, std::string description);
+    Sensor (string sensorID, float lat, float lon, std::string description);
     // Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
     //décrivant les capteurs, le constructeur permet de modéliser ce dernier à travers
     //la construction d'un objet Sensor.
@@ -100,8 +102,8 @@ protected:
     
     //------------------------------------------------------------ Attributs protégés
     string sensorID ;
-    double lon ;
-    double lat ;
+    float lon ;
+    float lat ;
     std::string description ;
     bool dysfonctionning ;
 	listData data; 

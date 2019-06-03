@@ -123,9 +123,9 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				{
 					string id;
 					string sLat;
-					double lat;
+					float lat;
 					string sLon;
-					double lon;
+					float lon;
 					string descr;
 					string flush;
 
@@ -144,7 +144,6 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 
 					/*ajout au dataset*/
 					dataS->addSensor(s);
-
 					ok = true;
 				}
 			}
@@ -160,7 +159,7 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 					struct tm timestamp;
 					string sensorId;/*sensorID*/
 					string dataTypeId;/*attributeID*/
-					double value;/*value*/
+					float value;/*value*/
 					string tmp;
 
 					//debut recuperation temps

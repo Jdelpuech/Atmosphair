@@ -1,7 +1,7 @@
 /*************************************************************************
 						   Display  -  description
 							 -------------------
-	d�but                : $DATE$
+	debut                : $DATE$
 	copyright            : (C) $YEAR$ par $AUTHOR$
 	e-mail               : $EMAIL$
 *************************************************************************/
@@ -10,7 +10,7 @@
 #if ! defined ( Display_H )
 #define Display_H
 
-//--------------------------------------------------- Interfaces utilis�es
+//--------------------------------------------------- Interfaces utilisees
 #include <ctime>
 #include "DataSet.h"
 //------------------------------------------------------------- Constantes
@@ -18,7 +18,7 @@
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// R�le de la classe <Display>
+// Rele de la classe <Display>
 //
 //
 //------------------------------------------------------------------------
@@ -28,8 +28,8 @@ class Display
 	//----------------------------------------------------------------- PUBLIC
 
 public:
-	//----------------------------------------------------- M�thodes publiques
-		// type M�thode ( liste des param�tres );
+	//----------------------------------------------------- Methodes publiques
+		// type Methode ( liste des parametres );
 		// Mode d'emploi :
 		//
 		// Contrat :
@@ -57,7 +57,7 @@ public:
 
 	void ShowMenu3();
 
-	void ShowValues(DataSet d,time_t t1, time_t t2,Sensor s); 
+	void ShowValues(DataSet d,time_t t1, time_t t2,Sensor * s); 
 
 	void ShowMenu3MessageChoix();
 
@@ -71,7 +71,7 @@ public:
 
 	time_t getDate();
 
-	//------------------------------------------------- Surcharge d'op�rateurs
+	//------------------------------------------------- Surcharge d'operateurs
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -96,13 +96,13 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-	//----------------------------------------------------- M�thodes prot�g�es
+	//----------------------------------------------------- Methodes protegees
 
-	//----------------------------------------------------- Attributs prot�g�s
+	//----------------------------------------------------- Attributs proteges
 
 };
 
-//-------------------------------- Autres d�finitions d�pendantes de <Display>
+//-------------------------------- Autres definitions dependantes de <Display>
 
 #endif // Display_H
 
