@@ -1,38 +1,36 @@
 /**************************************************************************************
- Data  -  Réalisation
+ DataType  -  RŽalisation
  -------------------
  début                : 20/11/2018
  copyright            : (C)2018 par Atmosph'Air
 
  ***************************************************************************************/
 
- //------------------ Réalisation de la classe <Data> (fichier Data.cpp) ------------
+ //------------------ RŽalisation de la classe <DataType> (fichier DataType.cpp) ------------
 
  //------------------------------------------------------------------------------ INCLUDE
  //---------------------------------------------------------------------- Include système
 #include <iostream>
 using namespace std;
+
 //--------------------------------------------------------------------- Include personnel
-#include "Data.h"
-#include "Sensor.h"
 #include "DataType.h"
+#include "Sensor.h"
 //-------------------------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------------- Constructeurs - destructeur
 
- string Data::toString()
+ string DataType::toString()
  {
-	 string time = ctime(&timestamp);
-	 return string(time + ";" + to_string(value) +";"+ sensorId +";"+ dataTypeId);
+	 return string(attributeId+";"+unit + ";" + description);
  }
 
-Data::Data(time_t timestamp, double value, string sensorId, string dataTypeId) {
-	this->timestamp = timestamp;
-	this->value = value;
-	this->sensorId = sensorId;
-	this->dataTypeId = dataTypeId;
+ DataType::DataType(string attributeId, string unit, string description) {
+	this->attributeId = attributeId;
+	this->unit = unit;
+	this->description = description;
 }
 
-Data::~Data() {
+DataType::~DataType() {
 
 }

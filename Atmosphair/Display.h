@@ -1,7 +1,7 @@
 /*************************************************************************
 						   Display  -  description
 							 -------------------
-	début                : $DATE$
+	dï¿½but                : $DATE$
 	copyright            : (C) $YEAR$ par $AUTHOR$
 	e-mail               : $EMAIL$
 *************************************************************************/
@@ -10,14 +10,14 @@
 #if ! defined ( Display_H )
 #define Display_H
 
-//--------------------------------------------------- Interfaces utilisées
-
+//--------------------------------------------------- Interfaces utilisï¿½es
+#include <ctime>
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
-// Rôle de la classe <Display>
+// Rï¿½le de la classe <Display>
 //
 //
 //------------------------------------------------------------------------
@@ -27,39 +27,48 @@ class Display
 	//----------------------------------------------------------------- PUBLIC
 
 public:
-	//----------------------------------------------------- Méthodes publiques
-		// type Méthode ( liste des paramètres );
+	//----------------------------------------------------- Mï¿½thodes publiques
+		// type Mï¿½thode ( liste des paramï¿½tres );
 		// Mode d'emploi :
 		//
 		// Contrat :
 		//
-
-	void AfficherMenuPrincipal();
+	
+	void ShowMenuPrincipal();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	void AfficherChargementFichiers();
+	void ShowChargementFichiers();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
-	void AfficherMenuInspectionZone();
+	void ShowMenu2();
 	// Mode d'emploi :
 	//
 	// Contrat :
 	//
 
+	void ShowZoneIndiceAtmoJournee(); //peut etre pas trop utile
 
+	void ShowMenu3();
 
-	//------------------------------------------------- Surcharge d'opérateurs
-	Display & operator = (const Display & unDisplay);
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
+	void ShowMenu3MessageChoix();
+
+	void ShowMenu4();
+
+	void ShowMenuInspectionZone(); 
+
+	void ShowMenu4SelectionSeuil(int substance);
+
+	time_t incrementDate(time_t t1, time_t t2);
+
+	time_t getDate();
+
+	//------------------------------------------------- Surcharge d'opï¿½rateurs
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -84,13 +93,13 @@ public:
 //------------------------------------------------------------------ PRIVE
 
 protected:
-	//----------------------------------------------------- Méthodes protégées
+	//----------------------------------------------------- Mï¿½thodes protï¿½gï¿½es
 
-	//----------------------------------------------------- Attributs protégés
+	//----------------------------------------------------- Attributs protï¿½gï¿½s
 
 };
 
-//-------------------------------- Autres définitions dépendantes de <Display>
+//-------------------------------- Autres dï¿½finitions dï¿½pendantes de <Display>
 
 #endif // Display_H
 

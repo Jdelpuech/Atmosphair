@@ -1,76 +1,184 @@
 /*************************************************************************
 						   Display  -  description
 							 -------------------
-	début                : $DATE$
+	dï¿½but                : $DATE$
 	copyright            : (C) $YEAR$ par $AUTHOR$
 	e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- Réalisation de la classe <Display> (fichier Display.cpp) ------------
+//---------- Rï¿½alisation de la classe <Display> (fichier Display.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systï¿½me
 #include <iostream>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Display.h"
-
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
-//----------------------------------------------------- Méthodes publiques
-// type Display::Méthode ( liste des paramètres )
+//----------------------------------------------------- Mï¿½thodes publiques
+// type Display::Mï¿½thode ( liste des paramï¿½tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de Mï¿½thode
 
-void AfficherMenuPrincipal()
+void Display::ShowMenuPrincipal()
 {
-	cout << "--------------------------------------------------------------------";
-	cout << "Bienvenue chez Atmosph’Air!";
-	cout << "Tapez [n] pour choisir une action:";
-	cout << "0-Charger de nouveaux fichiers.";
-	cout << "1-Visualiser les capteur dysfonctionnants.";
-	cout << "2-Inspecter une zone.";
-	cout << "3-Interroger un capteur.";
-	cout << "4-Visualiser les zones à risque.";
-	cout << "5-Visualiser les similarités détectées par notre algorithme";
-	cout << "6-Quitter.";
-	cout << "--------------------------------------------------------------------";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "Bienvenue chez Atmosph'Air!"<<endl;
+	cout << "Tapez [n] pour choisir une action:"<<endl;
+	cout << "0-Charger de nouveaux fichiers."<<endl;
+	cout << "1-Visualiser les capteur dysfonctionnants."<<endl;
+	cout << "2-Inspecter une zone."<<endl;
+	cout << "3-Interroger un capteur."<<endl;
+	cout << "4-Visualiser les zones a risque."<<endl;
+	cout << "5-Visualiser les similarites detectees par notre algorithme"<<endl;
+	cout << "6-Quitter."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
 
 
 
 }
 
-void AfficherChargementFichiers() 
+void Display::ShowChargementFichiers()
 {
-	cout << "Quels fichiers souhaitez-vous qu’Atmosph’Air utilise? Rentrez leurs noms (extension incluse), séparés par des points-virgules et appuyez sur entrée.";
-	cout << "Attention : \t- Les données précédemment utilisées seront écrasées";
-	cout << "\t- Seul les fichiers .csv sont autorisés.";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), rentrer 0 pour ne pas modifier le chemin, et appuyez sur entree."<<endl;
+	cout << "Attention : "<<endl ;
+	cout <<" \t- Les donnees precedemment utilisees seront ecrasees"<<endl;
+	cout << "\t- Seul les fichiers au format csv sont autorises."<<endl;
 	
 }
 
-void AfficherMenuInspectionZone()
+void Display::ShowMenuInspectionZone()
 {
-	cout << "Que souhaitez-vous savoir sur cette zone?";
-	cout << "1-Indice Atmo dans une journée.";
-	cout << "2-Indice Atmo entre t1 et t2.";
-	cout << "3-Taux moyen de substances dans une journée.";
-	cout << "4-Revenir au menu principal.";
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "Que souhaitez-vous savoir sur cette zone?"<<endl;
+	cout << "1-Indice Atmo dans une journee."<<endl;
+	cout << "2-Indice Atmo entre t1 et t2."<<endl;
+	cout << "3-Taux moyen de substances dans une journee."<<endl;
+	cout << "4-Revenir au menu principal."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "choix : "; 
 }
 
-
-//------------------------------------------------- Surcharge d'opérateurs
-Display & Display::operator = (const Display & unDisplay)
-// Algorithme :
-//
+void Display::ShowZoneIndiceAtmoJournee() //sert a pas grand chose
 {
-} //----- Fin de operator =
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "2.1 Indice Atmo dans une journee."<<endl;
+	cout << "Veuillez entrer la date souhaitee [yyyy - MM - dd] : "<<endl;
+	
+}
 
+void Display::ShowMenu3()
+{
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "3 - Interroger un capteur"<<endl;
+	cout << "Tapez[n] pour selectionner l'action."<<endl;
+	cout << "1 - Afficher la liste des capteurs existants."<<endl;
+	cout << "2 - Interroger directement un capteur par son identifiant."<<endl;
+	cout << "3 - Retour au menu principal."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "choix : "; 
+}
+
+void Display::ShowMenu3MessageChoix()
+{
+	cout << "Si vous souhaitez obtenir les valeurs issus d'une pÃ©riode prÃ©cise," <<endl
+		<< "veuillez preciser une date de debut et une date de fin dans les champs ci-dessous."<<endl
+		<< "Sinon, laissez-les vide et tapez entree (return)."<<endl;
+}
+
+void Display::ShowMenu4()
+{
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "4-Visualiser les zones a risque."<<endl;
+	cout << "Quel facteur souhaitez - vous examiner ?"<<endl;
+	cout << "1 - Indice ATMO"<<endl;
+	cout << "2 - Taux de O3"<<endl;
+	cout << "3 - Taux de SO2"<<endl;
+	cout << "4 - Taux de NO2"<<endl;
+	cout << "5 - Taux de PM10"<<endl;
+	cout << "6 - Revenir au menu principal."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "choix : " ; 
+
+}
+
+void Display::ShowMenu4SelectionSeuil(int substance)
+{
+	switch (substance)
+	{
+	case 1:
+		cout << "4.1-Indice ATMO"<<endl;
+		break;
+	case 2: 
+		cout << "2-Taux de O3"<<endl;
+		break;
+	case 3 :
+		cout << "3-Taux de SO2"<<endl;
+		break;
+	case 4 :
+		cout << "4-Taux de NO2"<<endl;
+		break;
+	case 5 :
+		cout << "5-Taux de PM10"<<endl;
+		break;
+	default:
+		break;
+	}
+	cout<< "Veuillez entrer la valeur seuil souhaitee pour le facteur semalectionne :";
+}
+
+time_t Display::getDate() {
+	struct tm date;
+	unsigned int tmp;
+	cout << "Entrer l'annÃ©e souhaitÃ©e : ";
+	cin >> tmp;
+	date.tm_year = tmp - 1900;
+
+	cout << "Entrer le mois souhaitÃ©e : ";
+	cin >> tmp;
+	date.tm_mon = tmp - 1 ;
+
+	cout << "Entrer le jour souhaitÃ©e : ";
+	cin >> tmp;
+	date.tm_mday = tmp;
+
+	date.tm_hour = 0;
+	date.tm_min = 0;
+	date.tm_sec = 0;
+	time_t temps = mktime(&date);
+	return temps;
+}
+
+time_t Display::incrementDate(time_t t1, time_t t2){
+
+	struct tm format_t1 = *localtime(&t1);
+	if (difftime(t2,t1)>0){
+               if (format_t1.tm_mday!=31)
+                 format_t1.tm_mday += 1 ;
+               else {
+                   format_t1.tm_mday = 0 ;
+                   if (format_t1.tm_mon!=11){
+                      format_t1.tm_mon += 1;
+                   }
+                   else {
+                       format_t1.tm_mon = 0 ;
+                       format_t1.tm_year +=1;
+                   }
+            }
+            t1 = mktime(&format_t1); 
+        }
+	return t1; 
+
+}
+//------------------------------------------------- Surcharge d'opï¿½rateurs
 
 //-------------------------------------------- Constructeurs - destructeur
 Display::Display(const Display & unDisplay)
@@ -105,5 +213,5 @@ Display::~Display()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Mï¿½thodes protï¿½gï¿½es
 

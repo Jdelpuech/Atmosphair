@@ -1,46 +1,36 @@
 /**************************************************************************************
- FileManager  -  Interface
+ LogManager  -  Interface
  -------------------
  début                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
- //- Interface de la classe <FileManager> (fichier FileManager.h) ---------
-#if !defined ( FileManager_H )
-#define FileManager_H
+ //- Interface de la classe <LogManager> (fichier LogManager.h) ---------
+#if !defined ( LogManager_H )
+#define LogManager_H
 //---------------------------------------------------------------- Interfaces utilisées
-
 #include <string>
-#include <time.h>
-#include <iostream>
 #include <fstream>
-#include "DataSet.h"
-#include "DataType.h"
-#include "Data.h"
-#include "Sensor.h"
-
+using namespace std;
+class User;
 //-------------------------------------------------------------------------------------
-// Rôle de la classe <FileManager>
+// Rôle de la classe <LogManager>
 /*
  */
  //-------------------------------------------------------------------------------------
-class FileManager
+class LogManager
 {
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
 	//------------------------------------------------------------------ Méthodes publiques
-
+	void writeLog(std::string logtxt);
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	FileManager();
-	virtual ~FileManager(); 
+	LogManager(User * u);
+	virtual ~LogManager();
 	// Mode d'emploi : aucun
-    // Contrat : aucun
-
-	bool importDataFromFile(DataSet* dataS, std::string path, int type);
-	bool openSave(DataSet* dataS);
-	bool save(std::string path, int type);
+	// Contrat : aucun
 
 	//------------------------------------------------------------------------------ PRIVE
 private:
@@ -49,11 +39,15 @@ private:
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
 	//------------------------------------------------------------ Méthodes protégées
-	std::string const savePath="sauvegardes.txt";
-
+	std::string const logPath = "atmoLog.log";
+	std::ofstream logFile;
+	User * user;
 	//------------------------------------------------------------ Attributs protégés
 
 };
-#endif // FileManager_H
+
+
+
+#endif // LogManager_H
 
 
