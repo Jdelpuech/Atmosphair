@@ -179,6 +179,7 @@ int main() {
 			// Inspection d'une zone
 			valid = false  ; 
 			while (!valid){
+				cout << "--------------------------------------------------------------------"<<endl;
 				cout << "2-Inspecter une zone."<<endl;
 				cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS  "<<endl;
 				cout << "et d'un rayon. " ;
@@ -210,6 +211,7 @@ int main() {
 				{
 				case 1:
 					//la date est demandée à l'utilisateur
+					cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.1 Indice Atmo dans une journée."<<endl;
 					cout << "Veuillez entrer la date souhaitée. "<<endl;
 					date1 = myDisplay.getDate();
@@ -234,6 +236,7 @@ int main() {
 					entree = 'a';
 					break;
 				case 2:
+				    cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.2-Indice Atmo moyen entre t1 et t2."<<endl;
 					cout << "Veuillez entrer la premiere date. "<<endl;
 					//recuperation des 2 dates
@@ -267,21 +270,14 @@ int main() {
 					}
 					if (choix == "oui")
 					{
-						it = liste.begin(); 
-						while (it!=liste.end()){
-							listeData = dataSet.generateDataSensor((**it).getSensorID(),date1,date2);
-							itData = listeData.begin(); 
-							while (itData!=listeData.end()){
-								time_t t = (**itData).getTimeStamp() ; 
-								struct tm format_t1 = *localtime(&t);
-								cout << "Date :"<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<"ATMO :"<< endl ; 
-							}
-							
-						}
-						//Appel au calcul de l'indice ATMO pour chaque jour compris dans l'intervalle
-						//Format :
-						//Date : yyyy-MM-dd ATMO:X
+						it_1 = valeurs.begin(); 
+						while (it_1!=valeurs.end()){
+								struct tm format_t1 = *localtime(&date1);
+								cout << "Date : "<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<" | ATMO :"<< (*it_1)<<endl ; 
+								++it_1; 
+								date1 = myDisplay.incrementDate(date1,date2); 
 
+							}
 
 					}
 					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
@@ -294,6 +290,7 @@ int main() {
 					break;
 
 				case 3 :
+				    cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.3-Taux moyen de substances dans une journée"<<endl;
 					cout << "Veuillez entrer la date souhaitée [yyyy-MM-dd] : "<<endl;
 					cin >> date;
