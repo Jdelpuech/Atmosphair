@@ -64,6 +64,8 @@ public:
 
 	void ShowMenu4SelectionSeuil(int substance);
 
+	time_t incrementDate(time_t t1, time_t t2);
+
 	time_t getDate();
 
 	//------------------------------------------------- Surcharge d'op�rateurs

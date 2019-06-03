@@ -41,16 +41,27 @@ int main() {
 	FileManager fm;
 	User * user=nullptr;
 	Display myDisplay;
-	char choice ; 
+	char choice, back; 
 	int selFonction;
 	string login, pwd;
 	string fileSensor, fileMeasure, fileLinks;
-	string inspectionZone, date, choix;
-	int intTmp;
+	string date, choix;
+	string lat,lon,r; 
+	list<int> valeurs ;
+	int moyenne, nbr ; 
+	list<int>::iterator it_1; 
+	double latitude,longitude,rayon; 
 	time_t date1, date2;
 	char entree = 'a';
 	bool connection = false ;
 	regex patternCSV(".*\\.csv$");
+	listSensor liste ; 
+	listSensor::iterator it; 
+	listData listeData ; 
+	listData::iterator itData ; 
+	vector<double> resultsGaz ; 
+
+
 
 	ApplicationManager::init(&dataSet, &fm);
 
@@ -140,49 +151,118 @@ int main() {
 			break;
 		case 1:
 			// Affichage des capteurs disfonctionnants : appel de la méthode correspondante
+			liste = dataSet.getListDysfonctionningSensors(); 
+			it = liste.begin(); 
+			cout << "--------------------------------------------------------------------"<<endl;
+			while(it!=liste.end()){
+				cout <<"IDCapteur : "<<(**it).getSensorID()<<" | Dysfonctionnement : "; 
+				if ((**it).dysfonction()==1){
+					cout<<"période d'échantillonage dépassée"; 
+				}else if ((**it).dysfonction()==2){
+					cout<<"Données incohérentes"; 
+				}else if ((**it).dysfonction()==3){
+					cout<<"Données manquantes";
+				}
+				cout << endl ; 
+				++it ; 
+			}
 
-
+			while (back!='q'){
+				cout << "Appuyez sur q pour revenir au menu principal."<<endl ; 
+				cin >> back ; 
+				if (back!='q'){
+					cout << "Attention, cette entrée ne correspond a aucune action"<<endl; 
+				}
+			}
 			break;
 		case 2:
+		while (selFonction != 4)
+			{
 			// Inspection d'une zone
-			cout << "2-Inspecter une zone."<<endl;
-			cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS : "<<endl;
-			cout << "Lattitude : ";
-			cin >> inspectionZone;
+			valid = false  ; 
+			while (!valid){
+				cout << "--------------------------------------------------------------------"<<endl;
+				cout << "2-Inspecter une zone."<<endl;
+				cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS  "<<endl;
+				cout << "et d'un rayon. " ;
+				cout<< endl ; 
+				cout <<"Latitude : " ; 
+				cin >> lat ; 
+				cout<<"Longitude : "; 
+				cin >> lon ; 
+				cout <<"Rayon (km) :"; 
+				cin >> r ; 
 
-
+				try{
+					latitude = stod(lat);
+					longitude = stod(lon); 
+					rayon = stod(r); 
+					valid = true ; 
+				}catch(const std::invalid_argument){ 
+        			cerr << "argument invalide : reessayez" << "\n"; 
+				}
+			}
+     
+			liste = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
 			myDisplay.ShowMenuInspectionZone();
 			cin >> selFonction;
 			//on a selectionné l'action que l'on souhaite effectuer sur la zone
 			//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
-			while (selFonction != 4)
-			{
+			
 				switch (selFonction)
 				{
 				case 1:
 					//la date est demandée à l'utilisateur
-					//myDisplay.ShowZoneIndiceAtmoJournee(); //peut etre pas utile pour 2 lignes
+					cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.1 Indice Atmo dans une journée."<<endl;
-					cout << "Veuillez entrer la date souhaitée :"<<endl;
+					cout << "Veuillez entrer la date souhaitée. "<<endl;
 					date1 = myDisplay.getDate();
-
+					valeurs = dataSet.generateResultAtmo(liste,date1) ; 
+                    it_1 = valeurs.begin() ; 
+                    moyenne = 0 ; 
+					nbr = 0 ; 
+					while(it_1!=valeurs.end()){
+						moyenne+=(*it_1); 
+						nbr++ ; 
+						it_1++; 
+					}
+					if (nbr!=0)
+						moyenne = (int) (moyenne/nbr) ; 
+					cout <<"indice ATMO :"<< moyenne <<endl ;  
 					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
 					while (entree != 'q')
-					{
+					{ 
 						cin >> entree;
 					}
+					//selFonction=4; 
 					entree = 'a';
 					break;
 				case 2:
+				    cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.2-Indice Atmo moyen entre t1 et t2."<<endl;
-					cout << "Veuillez entrer les deux dates :"<<endl;
+					cout << "Veuillez entrer la premiere date. "<<endl;
 					//recuperation des 2 dates
 					date1 = myDisplay.getDate();
+					cout << "Veuillez entrer la deuxieme date. "<<endl;
 					date2 = myDisplay.getDate();
 					
 
 					//Appel de la méthode correspondante
-					cout << "Indice ATMO moyen correspondant : "<<endl;
+					cout << "Indice ATMO moyen correspondant : "; 
+					valeurs.clear(); 
+					liste = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
+					valeurs = dataSet.generateResultAtmo(liste,date1,date2); 
+					it_1 = valeurs.begin() ; 
+                    moyenne = 0 ; 
+					nbr = 0 ; 
+					while(it_1!=valeurs.end()){
+						moyenne+=(*it_1); 
+						nbr++ ; 
+						it_1++; 
+					}
+					if (nbr!=0)
+						moyenne = (int) (moyenne/nbr) ; 
+				    cout << moyenne << endl ; 
 					cout << "Souhaitez vous visualiser toutes les valeurs de l’indice ATMO dans l’intervalle choisi? oui/non."<<endl;
 					cin >> choix;
 					while ((choix != "oui") && (choix != "non"))
@@ -192,10 +272,14 @@ int main() {
 					}
 					if (choix == "oui")
 					{
-						//Appel au calcul de l'indice ATMO pour chaque jour compris dans l'intervalle
-						//Format :
-						//Date : yyyy-MM-dd ATMO:X
+						it_1 = valeurs.begin(); 
+						while (it_1!=valeurs.end()){
+								struct tm format_t1 = *localtime(&date1);
+								cout << "Date : "<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<" | ATMO : "<< (*it_1)<<endl ; 
+								++it_1; 
+								date1 = myDisplay.incrementDate(date1,date2); 
 
+							}
 
 					}
 					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
@@ -203,23 +287,37 @@ int main() {
 					{
 						cin >> entree;
 					}
+					selFonction=4; 
 					entree = 'a';
 					break;
 
 				case 3 :
+				    cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.3-Taux moyen de substances dans une journée"<<endl;
-					cout << "Veuillez entrer la date souhaitée [yyyy-MM-dd] : "<<endl;
-					cin >> date;
+					cout << "Veuillez entrer la date souhaitée : "<<endl;
+					date1 = myDisplay.getDate();
 					cout << "Veuillez choisir parmis les choix  :  1- O3 |  2- SO2 | 3- NO2 | 4- PM10"<<endl;
 					cout << "Pour visualiser plusieurs taux, veuillez concaténer les chiffres."<<endl;
 					cout << "Exemple : 134"<< endl;
 					cout << "Choix : ";
 					cin >> choix;
 					//Appel a la methode de calcul du taux moyen de chaque substance
+					resultsGaz = dataSet.generateResultGas(liste,date1,choix); 
+					
+					if (resultsGaz[0]!=0){
+						cout << "Taux moyen de O3 dans la journée : "<<resultsGaz[0]<<endl ; 
+					}
+					if (resultsGaz[1]!=0){
+						cout << "Taux moyen de SO2 dans la journée : "<<resultsGaz[1]<<endl ; 
+					}
+					if (resultsGaz[2]!=0){
+						cout << "Taux moyen de NO3 dans la journée : "<<resultsGaz[2]<<endl ; 
+					}
+					if (resultsGaz[3]!=0){
+						cout << "Taux moyen de PM10 dans la journée : "<<resultsGaz[3]<<endl ; 
+					}
 
-					//Taux moyen de [substance] dans la journée : xxx
-
-					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
+					cout << "Appuyez sur q pour revenir à l'inspection de la zone. "<<endl;
 					while (entree != 'q')
 					{
 						cin >> entree;

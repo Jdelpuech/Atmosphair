@@ -79,7 +79,7 @@ int Sensor::calculateAtmo(time_t t){
         it++;
     }
     
-	std::cout <<"valeurs O3 : [" ;
+	/*std::cout <<"valeurs O3 : [" ;
     for (int i = 0 ; i<23 ; i++){
 		std::cout <<maxsO3[i]<<";";
     }
@@ -89,7 +89,7 @@ int Sensor::calculateAtmo(time_t t){
     for (int i = 0 ; i<23 ; i++){
 		std::cout <<maxsNO2[i]<<";";
     }
-	std::cout <<maxsNO2[23]<<"]"<<endl;
+	std::cout <<maxsNO2[23]<<"]"<<endl; */ 
     
     int nbP=0 ;
     int nbS=0 ;
@@ -258,32 +258,45 @@ string Sensor::getDescription(){
     return description ;
 }
 
-void Sensor::dysfonction(){
+int Sensor::dysfonction(){
     bool working = true ; 
+    int valeur = 0 ; 
     if (data.empty()){
         working = false ; 
+        valeur = 3 ; 
         //cout << "no elements"<< endl ; 
     } else {
         listData::iterator it = data.begin();
+	    time_t t1 = (**it).getTimeStamp();
+
         while (it!=data.end()){
             //test de cohérence
+            if (it!=data.begin()){
+                if ((difftime((**it).getTimeStamp(),t1) > 3500)){
+                    working = false ; 
+                    valeur = 1 ; 
+                }
+            }
+           
             if (((**it).getValue()<=0 || (**it).getValue()>100) && (**it).getDataTypeId()=="PM10"){
                 working = false ; 
-                cout << "1"<< endl ; 
+                valeur = 2 ;  
             }else if (((**it).getValue()<=0 ||(**it).getValue()>600) && (**it).getDataTypeId()=="SO2"){
                 working = false ; 
-                cout << "2"<< endl ; 
+                valeur = 2 ; 
             }else if (((**it).getValue()<=0 ||(**it).getValue()>500) && (**it).getDataTypeId()=="NO2"){
                 working = false ; 
-                cout << "3"<< endl ; 
+                valeur = 2 ; 
             }else if (((**it).getValue()<=0 ||(**it).getValue()>350) && (**it).getDataTypeId()=="O3"){
                 working = false ; 
-                cout << "4"<< endl ; 
+                valeur = 2 ; 
             }
+            t1=(**it).getTimeStamp(); 
             it++ ; 
         }
     }
     dysfonctionning=!(working) ; 
+    return valeur ; 
 }
 
 void Sensor::addData(Data * dataE)

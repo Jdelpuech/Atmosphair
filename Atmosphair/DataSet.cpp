@@ -14,6 +14,7 @@
 #include <iostream>
 #include <ctime>
 #include <math.h>
+#include <vector>
 #include <cmath> 
 using namespace std;
 //--------------------------------------------------------------------- Include personnel
@@ -125,7 +126,7 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 	it = liSensor.begin();
 	while (it != liSensor.end()) {
 		double distance = calculateDistance(lat, lon, (**it).getLatitude(), (**it).getLongitude());
-		if (distance <= rayon) {
+        if (distance <= rayon) {
 			result.push_back((*it));
 		}
 		++it;
@@ -134,8 +135,8 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 }
 
 //A TESTER 
-list<double> generateResultGas(listSensor l, time_t t, string choix){
-    list<double> results ;
+vector<double> DataSet::generateResultGas(listSensor l, time_t t, string choix){
+    vector<double> results(4) ;
     if (choix.find('1') != string::npos){
         listSensor::iterator it;
         it = l.begin();
@@ -147,9 +148,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[0]= (sum/nbrData); 
         else 
-            results.push_back(0); 
+            results[0]= 0;
     }
     if (choix.find('2') != string::npos){
         listSensor::iterator it;
@@ -162,9 +163,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[1]= (sum/nbrData);
         else 
-            results.push_back(0); 
+            results[1]= 0;
     }
     if (choix.find('3') != string::npos){
         listSensor::iterator it;
@@ -177,9 +178,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[2]= (sum/nbrData);
         else 
-            results.push_back(0); 
+            results[2]= 0;
     }
     if (choix.find('4') != string::npos){
         listSensor::iterator it;
@@ -192,9 +193,9 @@ list<double> generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0)
-            results.push_back(sum/nbrData); 
+            results[3]= (sum/nbrData);
         else 
-            results.push_back(0); 
+            results[3]= 0;
     }
 
     return results ; 
@@ -216,48 +217,33 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
     list<int> results ;
     //dates
     struct tm format_t1 = *localtime(&t1);
-    int day_t1 = format_t1.tm_mday;
-    int month_t1 = format_t1.tm_mon ;
-    int year_t1 = format_t1.tm_year;
-    
-    struct tm format_t2 = *localtime(&t2);
-    int day_t2 = format_t2.tm_mday;
-    int month_t2 = format_t2.tm_mon ;
-    int year_t2 = format_t2.tm_year;
-    
-    //variable
-    
-    struct tm format_t ;
-    format_t.tm_mon= month_t1 ;
-    format_t.tm_mday= day_t1 ;
-    format_t.tm_year= year_t1;
-    format_t.tm_hour = 0 ;
-    format_t.tm_min = 0 ;
-    time_t t = mktime(&format_t);
-   
     
 	listSensor::iterator it;
     it = l.begin();
     while (it != l.end()) {
         int moyenne = 0 ;
         int nbrJours = 0 ;
-        while (format_t.tm_mday!=day_t2 || format_t.tm_mon!=month_t2 || format_t.tm_year!=year_t2){
-               moyenne +=(**it).calculateAtmo(t);
+        int nbrIncrementation = 0 ; 
+        //cout << difftime(t2,t1) << endl ; 
+        while (difftime(t2,t1)>0){
+               ++nbrIncrementation ; 
+               moyenne +=(**it).calculateAtmo(t1);
                nbrJours ++ ;
-               if (format_t.tm_mday!=31)
-                 format_t.tm_mday += 1 ;
+               if (format_t1.tm_mday!=31)
+                 format_t1.tm_mday += 1 ;
                else {
-                   format_t.tm_mday = 0 ;
-                   if (format_t.tm_mon!=11){
-                      format_t.tm_mon += 1;
+                   format_t1.tm_mday = 0 ;
+                   if (format_t1.tm_mon!=11){
+                      format_t1.tm_mon += 1;
                    }
                    else {
-                       format_t.tm_mon = 0 ;
-                       format_t.tm_year +=1;
+                       format_t1.tm_mon = 0 ;
+                       format_t1.tm_year +=1;
                    }
-               t = mktime(&format_t);
-               }
+            }
+            t1 = mktime(&format_t1); 
         }
+        //cout <<"nombre incrémentation : "<<nbrIncrementation << endl ; 
         results.push_back((int)(moyenne/nbrJours));
         ++it;
     }

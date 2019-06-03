@@ -63,6 +63,8 @@ void Display::ShowMenuInspectionZone()
 	cout << "2-Indice Atmo entre t1 et t2."<<endl;
 	cout << "3-Taux moyen de substances dans une journee."<<endl;
 	cout << "4-Revenir au menu principal."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "choix : "; 
 }
 
 void Display::ShowZoneIndiceAtmoJournee() //sert a pas grand chose
@@ -81,6 +83,8 @@ void Display::ShowMenu3()
 	cout << "1 - Afficher la liste des capteurs existants."<<endl;
 	cout << "2 - Interroger directement un capteur par son identifiant."<<endl;
 	cout << "3 - Retour au menu principal."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "choix : "; 
 }
 
 void Display::ShowMenu3MessageChoix()
@@ -101,6 +105,8 @@ void Display::ShowMenu4()
 	cout << "4 - Taux de NO2"<<endl;
 	cout << "5 - Taux de PM10"<<endl;
 	cout << "6 - Revenir au menu principal."<<endl;
+	cout << "--------------------------------------------------------------------"<<endl;
+	cout << "choix : " ; 
 
 }
 
@@ -131,14 +137,14 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 
 time_t Display::getDate() {
 	struct tm date;
-	int tmp;
+	unsigned int tmp;
 	cout << "Entrer l'année souhaitée : ";
 	cin >> tmp;
 	date.tm_year = tmp - 1900;
 
 	cout << "Entrer le mois souhaitée : ";
 	cin >> tmp;
-	date.tm_mon = tmp;
+	date.tm_mon = tmp - 1 ;
 
 	cout << "Entrer le jour souhaitée : ";
 	cin >> tmp;
@@ -151,6 +157,27 @@ time_t Display::getDate() {
 	return temps;
 }
 
+time_t Display::incrementDate(time_t t1, time_t t2){
+
+	struct tm format_t1 = *localtime(&t1);
+	if (difftime(t2,t1)>0){
+               if (format_t1.tm_mday!=31)
+                 format_t1.tm_mday += 1 ;
+               else {
+                   format_t1.tm_mday = 0 ;
+                   if (format_t1.tm_mon!=11){
+                      format_t1.tm_mon += 1;
+                   }
+                   else {
+                       format_t1.tm_mon = 0 ;
+                       format_t1.tm_year +=1;
+                   }
+            }
+            t1 = mktime(&format_t1); 
+        }
+	return t1; 
+
+}
 //------------------------------------------------- Surcharge d'op�rateurs
 
 //-------------------------------------------- Constructeurs - destructeur

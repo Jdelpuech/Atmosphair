@@ -75,8 +75,8 @@ public:
     //de la liste l, moyennes des indices entre les dates t1 et t2.
     // Contrat : aucun
     
-	std::list<double> generateResultGas(listSensor l, time_t t, string choix);
-    // Mode d'emploi : renvoie la liste des resultats des moyennes demandees par l'utilisateur
+	std::vector<double> generateResultGas(listSensor l, time_t t, string choix);
+    // Mode d'emploi : renvoie un vecteur des resultats des moyennes demandees par l'utilisateur
     // Contrat : aucun
     
 	std::list<Data*> generateDataSensor(std::string id, time_t t1, time_t t2);
