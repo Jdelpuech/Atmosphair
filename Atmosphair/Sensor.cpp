@@ -24,10 +24,10 @@ using namespace std;
 int Sensor::calculateAtmo(time_t t){
     
     //moyennes
-    double moySO2 = 0 ;
-    double moyO3 = 0 ;
-    double moyParticules = 0 ;
-    double moyNO2 = 0 ;
+    float moySO2 = 0 ;
+    float moyO3 = 0 ;
+    float moyParticules = 0 ;
+    float moyNO2 = 0 ;
 
     //tableaux stockant valeurs intermediaires pour les calculs de moyenne
     int maxsSO2[24] = {0};
@@ -214,7 +214,7 @@ int Sensor::calculateAtmo(time_t t){
 }
 
 //A TESTER -> fait 
-double Sensor::calculateMoyenneGaz(time_t t, string type){
+float Sensor::calculateMoyenneGaz(time_t t, string type){
     listData::iterator it = data.begin() ; 
 
     //extraction des données sur la date
@@ -224,7 +224,7 @@ double Sensor::calculateMoyenneGaz(time_t t, string type){
     int year_t = format_t.tm_year;
 
     //données 
-    double sum = 0 ; 
+    float sum = 0 ; 
     int nbrData = 0 ; 
     while (it != data.end()) {
         time_t time1 = (**it).getTimeStamp();
@@ -240,17 +240,37 @@ double Sensor::calculateMoyenneGaz(time_t t, string type){
 
         it++ ; 
     }
-    return ((double)(sum/nbrData)); 
+    return ((float)(sum/nbrData)); 
 }
+
+float Sensor::calculateMoyenneGaz(time_t t1, time_t t2, string type) {
+	struct tm instant1 = *localtime(&t1);
+	int day_t = instant1.tm_mday;
+	int month_t = instant1.tm_mon;
+	int year_t = instant1.tm_year;
+
+	float sum=0.;
+	int nbVal = 0;
+	while (difftime(t2, t1) > 0) {
+		sum += calculateMoyenneGaz(t1, type);
+		nbVal++;
+
+		struct tm instant1 = *localtime(&t1);
+		instant1.tm_mday++;
+		t1 = mktime(&instant1);
+	}
+	return ((float)(sum / nbVal));
+}
+
 string Sensor::getSensorID(){
     return sensorID ;
 }
 
-double Sensor::getLatitude(){
+float Sensor::getLatitude(){
     return lat ;
 }
 
-double Sensor::getLongitude(){
+float Sensor::getLongitude(){
     return lon ;
 }
 
@@ -330,7 +350,7 @@ void Sensor::dropData() {
 }
 
 //----------------------------------------------------------- Constructeurs - destructeur
-Sensor::Sensor(string sensorID, double lat, double lon, string description){
+Sensor::Sensor(string sensorID, float lat, float lon, string description){
     this->sensorID = sensorID ;
     this->lat = lat ;
     this->lon = lon ;

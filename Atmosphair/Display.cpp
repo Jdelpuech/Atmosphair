@@ -1,34 +1,36 @@
 /*************************************************************************
 						   Display  -  description
 							 -------------------
-	d�but                : $DATE$
+	debut                : $DATE$
 	copyright            : (C) $YEAR$ par $AUTHOR$
 	e-mail               : $EMAIL$
 *************************************************************************/
 
-//---------- R�alisation de la classe <Display> (fichier Display.cpp) ------------
+//---------- Realisation de la classe <Display> (fichier Display.cpp) ------------
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include syst�me
+//-------------------------------------------------------- Include systeme
 #include <iostream>
 #include <vector>
+#include <list>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
 #include "Display.h"
 #include "Sensor.h"
+#include "Data.h"
 
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------------- PUBLIC
 
-//----------------------------------------------------- M�thodes publiques
-// type Display::M�thode ( liste des param�tres )
+//----------------------------------------------------- Methodes publiques
+// type Display::Methode ( liste des parametres )
 // Algorithme :
 //
 //{
-//} //----- Fin de M�thode
+//} //----- Fin de Methode
 
 void Display::ShowMenuPrincipal()
 {
@@ -47,16 +49,16 @@ void Display::ShowMenuPrincipal()
 
 
 }
-void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor s){
+void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor * s){
 	struct tm format_t1 = *localtime(&t1);
 	struct tm format_t2 = *localtime(&t2);
-	cout <<"======================Données du capteur[xxx] ================================="<<endl ; 
-	cout <<"Statistiques correspondant à la période "<<format_t1.tm_mday<<"-"<<format_t1.tm_mon+1<<"-"
+	cout <<"======================Donnees du capteur["<<s->getSensorID()<<"] ================================="<<endl ; 
+	cout <<"Statistiques correspondant a la periode "<<format_t1.tm_mday<<"-"<<format_t1.tm_mon+1<<"-"
 	<<format_t1.tm_year+1900<<" a "<<format_t2.tm_mday<<"-"<<format_t2.tm_mon+1<<"-"
 	<<format_t2.tm_year+1900<<endl ; 
-	cout<<s.toString() <<endl ; 
-  list<Sensor*> liste ; 
-	liste.push_back(&s); 
+	cout<<s->toString() <<endl ; 
+	listSensor liste; 
+	liste.push_back(s); 
 	list<int> valeurs = d.generateResultAtmo(liste,t1,t2); 
 	if (valeurs.size()<10){
 		cout<<valeurs.size()<<" derniers indices ATMO : ["; 
@@ -64,15 +66,16 @@ void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor s){
 	else {
 		cout<<"10 derniers indices ATMO : ["; 
 	}
-  list<int>::iterator it ; 
+	list<int>::iterator it ; 
 	it = valeurs.begin(); 
 	int moyenne = 0 ; 
 	int nbr = 0 ; 
 	int max = -1 ; 
-	int min = 11 ; 
+	int min = 11 ;
 	while (it!=valeurs.end()){
-		cout<<(*it)<<(it++==valeurs.end() ? "|" : "") ; 
-		it-- ; 
+
+		cout << (*it);//<<(it++==valeurs.end() ? "|" : "") ; 
+		//it-- ; 
 		if ((*it)<min){
 			min = (*it);
 		}
@@ -81,69 +84,68 @@ void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor s){
 		}
 		moyenne += (*it); 
 		nbr++; 
-		it++; 
+		it++;
+		if (it != valeurs.end()) {
+			cout << "|";
+		}
 	}
-	cout<<"] -> moyenne : "<< moyenne/valeurs.size() <<" min : "<< min <<" max : "<< max << endl ; 
+	cout<<"] -> moyenne : "<< moyenne/valeurs.size() <<" min : "<< min <<" max : "<< max << endl<<endl ; 
 
-	vector<double> values = d.generateResultGas(s,t1,t2); 
-  
-	cout <<" here "<< endl ; 
+	vector<Data*> values = d.generateResultGas(s,t1,t2); 
+	cout << "derniers indice par molecule (max 10 valeurs par molecule)" << endl;
 
-	 int moyS = 0 ; 
-    int moyP = 0 ; 
-    int moyO = 0 ; 
-    int moyN = 0 ; 
+	string resultSO2 = "";
+	string resultNO2 = "";
+	string resultO3 = "";
+	string resultPM10 = "";
 
-    for (int i=0 ; i<10 ; i++){
-			if (values[i]!=0){
-        moyS+=values[i]; 
+	float minV = 1000;
+	float maxV = -1;
+
+	vector<Data *>::iterator itResultat;
+	itResultat = values.begin();
+	while (itResultat != values.end()) {
+		if ((**itResultat).getDataTypeId().compare("SO2") == 0) {
+			resultSO2 += to_string((**itResultat).getValue())+"|";
+			if ((**itResultat).getValue() < minV)
+				minV = (**itResultat).getValue();
+			if ((**itResultat).getValue() > maxV) {
+				maxV = (**itResultat).getValue();
 			}
-    }
-    for (int i=10 ; i<20 ; i++){
-			if (values[i]!=0)
-        moyO=values[i]; 
-    }
-    for (int i=20 ; i<30 ; i++){
-			if (values[i]!=0)
-        moyN=values[i]; 
-    }
-    for (int i=30 ; i<40 ; i++){
-			if (values[i]!=0)
-        moyP=values[i]; 
-    }
+		}
+		if ((**itResultat).getDataTypeId().compare("NO2") == 0) {
+			resultNO2 += to_string((**itResultat).getValue()) + "|";
+			/*if ((**itResultat).getValue() < min)
+				min = (**itResultat).getValue();
+			if ((**itResultat).getValue() > max) {
+				max = (**itResultat).getValue();
+			}*/
+		}
+		if ((**itResultat).getDataTypeId().compare("O3") == 0) {
+			resultO3 += to_string((**itResultat).getValue()) + "|";
+			/*if ((**itResultat).getValue() < min)
+				min = (**itResultat).getValue();
+			if ((**itResultat).getValue() > max) {
+				max = (**itResultat).getValue();
+			}*/
+		}
+		if ((**itResultat).getDataTypeId().compare("PM10") == 0) {
+			resultPM10 += to_string((**itResultat).getValue()) + "|";
+			/*if ((**itResultat).getValue() < min)
+				min = (**itResultat).getValue();
+			if ((**itResultat).getValue() > max) {
+				max = (**itResultat).getValue();
+			}*/
+		}
+		itResultat++;
+	}
 
-    moyS=moyS/10 ; 
-    moyP=moyP/10 ;
-    moyO=moyO/10 ; 
-    moyN=moyN/10 ;
-    
-		if (values.size()<10){
-		cout<<values.size()<<" derniers indices SO2 : ["; 
-		}
-		else {
-			cout<<"10 derniers indices SO2 : ["; 
-		}
-    double minV = 1000 ; 
-		double maxV = -1 ; 
-		for (int i=0 ; i<10 ;i++){
-			if (values[i]!=0){
-				cout << values[i] ; 
-				if (values[i]<min)
-				  min = values[i]; 
-				if (values[i]>max){
-					max = values[i]; 
-				}
+	cout << "SO2 : [" << resultSO2;
 
-			}
-			if (values[i+1]!=0){
-				cout << "|"; 
-			}
-			cout <<"] -> moyenne : "<<moyS <<" min : "<<min<<" max : "<<max ; 
-		}
-	
+	cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1,t2,"SO2") << " min : " << minV << " max : " << maxV;
 
 	/* ( format : )
-				======================Données du capteur[xxx] =================================
+				======================Donnees du capteur[xxx] =================================
 					
 				Latitude : xxx Longitude : xxx
 					Description : xxx
@@ -200,7 +202,7 @@ void Display::ShowMenu3()
 
 void Display::ShowMenu3MessageChoix()
 {
-	cout << "Si vous souhaitez obtenir les valeurs issus d'une période précise," <<endl
+	cout << "Si vous souhaitez obtenir les valeurs issus d'une periode precise," <<endl
 		<< "veuillez preciser une date de debut et une date de fin dans les champs ci-dessous."<<endl
 		<< "Sinon, laissez-les vide et tapez entree (return)."<<endl;
 }
@@ -249,15 +251,15 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 time_t Display::getDate() {
 	struct tm date;
 	unsigned int tmp;
-	cout << "Entrer l'année souhaitée : ";
+	cout << "Entrer l'annee souhaitee : ";
 	cin >> tmp;
 	date.tm_year = tmp - 1900;
 
-	cout << "Entrer le mois souhaitée : ";
+	cout << "Entrer le mois souhaitee : ";
 	cin >> tmp;
 	date.tm_mon = tmp - 1 ;
 
-	cout << "Entrer le jour souhaitée : ";
+	cout << "Entrer le jour souhaitee : ";
 	cin >> tmp;
 	date.tm_mday = tmp;
 
@@ -289,7 +291,7 @@ time_t Display::incrementDate(time_t t1, time_t t2){
 	return t1; 
 
 }
-//------------------------------------------------- Surcharge d'op�rateurs
+//------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------- Constructeurs - destructeur
 Display::Display(const Display & unDisplay)
@@ -324,5 +326,5 @@ Display::~Display()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- M�thodes prot�g�es
+//----------------------------------------------------- Methodes protegees
 

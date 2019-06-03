@@ -26,11 +26,11 @@ using namespace std;
 //-------------------------------------------------------------------------------- PUBLIC
 //----------------------------------------------------- M�thodes publiques
 
-std::list<Data*> DataSet::generateDataSensor(Sensor s, time_t t1, time_t t2)
+std::list<Data*> DataSet::generateDataSensor(Sensor * s, time_t t1, time_t t2)
 {
 	//Sensor* s = getSensorById(id);
 	list<Data*> result;
-    list<Data*> all = s.getData(); 
+    list<Data*> all = s->getData(); 
 	listData::iterator it;
 	it = all.begin(); 
 	while (it != all.end()) {
@@ -41,54 +41,42 @@ std::list<Data*> DataSet::generateDataSensor(Sensor s, time_t t1, time_t t2)
 	}
 	return result;
 }
-std::vector<double> DataSet::generateResultGas(Sensor s, time_t t1,time_t t2){
-    vector<double> resultats ; 
-    list<Data*> dataGas = generateDataSensor(s,t1,t2); 
-    int NO2[10] ={0}; 
-    int O3[10]={0};
-    int PM10[10]={0};
-    int SO2[10]={0} ; 
-    int nbrNO2 = 0 ; 
-    int nbrO3 = 0 ; 
-    int nbrPM10 = 0 ; 
-    int nbrSO2 = 0 ; 
-    std::list<Data*>::const_reverse_iterator it; 
-    for (it = dataGas.rbegin(); it != dataGas.rend(); ++it){
-        if (nbrSO2!=10 && ((**it).getDataTypeId().compare("SO2")==0)){
-            cout<<"1"<<endl ; 
-            SO2[nbrSO2]=(**it).getValue(); 
-            nbrSO2++; 
-        }
-        if (nbrO3!=10 && ((**it).getDataTypeId().compare("O3")==0)){
-            cout<<"1"<<endl ; 
-            O3[nbrO3]=(**it).getValue();
-            nbrO3++;  
-        }
-        if (nbrNO2!=10 && ((**it).getDataTypeId().compare("NO2")==0)){
-            cout<<"1"<<endl ; 
-            NO2[nbrNO2]=(**it).getValue(); 
-            nbrNO2++; 
-        }
-        if (nbrPM10!=10 && ((**it).getDataTypeId().compare("PM10")==0)){
-            cout<<"1"<<endl ; 
-            PM10[nbrPM10]=(**it).getValue(); 
-            nbrPM10++; 
-        }
-    }
 
-    for (int i=0 ; i<10 ; i++){
-        cout<<i<< endl ;
-        resultats[i]=SO2[i]; 
-    }
-    for (int i=10 ; i<20 ; i++){
-        resultats[i]=O3[i]; 
-    }
-    for (int i=20 ; i<30 ; i++){
-        resultats[i]=NO2[i]; 
-    }
-    for (int i=30 ; i<40 ; i++){
-        resultats[i]=PM10[i]; 
-    }
+vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
+	vector<Data*> resultats;
+    list<Data*> dataGas = generateDataSensor(s,t1,t2); 
+	cout << dataGas.size() << endl;
+    
+	int nbrSO2 = 0;
+    int nbrO3 = 0 ;
+	int nbrNO2 = 0;
+    int nbrPM10 = 0 ; 
+     
+    std::list<Data*>::iterator it;
+	it = dataGas.begin();
+	while (it != dataGas.end()) {
+		if (nbrSO2 != 10 && ((**it).getDataTypeId().compare("SO2") == 0)) {
+			
+			resultats.push_back(*it);
+			nbrSO2++;
+		}
+		if (nbrO3 != 10 && ((**it).getDataTypeId().compare("O3") == 0)) {
+			
+			resultats.push_back(*it);
+			nbrO3++;
+		}
+		if (nbrNO2 != 10 && ((**it).getDataTypeId().compare("NO2") == 0)) {
+			
+			resultats.push_back(*it);
+			nbrNO2++;
+		}
+		if (nbrPM10 != 10 && ((**it).getDataTypeId().compare("PM10") == 0)) {
+			
+			resultats.push_back(*it);
+			nbrPM10++;
+		}
+		it++;
+	}
     cout << "FIN"<< endl ; 
     return resultats; 
 }
@@ -142,13 +130,13 @@ void DataSet::addUser(User *user)
 }
 
 // Cette fonction converti les degres en radiant
-double deg2rad(double deg) {
+float deg2rad(float deg) {
 	return (deg * M_PI / 180);
 }
 
 
-double DataSet::calculateDistance(double lat1, double lon1, double lat2, double lon2){
-	double lat1r, lon1r, lat2r, lon2r, u, v;
+float DataSet::calculateDistance(float lat1, float lon1, float lat2, float lon2){
+	float lat1r, lon1r, lat2r, lon2r, u, v;
 	lat1r = deg2rad(lat1);
 	lon1r = deg2rad(lon1);
 	lat2r = deg2rad(lat2);
@@ -171,12 +159,12 @@ User * DataSet::connectionRequest(string user, string password) {
 	return nullptr;
 }
 
-listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
+listSensor DataSet::getListSensorsInZone(float lat, float lon, float rayon) {
 	listSensor result = listSensor();
 	listSensor::iterator it;
 	it = liSensor.begin();
 	while (it != liSensor.end()) {
-		double distance = calculateDistance(lat, lon, (**it).getLatitude(), (**it).getLongitude());
+		float distance = calculateDistance(lat, lon, (**it).getLatitude(), (**it).getLongitude());
         if (distance <= rayon) {
 			result.push_back((*it));
 		}
@@ -186,12 +174,12 @@ listSensor DataSet::getListSensorsInZone(double lat, double lon, double rayon) {
 }
 
 //A TESTER 
-vector<double> DataSet::generateResultGas(listSensor l, time_t t, string choix){
-    vector<double> results(4) ;
+vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
+    vector<float> results(4) ;
     if (choix.find('1') != string::npos){
         listSensor::iterator it;
         it = l.begin();
-        double sum = 0 ; 
+        float sum = 0 ; 
         int nbrData = 0 ; 
         while (it != l.end()) {
            sum+= (**it).calculateMoyenneGaz(t,"O3"); 
@@ -206,7 +194,7 @@ vector<double> DataSet::generateResultGas(listSensor l, time_t t, string choix){
     if (choix.find('2') != string::npos){
         listSensor::iterator it;
         it = l.begin();
-        double sum = 0 ; 
+        float sum = 0 ; 
         int nbrData = 0 ; 
         while (it != l.end()) {
            sum+= (**it).calculateMoyenneGaz(t,"SO2"); 
@@ -221,7 +209,7 @@ vector<double> DataSet::generateResultGas(listSensor l, time_t t, string choix){
     if (choix.find('3') != string::npos){
         listSensor::iterator it;
         it = l.begin();
-        double sum = 0 ; 
+        float sum = 0 ; 
         int nbrData = 0 ; 
         while (it != l.end()) {
            sum+= (**it).calculateMoyenneGaz(t,"NO2"); 
@@ -236,7 +224,7 @@ vector<double> DataSet::generateResultGas(listSensor l, time_t t, string choix){
     if (choix.find('4') != string::npos){
         listSensor::iterator it;
         it = l.begin();
-        double sum = 0 ; 
+        float sum = 0 ; 
         int nbrData = 0 ; 
         while (it != l.end()) {
            sum+= (**it).calculateMoyenneGaz(t,"PM10"); 

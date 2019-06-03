@@ -1,14 +1,14 @@
 /**************************************************************************************
  DataSet  -  Interface
  -------------------
- d�but                : 10/05/2019
+ debut                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
  //- Interface de la classe <DataSet> (fichier DataSet.h) ---------
 #if !defined ( DataSet_H )
 #define DataSet_H
-//---------------------------------------------------------------- Interfaces utilis�es
+//---------------------------------------------------------------- Interfaces utilisees
 #include <ctime>
 #include <list>
 #include <vector>
@@ -17,16 +17,15 @@ class Data;
 class DataType;
 class User;
 
-#define _CRT_SECURE_NO_WARNINGS
 using namespace std ; 
 //------------------------------------------------------------------ Types
 typedef std::list<User*> listUser;
 typedef std::list<DataType*> listDataType;
 typedef std::list<Sensor*> listSensor;
 
-// R�le de la classe <DataSet>
-/*Application Manager est le noyau de notre application. En tant que dispatcher, il g�rera
- l�appel aux m�thodes de chaque classe afin de r�pondre aux attentes de l'utilisateur.
+// Rele de la classe <DataSet>
+/*Application Manager est le noyau de notre application. En tant que dispatcher, il gerera
+ leappel aux methodes de chaque classe afin de repondre aux attentes de l'utilisateur.
  */
  //-------------------------------------------------------------------------------------
 class DataSet
@@ -34,17 +33,17 @@ class DataSet
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
-	//------------------------------------------------------------------ M�thodes publiques
+	//------------------------------------------------------------------ Methodes publiques
 	void addSensor(Sensor *sensor);
-    // Mode d'emploi : ajoute un sensor � notre ensemble de donnees.
+    // Mode d'emploi : ajoute un sensor e notre ensemble de donnees.
     // Contrat : aucun
     
 	void addDataType(DataType *dataType);
-    // Mode d'emploi : ajoute un type de donnee � notre ensemble de donnees.
+    // Mode d'emploi : ajoute un type de donnee e notre ensemble de donnees.
     // Contrat : aucun
     
 	void addUser(User *user);
-    // Mode d'emploi : ajoute un utilisateur � notre ensemble de donnees.
+    // Mode d'emploi : ajoute un utilisateur e notre ensemble de donnees.
     // Contrat : aucun
     
 	User * connectionRequest(std::string user, std::string password);
@@ -52,9 +51,9 @@ public:
     //passe correspondent, alors la fonction renvoie vrai. Sinon, la methode renvoie faux.
     // Contrat : aucun
     
-	static double calculateDistance(double lat1, double lon1,double lat2, double lon2);
+	static float calculateDistance(float lat1, float lon1,float lat2, float lon2);
     // Mode d'emploi : methode calculant la distance entre deux points geolocalises de latitude
-    //et longitude connu. Elle renvoie un nombre � virgule correspondant au nombre de km.
+    //et longitude connu. Elle renvoie un nombre e virgule correspondant au nombre de km.
     // Contrat : aucun
     
 	Sensor * getSensorById(string id);
@@ -62,30 +61,30 @@ public:
     //en parametre.
     // Contrat : l'id existe.
     
-	listSensor getListSensorsInZone(double lat, double lon, double rayon);
+	listSensor getListSensorsInZone(float lat, float lon, float rayon);
     // Mode d'emploi : renvoie une liste de pointeurs vers des capteurs etant dans la zone
     //geographique se defissant par un point (centre) et un rayon (en km).
     // Contrat : aucun
     
-    list<int> generateResultAtmo(listSensor l, time_t t);
+    std::list<int> generateResultAtmo(listSensor l, time_t t);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l a la date t.
     // Contrat : aucun
     
-	list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2);
+	std::list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l, moyennes des indices entre les dates t1 et t2.
     // Contrat : aucun
     
-	vector<double> generateResultGas(listSensor l, time_t t, string choix);
+	std::vector<float> generateResultGas(listSensor l, time_t t, string choix);
     // Mode d'emploi : renvoie un vecteur des resultats des moyennes demandees par l'utilisateur
     // Contrat : aucun
 
-    vector<double> generateResultGas(Sensor s, time_t t1,time_t t2); 
+    vector<Data *> generateResultGas(Sensor * s, time_t t1,time_t t2); 
     //Mode d'emploi : renvoie un vecteur des resultats des moyennes de tous les gaz. 
     //Contrat : aucun 
     
-	list<Data*> generateDataSensor(Sensor s, time_t t1, time_t t2);
+	std::list<Data*> generateDataSensor(Sensor * s, time_t t1, time_t t2);
     // Mode d'emploi : renvoie toutes les donnees brutes entre t1 et t2 du capteur d'identifiant
     //id. 
     // Contrat : aucun

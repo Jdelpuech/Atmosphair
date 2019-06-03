@@ -26,7 +26,7 @@ using namespace std;
 	 return string(time + ";" + to_string(value) +";"+ sensorId +";"+ dataTypeId);
  }
 
-Data::Data(time_t timestamp, double value, string sensorId, string dataTypeId) {
+Data::Data(time_t timestamp, float value, string sensorId, string dataTypeId) {
 	this->timestamp = timestamp;
 	this->value = value;
 	this->sensorId = sensorId;

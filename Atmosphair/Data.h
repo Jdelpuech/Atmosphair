@@ -33,7 +33,7 @@ public:
 		return timestamp; 
 	}
 
-	inline double getValue() {
+	inline float getValue() {
 		return value; 
 	}
 
@@ -49,7 +49,7 @@ public:
 	string toString();
 
 	//---------------------------------------------------- Constructeurs - destructeur
-	Data(time_t timestamp, double value, string sensorId, string dataTypeId);
+	Data(time_t timestamp, float value, string sensorId, string dataTypeId);
 	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
 	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
 	//la construction d'un objet Data.
@@ -67,7 +67,7 @@ protected:
 
 	//------------------------------------------------------------ Attributs protégés
 	time_t timestamp; 
-	double value; 
+	float value; 
 	string sensorId;
 	string dataTypeId;
 

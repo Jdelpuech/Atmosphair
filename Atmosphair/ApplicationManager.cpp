@@ -1,15 +1,15 @@
 /**************************************************************************************
- ApplicationManager  -  Réalisation
+ ApplicationManager  -  Realisation
  -------------------
- début                : 20/11/2018
+ debut                : 20/11/2018
  copyright            : (C)2018 par Atmosph'Air
  
  ***************************************************************************************/
 
-//-- Réalisation de la classe <ApplicationManager> (fichier ApplicationManager.cpp) ----
+//-- Realisation de la classe <ApplicationManager> (fichier ApplicationManager.cpp) ----
 
 //------------------------------------------------------------------------------ INCLUDE
-//---------------------------------------------------------------------- Include système
+//---------------------------------------------------------------------- Include systeme
 #include <iostream>
 #include <string>
 #include <ctime>
@@ -39,40 +39,48 @@ bool ApplicationManager::init(DataSet * d, FileManager * fm) {
 int main() {
 	DataSet dataSet; 
 	FileManager fm;
-	User * user=nullptr;
 	Display myDisplay;
+
+	User * user=nullptr;
+	
 	char choice, back; 
 	int selFonction;
-	string login, pwd;
-	string fileSensor, fileMeasure, fileLinks;
 	string date, choix;
 	string lat,lon,r; 
 	list<int> valeurs ;
 	int moyenne, nbr ; 
 	list<int>::iterator it_1; 
-	double latitude,longitude,rayon; 
-	time_t date1, date2;
+	float latitude,longitude,rayon; 
+	
 	char entree = 'a';
-	bool connection = false ;
-	regex patternCSV(".*\\.csv$");
-	listSensor liste ; 
-	listSensor::iterator it; 
+	
+	
+	listSensor listeSensor ; 
+	listSensor::iterator itSensor; 
 	listData listeData ; 
 	listData::iterator itData ; 
-	vector<double> resultsGaz ; 
+	vector<float> resultsGaz ;
 
+	bool connection = false;
+	bool valid = false;
+	string s_tmp1="", s_tmp2="";
+	time_t date1, date2;
+	int navigation = 0;
+	int i_tmp = 0;
+	char c_tmp = 'a';
 
+	regex patternCSV(".*\\.csv$");
 
 	ApplicationManager::init(&dataSet, &fm);
 
 	while (!connection){
 		cout << "---------------------------------------------------------------------"<<endl; ;
-		cout << "Bienvenue chez Atmosph'Air! Afin d’obtenir l'acces à nos services, veuillez vous authentifier."<<endl;
+		cout << "Bienvenue chez Atmosph'Air! Afin d'obtenir l'acces a nos services, veuillez vous authentifier."<<endl;
 		cout << "Login : ";
-		cin >> login;
+		cin >> s_tmp1;
 		cout << "Mot de passe : ";
-		cin >> pwd;
-		user = dataSet.connectionRequest(login, pwd);
+		cin >> s_tmp2;
+		user = dataSet.connectionRequest(s_tmp1, s_tmp2);
 		if (user!=nullptr){
 			connection = true ; 
 		} else {
@@ -84,60 +92,57 @@ int main() {
 	LogManager lm(user);
 	lm.writeLog("Connection de " + user->getNom());
 
-	myDisplay.ShowMenuPrincipal();
-	int navigation = 0 ; 
-	bool  valid = false ; 
+	//inutile en l'etat actuelle
+	/*bool  valid = false ; 
 	while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
 		if (navigation<10 && navigation>=0){
 			valid = true ; 
 		}
-	}
+	}*/
+
 	//si l'utilisatuer entre 6, il souhaite quitter l'application
 	while (navigation != 6)
 	{
+		//on affiche a nouveau le menu principal
+		myDisplay.ShowMenuPrincipal();
+		cin >> navigation;
 		switch ((int)navigation)
 		{
 		case 0:
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
-			cout << "Fichiers relatifs aux capteurs: ";
 			capteur:
-			cin >> fileSensor;
-			if (fileSensor != "0") {
-				if (regex_match(fileSensor, patternCSV)) {
-					lm.writeLog("modification sauvegarde capteurs : " + fileSensor);
-					fm.save(fileSensor, 0);
-					fm.importDataFromFile(&dataSet, fileSensor, 0);
+			cout << "Fichiers relatifs aux capteurs: ";
+			cin >> s_tmp1;
+			if (s_tmp1 != "0") {
+				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 0)) {
+					lm.writeLog("modification sauvegarde capteurs : " + s_tmp1);
 				}
 				else {
 					cout << "mauvais format" << endl;
 					goto capteur;
 				}
 			}
-			cout << "Fichiers relatifs aux mesures : ";
 			measure:
-			cin >> fileMeasure;
-			if (fileMeasure != "0") {
-				if (regex_match(fileMeasure, patternCSV)) {
-					lm.writeLog("modification sauvegarde mesures : " + fileMeasure);
-					fm.save(fileMeasure, 1);
-					fm.importDataFromFile(&dataSet, fileMeasure, 1);
+			cout << "Fichiers relatifs aux mesures : ";
+			cin >> s_tmp1;
+			if (s_tmp1 != "0") {
+				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
+					lm.writeLog("modification sauvegarde mesures : " + s_tmp1);
 				}
 				else {
 					cout << "mauvais format" << endl;
 					goto measure;
 				}
 			}
-			cout << "Fichiers relatifs au type de mesures : ";
 			link:
-			cin >> fileLinks;
-			if (fileLinks != "0") {
-				if (regex_match(fileLinks, patternCSV)) {
-					lm.writeLog("modification sauvegarde type de mesures : " + fileLinks);
-					fm.save(fileLinks, 2);
-					fm.importDataFromFile(&dataSet, fileLinks, 2);
+			cout << "Fichiers relatifs au type de mesures : ";
+			cin >> s_tmp1;
+			if (s_tmp1 != "0") {
+				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 2)) {
+					lm.writeLog("modification sauvegarde type de mesures : " + s_tmp1);
 				}
 				else {
 					cout << "mauvais format" << endl;
@@ -150,28 +155,28 @@ int main() {
 
 			break;
 		case 1:
-			// Affichage des capteurs disfonctionnants : appel de la méthode correspondante
-			liste = dataSet.getListDysfonctionningSensors(); 
-			it = liste.begin(); 
+			// Affichage des capteurs disfonctionnants : appel de la methode correspondante
+			listeSensor = dataSet.getListDysfonctionningSensors(); 
+			itSensor = listeSensor.begin(); 
 			cout << "--------------------------------------------------------------------"<<endl;
-			while(it!=liste.end()){
-				cout <<"IDCapteur : "<<(**it).getSensorID()<<" | Dysfonctionnement : "; 
-				if ((**it).dysfonction()==1){
-					cout<<"période d'échantillonage dépassée"; 
-				}else if ((**it).dysfonction()==2){
-					cout<<"Données incohérentes"; 
-				}else if ((**it).dysfonction()==3){
-					cout<<"Données manquantes";
+			while(itSensor!=listeSensor.end()){
+				cout <<"IDCapteur : "<<(**itSensor).getSensorID()<<" | Dysfonctionnement : "; 
+				if ((**itSensor).dysfonction()==1){
+					cout<<"periode d'echantillonage depassee"; 
+				}else if ((**itSensor).dysfonction()==2){
+					cout<<"Donnees incoherentes"; 
+				}else if ((**itSensor).dysfonction()==3){
+					cout<<"Donnees manquantes";
 				}
 				cout << endl ; 
-				++it ; 
+				++itSensor ; 
 			}
 
 			while (back!='q'){
 				cout << "Appuyez sur q pour revenir au menu principal."<<endl ; 
 				cin >> back ; 
 				if (back!='q'){
-					cout << "Attention, cette entrée ne correspond a aucune action"<<endl; 
+					cout << "Attention, cette entree ne correspond a aucune action"<<endl; 
 				}
 			}
 			break;
@@ -183,7 +188,7 @@ int main() {
 			while (!valid){
 				cout << "--------------------------------------------------------------------"<<endl;
 				cout << "2-Inspecter une zone."<<endl;
-				cout << "Veuillez sélectionner la zone. Une zone se définit par les coordonnées d’un point GPS  "<<endl;
+				cout << "Veuillez selectionner la zone. Une zone se definit par les coordonnees d’un point GPS  "<<endl;
 				cout << "et d'un rayon. " ;
 				cout<< endl ; 
 				cout <<"Latitude : " ; 
@@ -203,21 +208,21 @@ int main() {
 				}
 			}
      
-			liste = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
+			listeSensor = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
 			myDisplay.ShowMenuInspectionZone();
 			cin >> selFonction;
-			//on a selectionné l'action que l'on souhaite effectuer sur la zone
+			//on a selectionne l'action que l'on souhaite effectuer sur la zone
 			//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
 			
 				switch (selFonction)
 				{
 				case 1:
-					//la date est demandée à l'utilisateur
+					//la date est demandee a l'utilisateur
 					cout << "--------------------------------------------------------------------"<<endl;
-					cout << "2.1 Indice Atmo dans une journée."<<endl;
-					cout << "Veuillez entrer la date souhaitée. "<<endl;
+					cout << "2.1 Indice Atmo dans une journee."<<endl;
+					cout << "Veuillez entrer la date souhaitee. "<<endl;
 					date1 = myDisplay.getDate();
-					valeurs = dataSet.generateResultAtmo(liste,date1) ; 
+					valeurs = dataSet.generateResultAtmo(listeSensor,date1) ; 
                     it_1 = valeurs.begin() ; 
                     moyenne = 0 ; 
 					nbr = 0 ; 
@@ -229,7 +234,7 @@ int main() {
 					if (nbr!=0)
 						moyenne = (int) (moyenne/nbr) ; 
 					cout <<"indice ATMO :"<< moyenne <<endl ;  
-					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
+					cout << "Appuyez sur q pour revenir a l'inspection de la zone"<<endl;
 					while (entree != 'q')
 					{ 
 						cin >> entree;
@@ -247,11 +252,11 @@ int main() {
 					date2 = myDisplay.getDate();
 					
 
-					//Appel de la méthode correspondante
+					//Appel de la methode correspondante
 					cout << "Indice ATMO moyen correspondant : "; 
 					valeurs.clear(); 
-					liste = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
-					valeurs = dataSet.generateResultAtmo(liste,date1,date2); 
+					listeSensor = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
+					valeurs = dataSet.generateResultAtmo(listeSensor,date1,date2); 
 					it_1 = valeurs.begin() ; 
                     moyenne = 0 ; 
 					nbr = 0 ; 
@@ -282,7 +287,7 @@ int main() {
 							}
 
 					}
-					cout << "Appuyez sur q pour revenir à l'inspection de la zone"<<endl;
+					cout << "Appuyez sur q pour revenir a l'inspection de la zone"<<endl;
 					while (entree != 'q')
 					{
 						cin >> entree;
@@ -293,31 +298,31 @@ int main() {
 
 				case 3 :
 				    cout << "--------------------------------------------------------------------"<<endl;
-					cout << "2.3-Taux moyen de substances dans une journée"<<endl;
-					cout << "Veuillez entrer la date souhaitée : "<<endl;
+					cout << "2.3-Taux moyen de substances dans une journee"<<endl;
+					cout << "Veuillez entrer la date souhaitee : "<<endl;
 					date1 = myDisplay.getDate();
 					cout << "Veuillez choisir parmis les choix  :  1- O3 |  2- SO2 | 3- NO2 | 4- PM10"<<endl;
-					cout << "Pour visualiser plusieurs taux, veuillez concaténer les chiffres."<<endl;
+					cout << "Pour visualiser plusieurs taux, veuillez concatener les chiffres."<<endl;
 					cout << "Exemple : 134"<< endl;
 					cout << "Choix : ";
 					cin >> choix;
 					//Appel a la methode de calcul du taux moyen de chaque substance
-					resultsGaz = dataSet.generateResultGas(liste,date1,choix); 
+					resultsGaz = dataSet.generateResultGas(listeSensor,date1,choix); 
 					
 					if (resultsGaz[0]!=0){
-						cout << "Taux moyen de O3 dans la journée : "<<resultsGaz[0]<<endl ; 
+						cout << "Taux moyen de O3 dans la journee : "<<resultsGaz[0]<<endl ; 
 					}
 					if (resultsGaz[1]!=0){
-						cout << "Taux moyen de SO2 dans la journée : "<<resultsGaz[1]<<endl ; 
+						cout << "Taux moyen de SO2 dans la journee : "<<resultsGaz[1]<<endl ; 
 					}
 					if (resultsGaz[2]!=0){
-						cout << "Taux moyen de NO3 dans la journée : "<<resultsGaz[2]<<endl ; 
+						cout << "Taux moyen de NO3 dans la journee : "<<resultsGaz[2]<<endl ; 
 					}
 					if (resultsGaz[3]!=0){
-						cout << "Taux moyen de PM10 dans la journée : "<<resultsGaz[3]<<endl ; 
+						cout << "Taux moyen de PM10 dans la journee : "<<resultsGaz[3]<<endl ; 
 					}
 
-					cout << "Appuyez sur q pour revenir à l'inspection de la zone. "<<endl;
+					cout << "Appuyez sur q pour revenir a l'inspection de la zone. "<<endl;
 					while (entree != 'q')
 					{
 						cin >> entree;
@@ -333,37 +338,37 @@ int main() {
 			break;
 		case 3:
 			myDisplay.ShowMenu3();
-			cin >> selFonction;
+			cin >> i_tmp;
 
-			if (selFonction == 1)
+			if (i_tmp == 1)
 			{
 				//Affichage de la liste des capteurs existants
 				cout << "SensorID | Latitude | Longitude | Description"<<endl ; 
-				liste.clear(); 
-				liste = dataSet.getListSensors(); 
-				it = liste.begin() ; 
-				while (it!=liste.end()){
-					cout<<(**it).toString() << endl ; 
-					it++; 
+				listeSensor.clear(); 
+				listeSensor = dataSet.getListSensors(); 
+				itSensor = listeSensor.begin() ; 
+				while (itSensor!=listeSensor.end()){
+					cout<<(**itSensor).toString() << endl ; 
+					itSensor++; 
 				}
 
 			}
 
-			cout << "Veuillez saisir l’ID du capteur souhaité (ex. Sensor9) : "<<endl;
-			cin >> choix;
+			cout << "Veuillez saisir l'ID du capteur souhaite (ex. Sensor9) : "<<endl;
+			cin >> s_tmp1;
 			myDisplay.ShowMenu3MessageChoix();
-			cout << "Saisissez une date de début. "<<endl;
+			cout <<endl<< "Saisissez une date de debut. "<<endl;
 			date1 = myDisplay.getDate();
-			cout << "Saisissez une date de fin. "<<endl;
+			cout <<endl<< "Saisissez une date de fin. "<<endl;
 			date2 = myDisplay.getDate();
 			if (difftime(date1,date2)!=0)
 			{
-				myDisplay.ShowValues(dataSet, date1,date2,*dataSet.getSensorById(choix));
-				//Appel de la méthode d'affichage des données du capteur
+				myDisplay.ShowValues(dataSet, date1,date2,dataSet.getSensorById(s_tmp1));
+				//Appel de la methode d'affichage des donnees du capteur
 				/* ( format : )
-				======================Données du capteur[xxx] ================================ =
-					Statistiques correspondant à la période aaaa - bbbb
-					[Si période inférieure à une journée : message d’avertissement concernant la                  non - fiabilité des résultats]
+				======================Donnees du capteur[xxx] ================================ =
+					Statistiques correspondant a la periode aaaa - bbbb
+					[Si periode inferieure a une journee : message d’avertissement concernant la                  non - fiabilite des resultats]
 				Latitude : xxx Longitude : xxx
 					Description : xxx
 					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1 min : a max : b
@@ -374,7 +379,7 @@ int main() {
 				===============================================================================
 				*/
 
-				cout << "Appuyez sur q pour revenir au menu précédent"<<endl;
+				cout << "Appuyez sur q pour revenir au menu precedent"<<endl;
 				while (entree != 'q')
 				{
 					cin >> entree;
@@ -398,8 +403,8 @@ int main() {
 
 			break;
 		case 5:
-			cout << "5-Visualiser les similarités détectées.";
-			//appel de la fonction qui affiche les similiarités entre les capteurs
+			cout << "5-Visualiser les similarites detectees.";
+			//appel de la fonction qui affiche les similiarites entre les capteurs
 
 			cout << "Appuyez sur q pour revenir au menu principal.";
 			while (entree != 'q')
@@ -414,9 +419,7 @@ int main() {
 			break;
 		}//fin du switch de menu principal
 
-		//on affiche a nouveau le menu principal
-		myDisplay.ShowMenuPrincipal();
-		cin >> navigation;
+		
 	}
 	return 0; 
 }
@@ -433,20 +436,20 @@ int test(){
 	instant.tm_sec = 0;
     time_t time = mktime(&instant);
     
-    //créations type de données
+    //creations type de donnees
     DataType type_O3 = DataType("O3","µg/m3","concentration d'ozone");
     DataType type_NO2 = DataType("NO2","µg/m3","concentration de dioxyde d'azote");
     DataType type_SO2 = DataType("SO2","µg/m3","concentration de dioxyde de soufre");
     DataType type_PM10 = DataType("PM10","µg/m3","concentration de particules fines");
     
     
-    //création sensors
-    Sensor sensor_0 = Sensor("Sensor0",(double)-8.15758888291083,(double)-34.7692487876719,"0");
-    Sensor sensor_1= Sensor("Sensor1",(double)-30.0647387677174,(double)-76.3439147576429,"1");
-	Sensor sensor_2 = Sensor("Sensor2", (double)-8.0647387677174, (double)-34.3439147576429, "2");
-	Sensor sensor_3 = Sensor("Sensor3", (double)-30.1, (double)-76.1, "3");
+    //creation sensors
+    Sensor sensor_0 = Sensor("Sensor0",(float)-8.15758888291083,(float)-34.7692487876719,"0");
+    Sensor sensor_1= Sensor("Sensor1",(float)-30.0647387677174,(float)-76.3439147576429,"1");
+	Sensor sensor_2 = Sensor("Sensor2", (float)-8.0647387677174, (float)-34.3439147576429, "2");
+	Sensor sensor_3 = Sensor("Sensor3", (float)-30.1, (float)-76.1, "3");
     
-    //une vague de données
+    //une vague de donnees
     Data * data_0 = new Data(time,67.9284748555273,"Sensor0","O3");
     Data * data_1 = new Data(time,98.979984192197,"Sensor0","NO2");
     Data * data_2 = new Data(time,119.423041339039,"Sensor0","SO2");
@@ -479,7 +482,7 @@ int test(){
     int indice = sensor_0.calculateAtmo(time);
     std::cout <<"ATMO : "<<indice << endl ;
     
-    double result = DataSet::calculateDistance(-8.157588883, -34.76924879, -8.0647387677174,-34.3439147576429);
+    float result = DataSet::calculateDistance(-8.157588883, -34.76924879, -8.0647387677174,-34.3439147576429);
     std::cout << result << endl <<endl;
 
 	std::cout << "Test Grazia" << endl;
@@ -533,7 +536,7 @@ int test(){
 	d1.addSensor(&sensor_2);
 	d1.addSensor(&sensor_3);
 
-	listSensor liSen= d1.getListSensorsInZone((double)-8.15758888291083, (double)-34.7692487876719, (double)100);
+	listSensor liSen= d1.getListSensorsInZone((float)-8.15758888291083, (float)-34.7692487876719, (float)100);
 	listSensor::iterator it1;
 	it1 = liSen.begin();
 	while (it1 != liSen.end()) {
@@ -566,18 +569,18 @@ int test(){
 	instant.tm_sec = 0;
 	time_t time = mktime(&instant);
 
-	//créations type de données
+	//creations type de donnees
 	DataType type_O3 = DataType("O3", "µg/m3", "concentration d'ozone");
 	DataType type_NO2 = DataType("NO2", "µg/m3", "concentration de dioxyde d'azote");
 	DataType type_SO2 = DataType("SO2", "µg/m3", "concentration de dioxyde de soufre");
 	DataType type_PM10 = DataType("PM10", "µg/m3", "concentration de particules fines");
 
 
-	//création sensors
-	Sensor * sensor_0 = new Sensor("Sensor0", (double)-8.15758888291083, (double)-34.7692487876719, "0");
-	Sensor * sensor_2 = new Sensor("Sensor2", (double)-30.0647387677174, (double)-76.3439147576429, "1");
+	//creation sensors
+	Sensor * sensor_0 = new Sensor("Sensor0", (float)-8.15758888291083, (float)-34.7692487876719, "0");
+	Sensor * sensor_2 = new Sensor("Sensor2", (float)-30.0647387677174, (float)-76.3439147576429, "1");
 
-	//une vague de données
+	//une vague de donnees
 	Data * data_0 = new Data(time, 67.9284748555273, "Sensor0", "O3");
 	Data * data_1 = new Data(time, 98.979984192197, "Sensor0", "NO2");
 	Data * data_2 = new Data(time, 119.423041339039, "Sensor0", "SO2");

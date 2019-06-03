@@ -13,56 +13,51 @@ FileManager::~FileManager()
 {
 }
 
-bool FileManager::save(string path, int type)
+bool FileManager::save(DataSet *d,  string path, int type)
 {
-	bool ok = true;
-	ifstream f(savePath.c_str());//ouvre sauvegarde
-	string complete0 = "";//sensors
-	string complete1 = "";//data
-	string complete2 = "";//datatype
-	if (f) {
-		while (!f.eof())
-		{
-			/*memorise les 3 lignes en substituant celle du meme type que celle en parametre*/
-			string oldType;
-			getline(f, oldType, ';');
+	bool ok = false;
+	if (importDataFromFile(d, path, type)) {
+		ifstream f(savePath.c_str());//ouvre sauvegarde
+		string complete0 = "";//sensors
+		string complete1 = "";//data
+		string complete2 = "";//datatype
+		if (f) {
+			while (!f.eof())
+			{
+				/*memorise les 3 lignes en substituant celle du meme type que celle en parametre*/
+				string oldType;
+				getline(f, oldType, ';');
 
-			string oldPath;
-			getline(f, oldPath);
+				string oldPath;
+				getline(f, oldPath);
 
-			string newPath = oldPath;
-			if (stoi(oldType) == type) {
-				newPath = path;
-			}
-			switch (stoi(oldType)) {
-			case 0:
-				complete0 = oldType + ";" + newPath;
-			case 1:
-				complete1 = oldType + ";" + newPath;
-			case 2:
-				complete2 = oldType + ";" + newPath;
+				string newPath = oldPath;
+				if (stoi(oldType) == type) {
+					newPath = path;
+				}
+				switch (stoi(oldType)) {
+				case 0:
+					complete0 = oldType + ";" + newPath;
+				case 1:
+					complete1 = oldType + ";" + newPath;
+				case 2:
+					complete2 = oldType + ";" + newPath;
+				}
 			}
 		}
-	}
-	
 
-	/*reouvre et ecrit les bonnes lignes*/
-	ofstream o(savePath.c_str(),ios::trunc);
-	if (o)
-	{
-		o << complete0 << endl;
-		o << complete1 << endl;
-		o << complete2;
-		o.close();
+		/*reouvre et ecrit les bonnes lignes*/
+		ofstream o(savePath.c_str(), ios::trunc);
+		if (o)
+		{
+			o << complete0 << endl;
+			o << complete1 << endl;
+			o << complete2;
+			o.close();
+		}
+		ok = true;
 	}
-
-			
 	return ok;
-}
-
-string FileManager::getSaveFile()
-{
-	return savePath;
 }
 
 
@@ -130,9 +125,9 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				{
 					string id;
 					string sLat;
-					double lat;
+					float lat;
 					string sLon;
-					double lon;
+					float lon;
 					string descr;
 					string flush;
 
@@ -151,7 +146,6 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 
 					/*ajout au dataset*/
 					dataS->addSensor(s);
-
 					ok = true;
 				}
 			}
@@ -167,7 +161,7 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 					struct tm timestamp;
 					string sensorId;/*sensorID*/
 					string dataTypeId;/*attributeID*/
-					double value;/*value*/
+					float value;/*value*/
 					string tmp;
 
 					//debut recuperation temps
