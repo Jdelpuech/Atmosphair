@@ -113,42 +113,36 @@ int main() {
 		case 0:
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
-			cout << "Fichiers relatifs aux capteurs: ";
 			capteur:
+			cout << "Fichiers relatifs aux capteurs: ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
-				if (regex_match(s_tmp1, patternCSV)) {
+				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 0)) {
 					lm.writeLog("modification sauvegarde capteurs : " + s_tmp1);
-					fm.save(s_tmp1, 0);
-					fm.importDataFromFile(&dataSet, s_tmp1, 0);
 				}
 				else {
 					cout << "mauvais format" << endl;
 					goto capteur;
 				}
 			}
-			cout << "Fichiers relatifs aux mesures : ";
 			measure:
+			cout << "Fichiers relatifs aux mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
-				if (regex_match(s_tmp1, patternCSV)) {
+				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
 					lm.writeLog("modification sauvegarde mesures : " + s_tmp1);
-					fm.save(s_tmp1, 1);
-					fm.importDataFromFile(&dataSet, s_tmp1, 1);
 				}
 				else {
 					cout << "mauvais format" << endl;
 					goto measure;
 				}
 			}
-			cout << "Fichiers relatifs au type de mesures : ";
 			link:
+			cout << "Fichiers relatifs au type de mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
-				if (regex_match(s_tmp1, patternCSV)) {
+				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 2)) {
 					lm.writeLog("modification sauvegarde type de mesures : " + s_tmp1);
-					fm.save(s_tmp1, 2);
-					fm.importDataFromFile(&dataSet, s_tmp1, 2);
 				}
 				else {
 					cout << "mauvais format" << endl;
