@@ -12,6 +12,7 @@
 
 //--------------------------------------------------- Interfaces utilis�es
 #include <ctime>
+#include "DataSet.h"
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
@@ -55,6 +56,8 @@ public:
 	void ShowZoneIndiceAtmoJournee(); //peut etre pas trop utile
 
 	void ShowMenu3();
+
+	void ShowValues(DataSet d); 
 
 	void ShowMenu3MessageChoix();
 

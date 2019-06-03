@@ -338,6 +338,14 @@ int main() {
 			if (selFonction == 1)
 			{
 				//Affichage de la liste des capteurs existants
+				cout << "SensorID | Latitude | Longitude | Description"<<endl ; 
+				liste.clear(); 
+				liste = dataSet.getListSensors(); 
+				it = liste.begin() ; 
+				while (it!=liste.end()){
+					cout<<(**it).toString() << endl ; 
+					it++; 
+				}
 
 			}
 

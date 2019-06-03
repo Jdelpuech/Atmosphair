@@ -44,6 +44,9 @@ void Display::ShowMenuPrincipal()
 
 
 }
+void Display::ShowValues(DataSet d){
+	
+}
 
 void Display::ShowChargementFichiers()
 {
