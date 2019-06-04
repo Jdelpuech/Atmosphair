@@ -279,8 +279,13 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
             }
             t1 = mktime(&format_t1); 
         }
+        int m = -1 ;
+        if (nbrJours!=0){
+            m = (int) (moyenne/nbrJours) ; 
+        }
+        
         //cout <<"nombre incrémentation : "<<nbrIncrementation << endl ; 
-        results.push_back((int)(moyenne/nbrJours));
+        results.push_back(m); 
         ++it;
     }
     return results ;

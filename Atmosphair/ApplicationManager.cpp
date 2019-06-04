@@ -98,7 +98,7 @@ int main() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
-	bool  valid = false ; 
+	//valid = false ; 
 	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
@@ -119,7 +119,7 @@ int main() {
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
 			capteur:
-			cout << "Fichiers relatifs aux capteurs: ";
+			cout << "Fichier relatif aux capteurs: ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 0)) {
@@ -131,7 +131,7 @@ int main() {
 				}
 			}
 			measure:
-			cout << "Fichiers relatifs aux mesures : ";
+			cout << "Fichier relatif aux mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
@@ -143,7 +143,7 @@ int main() {
 				}
 			}
 			link:
-			cout << "Fichiers relatifs au type de mesures : ";
+			cout << "Fichier relatif au type de mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 2)) {
@@ -297,7 +297,7 @@ int main() {
 					{
 						cin >> entree;
 					}
-					selFonction=4; 
+					
 					entree = 'a';
 					break;
 
