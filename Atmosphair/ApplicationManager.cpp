@@ -98,7 +98,7 @@ int main() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
-	bool  valid = false ; 
+	//sbool  valid = false ; 
 	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 

@@ -76,7 +76,7 @@ namespace AtmosphairTest
 		
 		DataSet dsTest = DataSet();
 
-		/*TEST_METHOD(TestcalculateMoyenneGaz)
+		TEST_METHOD(TestcalculateMoyenneGaz)
 		{
 			struct tm instant;
 			instant.tm_mon = 1 - 1;
@@ -122,9 +122,9 @@ namespace AtmosphairTest
 
 			float c = 52.3541;
 
-			Assert::AreEqual(c,result, 0.01, L"Basic test failed", LINE_INFO() );
+			Assert::AreEqual(c,result, (float)0.01, L"Basic test failed", LINE_INFO() );
 
-		}*/
+		}
 
 
 
