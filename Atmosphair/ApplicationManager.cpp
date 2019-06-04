@@ -43,7 +43,7 @@ int main() {
 
 	User * user=nullptr;
 	
-	char choice, back; 
+	char choice;
 	int selFonction = 0;
 	string date, choix;
 	string lat,lon,r; 
@@ -58,24 +58,32 @@ int main() {
 	listSensor listeSensor ; 
 	listSensor::iterator itSensor; 
 	listData listeData ; 
-	listData::iterator itData ; 
+	listData::iterator itData ;
+	list<pair<Sensor *, Sensor *> > sensorPair;
+	list<pair<Sensor *, Sensor *> >::iterator itPairSensor;
 	vector<float> resultsGaz ;
 
-	bool connection = false;
-	bool valid;
-	string s_tmp1="", s_tmp2="";
+	bool valid, connection=false;
+	string s_tmp1="", s_tmp2="",s_navigation="";
 	time_t date1, date2;
 	int navigation = 0;
 	int i_tmp = 0;
-	char c_tmp = 'a';
-	list<pair<Sensor *, Sensor *> > sensorPair;
-	list<pair<Sensor *, Sensor *> >::iterator itPairSensor;
+	char c_tmp = 'a',back = 'a';
+	
 
 	string seuil; 
 	int atmo ; 
 	int valSeuil ; 
 
 	regex patternCSV(".*\\.csv$");
+	regex patternNum("[0-6]");
+	regex patternYear("201[0-9]");
+	regex patternMonth("[1-9]|1[0-2]");
+	regex patternDay("[1-9]|[1-2][0-9]|3[0-1]");
+
+	if(regex_match("32", patternDay)){
+		cout << "ok" << endl;
+	}
 
 	ApplicationManager::init(&dataSet, &fm);
 
@@ -116,9 +124,11 @@ int main() {
 	{
 		//on affiche a nouveau le menu principal
 		myDisplay.ShowMenuPrincipal();
-		cin >> navigation;
-		cout << "navigation = " << navigation << endl;
-		switch ((int)navigation)
+		s_navigation = "";
+		while (!regex_match(s_navigation, patternNum)) {
+			cin >> s_navigation;
+		}
+		switch (stoi(s_navigation))
 		{
 		case 0:
 			// Chargement de fichiers

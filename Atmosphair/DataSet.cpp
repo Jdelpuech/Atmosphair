@@ -90,7 +90,6 @@ std::list<pair<Sensor*, Sensor*> > DataSet::generateSimilarity(time_t t1, time_t
 	while (difftime(t2, t1) > 0) {
 		while (it1 != liSensor.end()) {
 			int atmo1 = (**it1).calculateAtmo(t1);
-			cout <<"atmo1: "<< atmo1 << endl;
 			listSensor::iterator it2;
 			it2 = it1;
 			it2++;
@@ -98,7 +97,6 @@ std::list<pair<Sensor*, Sensor*> > DataSet::generateSimilarity(time_t t1, time_t
 			while (difftime(t2, t3)>0){
 				while (it2 != liSensor.end()) {
 					int atmo2 = (**it2).calculateAtmo(t3);
-					cout << atmo2 << endl;
 					if (atmo1 == atmo2) {
 						result.push_back(make_pair((*it1), (*it2)));
 					}

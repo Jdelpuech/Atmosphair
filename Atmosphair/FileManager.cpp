@@ -16,6 +16,15 @@ FileManager::~FileManager()
 bool FileManager::save(DataSet *d,  string path, int type)
 {
 	bool ok = false;
+	if (type == 0) {
+		d->dropListSensors();
+	}
+	else if (type == 1) {
+		d->dropData();
+	}
+	else if (type == 2) {
+		d->dropDataType();
+	}
 	if (importDataFromFile(d, path, type)) {
 		ifstream f(savePath.c_str());//ouvre sauvegarde
 		string complete0 = "";//sensors

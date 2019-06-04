@@ -14,6 +14,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <regex>
 using namespace std;
 
 //------------------------------------------------------ Include personnel
@@ -247,18 +248,31 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 
 time_t Display::getDate() {
 	struct tm date;
-	unsigned int tmp;
+	string tmp;
+	regex patternYear("201[7-9]");
+	regex patternMonth("[1-9]|1[0-2]");
+	regex patternDay("[1-9]|[1-2][0-9]|3[0-1]");
+
 	cout << "Entrer l'annee souhaitee : ";
-	cin >> tmp;
-	date.tm_year = tmp - 1900;
-
+	while (!regex_match(tmp, patternYear)) {
+		cin >> tmp;
+		if (!regex_match(tmp, patternYear))cout << "entrer une annee entre 2017 et 2019 : ";
+	}
+	date.tm_year = stoi(tmp) - 1900;
+	tmp = "";
 	cout << "Entrer le mois souhaitee : ";
-	cin >> tmp;
-	date.tm_mon = tmp - 1 ;
-
+	while (!regex_match(tmp, patternMonth)) {
+		cin >> tmp;
+		if (!regex_match(tmp, patternMonth))cout <<endl<< "entrer un mois en 1 et 12 : ";
+	}
+	date.tm_mon = stoi(tmp) - 1;
+	tmp = "";
 	cout << "Entrer le jour souhaitee : ";
-	cin >> tmp;
-	date.tm_mday = tmp;
+	while (!regex_match(tmp, patternDay)) {
+		cin >> tmp;
+		if (!regex_match(tmp, patternDay))cout << endl << "entrer un jour entre 1 et 31 : ";
+	}
+	date.tm_mday = stoi(tmp);
 
 	date.tm_hour = 0;
 	date.tm_min = 0;
