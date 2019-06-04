@@ -12,6 +12,7 @@
 #include <ctime>
 #include <list>
 #include <vector>
+#define _CRT_SECURE_NO_WARNINGS
 class Sensor;
 class Data;
 class DataType;

@@ -45,7 +45,7 @@ namespace AtmosphairTest
 		{
 			DataSet dsTest = DataSet();
 			FileManager fmTest = FileManager();
-			bool result = fmTest.save("sensors2.csv", 0);
+			bool result = fmTest.save(&dsTest,"sensors2.csv", 0);
 
 			Assert::AreEqual(true, result);
 		}
@@ -54,7 +54,7 @@ namespace AtmosphairTest
 		{
 			DataSet dsTest = DataSet();
 			FileManager fmTest = FileManager();
-			bool result = fmTest.save("data2.csv", 1);
+			bool result = fmTest.save(&dsTest,"data2.csv", 1);
 
 			Assert::AreEqual(true, result);
 		}
