@@ -339,8 +339,10 @@ int main() {
 		case 3:
 			myDisplay.ShowMenu3();
 			cin >> i_tmp;
-
-			if (i_tmp == 1)
+            if (i_tmp==3){
+				break ; 
+			}
+			if (i_tmp == 1 )
 			{
 				//Affichage de la liste des capteurs existants
 				cout << "SensorID | Latitude | Longitude | Description"<<endl ; 
@@ -353,7 +355,7 @@ int main() {
 				}
 
 			}
-
+             
 			cout << "Veuillez saisir l'ID du capteur souhaite (ex. Sensor9) : "<<endl;
 			cin >> s_tmp1;
 			myDisplay.ShowMenu3MessageChoix();
@@ -364,21 +366,6 @@ int main() {
 			if (difftime(date1,date2)!=0)
 			{
 				myDisplay.ShowValues(dataSet, date1,date2,dataSet.getSensorById(s_tmp1));
-				//Appel de la methode d'affichage des donnees du capteur
-				/* ( format : )
-				======================Donnees du capteur[xxx] ================================ =
-					Statistiques correspondant a la periode aaaa - bbbb
-					[Si periode inferieure a une journee : message d’avertissement concernant la                  non - fiabilite des resultats]
-				Latitude : xxx Longitude : xxx
-					Description : xxx
-					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1 min : a max : b
-					10 derniers taux de O3 : [n1 | … | n10]   --->moyenne : m2 min : a max : b
-					10 derniers taux de SO2 : [n1 | … | n10]  --->moyenne : m3 min : a max : b
-					10 derniers taux de NO2 : [n1 | … | n10]  --->moyenne : m4 min : a max : b
-					10 derniers taux de PM10 : [n1 | … | n10]  --->moyenne : m5 min : a max : b
-				===============================================================================
-				*/
-
 				cout << "Appuyez sur q pour revenir au menu precedent"<<endl;
 				while (entree != 'q')
 				{
