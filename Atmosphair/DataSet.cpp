@@ -45,8 +45,6 @@ std::list<Data*> DataSet::generateDataSensor(Sensor * s, time_t t1, time_t t2)
 vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
 	vector<Data*> resultats;
     list<Data*> dataGas = generateDataSensor(s,t1,t2); 
-	cout << dataGas.size() << endl;
-    
 	int nbrSO2 = 0;
     int nbrO3 = 0 ;
 	int nbrNO2 = 0;
@@ -77,7 +75,6 @@ vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
 		}
 		it++;
 	}
-    cout << "FIN"<< endl ; 
     return resultats; 
 }
 
