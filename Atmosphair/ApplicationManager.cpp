@@ -68,6 +68,8 @@ int main() {
 	int navigation = 0;
 	int i_tmp = 0;
 	char c_tmp = 'a';
+	list<pair<Sensor *, Sensor *>> sensorPair;
+	list<pair<Sensor *, Sensor *>>::iterator itPairSensor;
 
 	regex patternCSV(".*\\.csv$");
 
@@ -405,6 +407,18 @@ int main() {
 		case 5:
 			cout << "5-Visualiser les similarites detectees.";
 			//appel de la fonction qui affiche les similiarites entre les capteurs
+			cout << "Selection de la periode :" << endl;
+			cout << "Veuillez entrer la premiere date. " << endl;
+			date1 = myDisplay.getDate();
+			cout <<endl<< "Veuillez entrer la deuxieme date. " << endl;
+			date2 = myDisplay.getDate();
+
+			sensorPair = dataSet.generateSimilarity(date1,date2);
+			itPairSensor = sensorPair.begin();
+			while (itPairSensor != sensorPair.end()) {
+				cout << (*itPairSensor).first->getSensorID() << " similaire au capteur " << (*itPairSensor).second->getSensorID() << endl;
+				itPairSensor++;
+			}
 
 			cout << "Appuyez sur q pour revenir au menu principal.";
 			while (entree != 'q')
