@@ -44,7 +44,7 @@ int main() {
 	User * user=nullptr;
 	
 	char choice, back; 
-	int selFonction;
+	int selFonction = 0;
 	string date, choix;
 	string lat,lon,r; 
 	list<int> valeurs ;
@@ -62,12 +62,14 @@ int main() {
 	vector<float> resultsGaz ;
 
 	bool connection = false;
-	bool valid = false;
+	bool valid;
 	string s_tmp1="", s_tmp2="";
 	time_t date1, date2;
 	int navigation = 0;
 	int i_tmp = 0;
 	char c_tmp = 'a';
+	list<pair<Sensor *, Sensor *> > sensorPair;
+	list<pair<Sensor *, Sensor *> >::iterator itPairSensor;
 
 	string seuil; 
 	int atmo ; 
@@ -98,7 +100,9 @@ int main() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
-	bool  valid = false ; 
+	valid = false; 
+
+
 	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
@@ -113,13 +117,14 @@ int main() {
 		//on affiche a nouveau le menu principal
 		myDisplay.ShowMenuPrincipal();
 		cin >> navigation;
+		cout << "navigation = " << navigation << endl;
 		switch ((int)navigation)
 		{
 		case 0:
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
 			capteur:
-			cout << "Fichiers relatifs aux capteurs: ";
+			cout << "Fichier relatif aux capteurs: ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 0)) {
@@ -131,7 +136,7 @@ int main() {
 				}
 			}
 			measure:
-			cout << "Fichiers relatifs aux mesures : ";
+			cout << "Fichier relatif aux mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
@@ -143,7 +148,7 @@ int main() {
 				}
 			}
 			link:
-			cout << "Fichiers relatifs au type de mesures : ";
+			cout << "Fichier relatif au type de mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 2)) {
@@ -186,38 +191,40 @@ int main() {
 			}
 			break;
 		case 2:
-		while (selFonction != 4)
+			cout << "here";
+			cout << "selfonction" << selFonction << endl;
+			while (selFonction != 4)
 			{
-			// Inspection d'une zone
-			valid = false  ; 
-			while (!valid){
-				cout << "--------------------------------------------------------------------"<<endl;
-				cout << "2-Inspecter une zone."<<endl;
-				cout << "Veuillez selectionner la zone. Une zone se definit par les coordonnees d’un point GPS  "<<endl;
-				cout << "et d'un rayon. " ;
-				cout<< endl ; 
-				cout <<"Latitude : " ; 
-				cin >> lat ; 
-				cout<<"Longitude : "; 
-				cin >> lon ; 
-				cout <<"Rayon (km) :"; 
-				cin >> r ; 
+				// Inspection d'une zone
+				valid = false  ; 
+				while (!valid){
+					cout << "--------------------------------------------------------------------"<<endl;
+					cout << "2-Inspecter une zone."<<endl;
+					cout << "Veuillez selectionner la zone. Une zone se definit par les coordonnees d’un point GPS  "<<endl;
+					cout << "et d'un rayon. " ;
+					cout<< endl ; 
+					cout <<"Latitude : " ; 
+					cin >> lat ; 
+					cout<<"Longitude : "; 
+					cin >> lon ; 
+					cout <<"Rayon (km) :"; 
+					cin >> r ; 
 
-				try{
-					latitude = stod(lat);
-					longitude = stod(lon); 
-					rayon = stod(r); 
-					valid = true ; 
-				}catch(const std::invalid_argument){ 
-        			cerr << "argument invalide : reessayez" << "\n"; 
+					try{
+						latitude = stod(lat);
+						longitude = stod(lon); 
+						rayon = stod(r); 
+						valid = true ; 
+					}catch(const std::invalid_argument){ 
+        				cerr << "argument invalide : reessayez" << "\n"; 
+					}
 				}
-			}
      
-			listeSensor = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
-			myDisplay.ShowMenuInspectionZone();
-			cin >> selFonction;
-			//on a selectionne l'action que l'on souhaite effectuer sur la zone
-			//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
+				listeSensor = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
+				myDisplay.ShowMenuInspectionZone();
+				cin >> selFonction;
+				//on a selectionne l'action que l'on souhaite effectuer sur la zone
+				//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
 			
 				switch (selFonction)
 				{
@@ -228,8 +235,8 @@ int main() {
 					cout << "Veuillez entrer la date souhaitee. "<<endl;
 					date1 = myDisplay.getDate();
 					valeurs = dataSet.generateResultAtmo(listeSensor,date1) ; 
-                    it_1 = valeurs.begin() ; 
-                    moyenne = 0 ; 
+					it_1 = valeurs.begin() ; 
+					moyenne = 0 ; 
 					nbr = 0 ; 
 					while(it_1!=valeurs.end()){
 						moyenne+=(*it_1); 
@@ -248,7 +255,7 @@ int main() {
 					entree = 'a';
 					break;
 				case 2:
-				    cout << "--------------------------------------------------------------------"<<endl;
+					cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.2-Indice Atmo moyen entre t1 et t2."<<endl;
 					cout << "Veuillez entrer la premiere date. "<<endl;
 					//recuperation des 2 dates
@@ -263,7 +270,7 @@ int main() {
 					listeSensor = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
 					valeurs = dataSet.generateResultAtmo(listeSensor,date1,date2); 
 					it_1 = valeurs.begin() ; 
-                    moyenne = 0 ; 
+					moyenne = 0 ; 
 					nbr = 0 ; 
 					while(it_1!=valeurs.end()){
 						moyenne+=(*it_1); 
@@ -272,7 +279,7 @@ int main() {
 					}
 					if (nbr!=0)
 						moyenne = (int) (moyenne/nbr) ; 
-				    cout << moyenne << endl ; 
+					cout << moyenne << endl ; 
 					cout << "Souhaitez vous visualiser toutes les valeurs de l’indice ATMO dans l’intervalle choisi? oui/non."<<endl;
 					cin >> choix;
 					while ((choix != "oui") && (choix != "non"))
@@ -283,13 +290,14 @@ int main() {
 					if (choix == "oui")
 					{
 						it_1 = valeurs.begin(); 
-						while (it_1!=valeurs.end()){
-								struct tm format_t1 = *localtime(&date1);
-								cout << "Date : "<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<" | ATMO : "<< (*it_1)<<endl ; 
-								++it_1; 
-								date1 = myDisplay.incrementDate(date1,date2); 
+						while (it_1!=valeurs.end())
+						{
+							struct tm format_t1 = *localtime(&date1);
+							cout << "Date : "<<(format_t1.tm_year + 1900)<<"-"<<(format_t1.tm_mon +1)<<"-"<<(format_t1.tm_mday)<<" | ATMO : "<< (*it_1)<<endl ; 
+							++it_1; 
+							date1 = myDisplay.incrementDate(date1,date2); 
 
-							}
+						}
 
 					}
 					cout << "Appuyez sur q pour revenir a l'inspection de la zone"<<endl;
@@ -297,12 +305,12 @@ int main() {
 					{
 						cin >> entree;
 					}
-					selFonction=4; 
+					
 					entree = 'a';
 					break;
 
 				case 3 :
-				    cout << "--------------------------------------------------------------------"<<endl;
+					cout << "--------------------------------------------------------------------"<<endl;
 					cout << "2.3-Taux moyen de substances dans une journee"<<endl;
 					cout << "Veuillez entrer la date souhaitee : "<<endl;
 					date1 = myDisplay.getDate();
@@ -339,7 +347,7 @@ int main() {
 				}//fin du switch du menu Zone
 			
 			}//on quitte le menu "Zone"
-
+			selFonction = 0;
 			break;
 		case 3:
 			myDisplay.ShowMenu3();
@@ -421,6 +429,18 @@ int main() {
 		case 5:
 			cout << "5-Visualiser les similarites detectees.";
 			//appel de la fonction qui affiche les similiarites entre les capteurs
+			cout << "Selection de la periode :" << endl;
+			cout << "Veuillez entrer la premiere date. " << endl;
+			date1 = myDisplay.getDate();
+			cout <<endl<< "Veuillez entrer la deuxieme date. " << endl;
+			date2 = myDisplay.getDate();
+
+			sensorPair = dataSet.generateSimilarity(date1,date2);
+			itPairSensor = sensorPair.begin();
+			while (itPairSensor != sensorPair.end()) {
+				cout << (*itPairSensor).first->getSensorID() << " similaire au capteur " << (*itPairSensor).second->getSensorID() << endl;
+				itPairSensor++;
+			}
 
 			cout << "Appuyez sur q pour revenir au menu principal.";
 			while (entree != 'q')

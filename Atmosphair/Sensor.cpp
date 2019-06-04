@@ -256,7 +256,7 @@ float Sensor::calculateMoyenneGaz(time_t t1, time_t t2, string type) {
 		nbVal++;
 
 		struct tm instant1 = *localtime(&t1);
-		instant1.tm_mday++;
+		instant1.tm_yday++;
 		t1 = mktime(&instant1);
 	}
 	return ((float)(sum / nbVal));
