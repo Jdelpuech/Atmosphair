@@ -36,7 +36,7 @@ bool ApplicationManager::init(DataSet * d, FileManager * fm) {
 	return true;
 }
 
-int main2() {
+int main() {
 	DataSet dataSet; 
 	FileManager fm;
 	Display myDisplay;
@@ -69,13 +69,18 @@ int main2() {
 	int i_tmp = 0;
 	char c_tmp = 'a';
 
+	string seuil; 
+	int atmo ; 
+	int valSeuil ; 
+
 	regex patternCSV(".*\\.csv$");
 
 	ApplicationManager::init(&dataSet, &fm);
 
 	while (!connection){
 		cout << "---------------------------------------------------------------------"<<endl; ;
-		cout << "Bienvenue chez Atmosph'Air! Afin d'obtenir l'acces a nos services, veuillez vous authentifier."<<endl;
+		cout << "Bienvenue chez Atmosph'Air! Afin d'obtenir l'acces a nos services," <<endl ;
+		cout <<"veuillez vous authentifier."<<endl;
 		cout << "Login : ";
 		cin >> s_tmp1;
 		cout << "Mot de passe : ";
@@ -93,14 +98,14 @@ int main2() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
-	/*bool  valid = false ; 
-	while (!valid){
+	bool  valid = false ; 
+	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
 		if (navigation<10 && navigation>=0){
 			valid = true ; 
 		}
-	}*/
+	}*/ 
 
 	//si l'utilisatuer entre 6, il souhaite quitter l'application
 	while (navigation != 6)
@@ -366,7 +371,7 @@ int main2() {
 			if (difftime(date1,date2)!=0)
 			{
 				myDisplay.ShowValues(dataSet, date1,date2,dataSet.getSensorById(s_tmp1));
-				cout << "Appuyez sur q pour revenir au menu precedent"<<endl;
+				cout << "Appuyez sur q pour revenir au menu precedent "<<endl;
 				while (entree != 'q')
 				{
 					cin >> entree;
@@ -377,10 +382,34 @@ int main2() {
 			break;
 		case 4:
 			//Affichage des zones a risque
-			myDisplay.ShowMenu4();
-			cin >> selFonction;
-			myDisplay.ShowMenu4SelectionSeuil(selFonction);
-			
+			cout << "--------------------------------------------------------------------"<<endl;
+			cout << "4-Visualiser les zones a risque."<<endl;
+			cout << "Veuillez entrer la valeur seuil souhaitee pour l'indice ATMO."<<endl ; 
+			cout << "ATMO : "; 
+			cin >> seuil ; 
+			cout << "entrer la date." <<endl; 
+			date1 = myDisplay.getDate(); 
+			cout << "--------------------------------------------------------------------"<<endl;
+            valSeuil = stoi(seuil); 
+			while (valSeuil>10 ||valSeuil<0){
+				cout << "Veuillez entrer la valeur seuil souhaitee pour le facteur selectionnee"<<endl ; 
+				cout << "ATMO :"; 
+				cin >> seuil ; 
+				valSeuil = stoi(seuil);
+			}
+
+		    listeSensor = dataSet.getListSensors();
+
+			itSensor = listeSensor.begin(); 
+			cout <<"SensorID | latitude | longitude | description | ATMO "<<endl; 
+			while (itSensor!=listeSensor.end()){
+					atmo = (**itSensor).calculateAtmo(date1); 
+					if (atmo>=valSeuil){
+						cout << (**itSensor).toString() << " | ATMO : " << atmo << endl ; 
+					}
+					++itSensor; 
+			}
+			cout << "--------------------------------------------------------------------"<<endl;
 			cout << "Appuyez sur q pour revenir au choix du facteur";
 			while (entree != 'q')
 			{
@@ -411,7 +440,7 @@ int main2() {
 	return 0; 
 }
 
-int main(){
+int test(){
 
 	/*std::cout << "Test Julie" << endl;
     struct tm instant ;
@@ -546,7 +575,7 @@ int main(){
 	logM.writeLog("nom de l'action");
 	FileManager fm;
 	fm.save("test", 0);*/
-	/*
+
 	struct tm instant;
 	instant.tm_mon = 1 - 1;
 	instant.tm_mday = 1;
@@ -600,7 +629,6 @@ int main(){
 	d.addSensor(sensor_0);
 
 	d.dropListSensors();
-	*/
 
 	return 0;
 }

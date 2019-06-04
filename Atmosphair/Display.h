@@ -61,7 +61,6 @@ public:
 
 	void ShowMenu3MessageChoix();
 
-	void ShowMenu4();
 
 	void ShowMenuInspectionZone(); 
 

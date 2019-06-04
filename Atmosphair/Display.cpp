@@ -219,22 +219,6 @@ void Display::ShowMenu3MessageChoix()
 		<< "Sinon, laissez-les vide et tapez entree (return)."<<endl;
 }
 
-void Display::ShowMenu4()
-{
-	cout << "--------------------------------------------------------------------"<<endl;
-	cout << "4-Visualiser les zones a risque."<<endl;
-	cout << "Quel facteur souhaitez - vous examiner ?"<<endl;
-	cout << "1 - Indice ATMO"<<endl;
-	cout << "2 - Taux de O3"<<endl;
-	cout << "3 - Taux de SO2"<<endl;
-	cout << "4 - Taux de NO2"<<endl;
-	cout << "5 - Taux de PM10"<<endl;
-	cout << "6 - Revenir au menu principal."<<endl;
-	cout << "--------------------------------------------------------------------"<<endl;
-	cout << "choix : " ; 
-
-}
-
 void Display::ShowMenu4SelectionSeuil(int substance)
 {
 	switch (substance)

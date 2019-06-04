@@ -147,7 +147,7 @@ User * DataSet::connectionRequest(string user, string password) {
 	listUser::iterator it;
 	it = liUser.begin();
 	while (it != liUser.end()) {
-		cout << (**it).getLogin() << " ; " << (**it).getMdp() << endl;
+
 		if ((**it).getLogin()==user && (**it).getMdp()==password) {
 			return (*it);
 		}
