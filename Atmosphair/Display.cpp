@@ -173,7 +173,8 @@ void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor * s){
 void Display::ShowChargementFichiers()
 {
 	cout << "--------------------------------------------------------------------"<<endl;
-	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms (extension incluse), rentrer 0 pour ne pas modifier le chemin, et appuyez sur entree."<<endl;
+	cout << "Quels fichiers souhaitez-vous qu'Atmosph'Air utilise? Rentrez leurs noms"<<endl ; 
+	cout<<"(extension incluse), rentrer 0 pour ne pas modifier le chemin, et appuyez sur entree."<<endl;
 	cout << "Attention : "<<endl ;
 	cout <<" \t- Les donnees precedemment utilisees seront ecrasees"<<endl;
 	cout << "\t- Seul les fichiers au format csv sont autorises."<<endl;

@@ -68,6 +68,8 @@ int main() {
 	int navigation = 0;
 	int i_tmp = 0;
 	char c_tmp = 'a';
+	list<pair<Sensor *, Sensor *>> sensorPair;
+	list<pair<Sensor *, Sensor *>>::iterator itPairSensor;
 
 	string seuil; 
 	int atmo ; 
@@ -98,7 +100,11 @@ int main() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
+<<<<<<< HEAD
 	valid = false; 
+=======
+	//valid = false ; 
+>>>>>>> 86a8d8c527a5ebaa33f95408eccba8c99dd4c98d
 	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
@@ -120,7 +126,7 @@ int main() {
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
 			capteur:
-			cout << "Fichiers relatifs aux capteurs: ";
+			cout << "Fichier relatif aux capteurs: ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 0)) {
@@ -132,7 +138,7 @@ int main() {
 				}
 			}
 			measure:
-			cout << "Fichiers relatifs aux mesures : ";
+			cout << "Fichier relatif aux mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
@@ -144,7 +150,7 @@ int main() {
 				}
 			}
 			link:
-			cout << "Fichiers relatifs au type de mesures : ";
+			cout << "Fichier relatif au type de mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 2)) {
@@ -301,6 +307,10 @@ int main() {
 					{
 						cin >> entree;
 					}
+<<<<<<< HEAD
+=======
+					
+>>>>>>> 86a8d8c527a5ebaa33f95408eccba8c99dd4c98d
 					entree = 'a';
 					break;
 
@@ -424,6 +434,18 @@ int main() {
 		case 5:
 			cout << "5-Visualiser les similarites detectees.";
 			//appel de la fonction qui affiche les similiarites entre les capteurs
+			cout << "Selection de la periode :" << endl;
+			cout << "Veuillez entrer la premiere date. " << endl;
+			date1 = myDisplay.getDate();
+			cout <<endl<< "Veuillez entrer la deuxieme date. " << endl;
+			date2 = myDisplay.getDate();
+
+			sensorPair = dataSet.generateSimilarity(date1,date2);
+			itPairSensor = sensorPair.begin();
+			while (itPairSensor != sensorPair.end()) {
+				cout << (*itPairSensor).first->getSensorID() << " similaire au capteur " << (*itPairSensor).second->getSensorID() << endl;
+				itPairSensor++;
+			}
 
 			cout << "Appuyez sur q pour revenir au menu principal.";
 			while (entree != 'q')

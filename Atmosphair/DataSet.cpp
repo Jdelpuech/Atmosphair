@@ -78,6 +78,45 @@ vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
     return resultats; 
 }
 
+std::list<pair<Sensor*, Sensor*>> DataSet::generateSimilarity(time_t t1, time_t t2)
+{	
+	std::list<pair<Sensor*, Sensor*>> result;
+	struct tm instant1 = *localtime(&t1);
+
+	listSensor liSensor = getListSensors();
+	listSensor::iterator it1;
+	it1 = liSensor.begin();
+
+	while (difftime(t2, t1) > 0) {
+		while (it1 != liSensor.end()) {
+			int atmo1 = (**it1).calculateAtmo(t1);
+			cout <<"atmo1: "<< atmo1 << endl;
+			listSensor::iterator it2;
+			it2 = it1;
+			it2++;
+			time_t t3 = t1;
+			while (difftime(t2, t3)>0){
+				while (it2 != liSensor.end()) {
+					int atmo2 = (**it2).calculateAtmo(t3);
+					cout << atmo2 << endl;
+					if (atmo1 == atmo2) {
+						result.push_back(make_pair((*it1), (*it2)));
+					}
+					it2++;
+				}
+				struct tm instant2 = *localtime(&t3);
+				instant2.tm_mday++;
+				t3 = mktime(&instant2);
+			}
+			it1++;
+		}
+		struct tm instant1 = *localtime(&t1);
+		instant1.tm_mday++;
+		t1 = mktime(&instant1);
+	}
+	return result;
+}
+
 listSensor DataSet::getListDysfonctionningSensors()
 {
 	listSensor result;
@@ -279,8 +318,13 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
             }
             t1 = mktime(&format_t1); 
         }
+        int m = -1 ;
+        if (nbrJours!=0){
+            m = (int) (moyenne/nbrJours) ; 
+        }
+        
         //cout <<"nombre incrémentation : "<<nbrIncrementation << endl ; 
-        results.push_back((int)(moyenne/nbrJours));
+        results.push_back(m); 
         ++it;
     }
     return results ;

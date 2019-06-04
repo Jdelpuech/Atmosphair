@@ -15,7 +15,7 @@ FileManager::~FileManager()
 
 bool FileManager::save(DataSet *d,  string path, int type)
 {
-	bool ok = true;
+	bool ok = false;
 	if (importDataFromFile(d, path, type)) {
 		ifstream f(savePath.c_str());//ouvre sauvegarde
 		string complete0 = "";//sensors
@@ -45,9 +45,6 @@ bool FileManager::save(DataSet *d,  string path, int type)
 				}
 			}
 		}
-		else {
-			ok = false;
-		}
 
 		/*reouvre et ecrit les bonnes lignes*/
 		ofstream o(savePath.c_str(), ios::trunc);
@@ -58,10 +55,7 @@ bool FileManager::save(DataSet *d,  string path, int type)
 			o << complete2;
 			o.close();
 		}
-		else {
-			ok = false;
-		}
-		
+		ok = true;
 	}
 	return ok;
 }
