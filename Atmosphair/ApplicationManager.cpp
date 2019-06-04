@@ -71,13 +71,18 @@ int main() {
 	list<pair<Sensor *, Sensor *>> sensorPair;
 	list<pair<Sensor *, Sensor *>>::iterator itPairSensor;
 
+	string seuil; 
+	int atmo ; 
+	int valSeuil ; 
+
 	regex patternCSV(".*\\.csv$");
 
 	ApplicationManager::init(&dataSet, &fm);
 
 	while (!connection){
 		cout << "---------------------------------------------------------------------"<<endl; ;
-		cout << "Bienvenue chez Atmosph'Air! Afin d'obtenir l'acces a nos services, veuillez vous authentifier."<<endl;
+		cout << "Bienvenue chez Atmosph'Air! Afin d'obtenir l'acces a nos services," <<endl ;
+		cout <<"veuillez vous authentifier."<<endl;
 		cout << "Login : ";
 		cin >> s_tmp1;
 		cout << "Mot de passe : ";
@@ -95,14 +100,14 @@ int main() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
-	/*bool  valid = false ; 
-	while (!valid){
+	//valid = false ; 
+	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
 		if (navigation<10 && navigation>=0){
 			valid = true ; 
 		}
-	}*/
+	}*/ 
 
 	//si l'utilisatuer entre 6, il souhaite quitter l'application
 	while (navigation != 6)
@@ -116,7 +121,7 @@ int main() {
 			// Chargement de fichiers
 			myDisplay.ShowChargementFichiers();
 			capteur:
-			cout << "Fichiers relatifs aux capteurs: ";
+			cout << "Fichier relatif aux capteurs: ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 0)) {
@@ -128,7 +133,7 @@ int main() {
 				}
 			}
 			measure:
-			cout << "Fichiers relatifs aux mesures : ";
+			cout << "Fichier relatif aux mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
@@ -140,7 +145,7 @@ int main() {
 				}
 			}
 			link:
-			cout << "Fichiers relatifs au type de mesures : ";
+			cout << "Fichier relatif au type de mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
 				if (regex_match(s_tmp1, patternCSV)&& fm.save(&dataSet, s_tmp1, 2)) {
@@ -294,7 +299,7 @@ int main() {
 					{
 						cin >> entree;
 					}
-					selFonction=4; 
+					
 					entree = 'a';
 					break;
 
@@ -341,8 +346,10 @@ int main() {
 		case 3:
 			myDisplay.ShowMenu3();
 			cin >> i_tmp;
-
-			if (i_tmp == 1)
+            if (i_tmp==3){
+				break ; 
+			}
+			if (i_tmp == 1 )
 			{
 				//Affichage de la liste des capteurs existants
 				cout << "SensorID | Latitude | Longitude | Description"<<endl ; 
@@ -355,7 +362,7 @@ int main() {
 				}
 
 			}
-
+             
 			cout << "Veuillez saisir l'ID du capteur souhaite (ex. Sensor9) : "<<endl;
 			cin >> s_tmp1;
 			myDisplay.ShowMenu3MessageChoix();
@@ -366,22 +373,7 @@ int main() {
 			if (difftime(date1,date2)!=0)
 			{
 				myDisplay.ShowValues(dataSet, date1,date2,dataSet.getSensorById(s_tmp1));
-				//Appel de la methode d'affichage des donnees du capteur
-				/* ( format : )
-				======================Donnees du capteur[xxx] ================================ =
-					Statistiques correspondant a la periode aaaa - bbbb
-					[Si periode inferieure a une journee : message d’avertissement concernant la                  non - fiabilite des resultats]
-				Latitude : xxx Longitude : xxx
-					Description : xxx
-					10 derniers indices ATMO : [n1 | … | n10] --->moyenne : m1 min : a max : b
-					10 derniers taux de O3 : [n1 | … | n10]   --->moyenne : m2 min : a max : b
-					10 derniers taux de SO2 : [n1 | … | n10]  --->moyenne : m3 min : a max : b
-					10 derniers taux de NO2 : [n1 | … | n10]  --->moyenne : m4 min : a max : b
-					10 derniers taux de PM10 : [n1 | … | n10]  --->moyenne : m5 min : a max : b
-				===============================================================================
-				*/
-
-				cout << "Appuyez sur q pour revenir au menu precedent"<<endl;
+				cout << "Appuyez sur q pour revenir au menu precedent "<<endl;
 				while (entree != 'q')
 				{
 					cin >> entree;
@@ -392,10 +384,34 @@ int main() {
 			break;
 		case 4:
 			//Affichage des zones a risque
-			myDisplay.ShowMenu4();
-			cin >> selFonction;
-			myDisplay.ShowMenu4SelectionSeuil(selFonction);
-			
+			cout << "--------------------------------------------------------------------"<<endl;
+			cout << "4-Visualiser les zones a risque."<<endl;
+			cout << "Veuillez entrer la valeur seuil souhaitee pour l'indice ATMO."<<endl ; 
+			cout << "ATMO : "; 
+			cin >> seuil ; 
+			cout << "entrer la date." <<endl; 
+			date1 = myDisplay.getDate(); 
+			cout << "--------------------------------------------------------------------"<<endl;
+            valSeuil = stoi(seuil); 
+			while (valSeuil>10 ||valSeuil<0){
+				cout << "Veuillez entrer la valeur seuil souhaitee pour le facteur selectionnee"<<endl ; 
+				cout << "ATMO :"; 
+				cin >> seuil ; 
+				valSeuil = stoi(seuil);
+			}
+
+		    listeSensor = dataSet.getListSensors();
+
+			itSensor = listeSensor.begin(); 
+			cout <<"SensorID | latitude | longitude | description | ATMO "<<endl; 
+			while (itSensor!=listeSensor.end()){
+					atmo = (**itSensor).calculateAtmo(date1); 
+					if (atmo>=valSeuil){
+						cout << (**itSensor).toString() << " | ATMO : " << atmo << endl ; 
+					}
+					++itSensor; 
+			}
+			cout << "--------------------------------------------------------------------"<<endl;
 			cout << "Appuyez sur q pour revenir au choix du facteur";
 			while (entree != 'q')
 			{

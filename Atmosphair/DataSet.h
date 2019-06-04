@@ -12,7 +12,6 @@
 #include <ctime>
 #include <list>
 #include <vector>
-#define _CRT_SECURE_NO_WARNINGS
 class Sensor;
 class Data;
 class DataType;
@@ -107,6 +106,7 @@ public:
     listUser getListUsers(); 
      // Mode d'emploi : renvoie une liste de l'ensemble des users
     // Contrat : aucun
+
 
 	void dropListSensors();
 

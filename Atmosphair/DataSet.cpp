@@ -45,8 +45,6 @@ std::list<Data*> DataSet::generateDataSensor(Sensor * s, time_t t1, time_t t2)
 vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
 	vector<Data*> resultats;
     list<Data*> dataGas = generateDataSensor(s,t1,t2); 
-	cout << dataGas.size() << endl;
-    
 	int nbrSO2 = 0;
     int nbrO3 = 0 ;
 	int nbrNO2 = 0;
@@ -77,7 +75,6 @@ vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
 		}
 		it++;
 	}
-    cout << "FIN"<< endl ; 
     return resultats; 
 }
 
@@ -189,7 +186,7 @@ User * DataSet::connectionRequest(string user, string password) {
 	listUser::iterator it;
 	it = liUser.begin();
 	while (it != liUser.end()) {
-		cout << (**it).getLogin() << " ; " << (**it).getMdp() << endl;
+
 		if ((**it).getLogin()==user && (**it).getMdp()==password) {
 			return (*it);
 		}
@@ -321,8 +318,13 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
             }
             t1 = mktime(&format_t1); 
         }
+        int m = -1 ;
+        if (nbrJours!=0){
+            m = (int) (moyenne/nbrJours) ; 
+        }
+        
         //cout <<"nombre incrémentation : "<<nbrIncrementation << endl ; 
-        results.push_back((int)(moyenne/nbrJours));
+        results.push_back(m); 
         ++it;
     }
     return results ;
