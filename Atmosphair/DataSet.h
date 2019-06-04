@@ -105,6 +105,7 @@ public:
      // Mode d'emploi : renvoie une liste de l'ensemble des users
     // Contrat : aucun
 
+
 	void dropListSensors();
 
 	void dropData();
