@@ -36,7 +36,7 @@ bool ApplicationManager::init(DataSet * d, FileManager * fm) {
 	return true;
 }
 
-int main() {
+int main2() {
 	DataSet dataSet; 
 	FileManager fm;
 	Display myDisplay;
@@ -424,7 +424,7 @@ int main() {
 	return 0; 
 }
 
-int test(){
+int main(){
 
 	/*std::cout << "Test Julie" << endl;
     struct tm instant ;
@@ -559,7 +559,7 @@ int test(){
 	logM.writeLog("nom de l'action");
 	FileManager fm;
 	fm.save("test", 0);*/
-
+	/*
 	struct tm instant;
 	instant.tm_mon = 1 - 1;
 	instant.tm_mday = 1;
@@ -613,6 +613,7 @@ int test(){
 	d.addSensor(sensor_0);
 
 	d.dropListSensors();
+	*/
 
 	return 0;
 }
