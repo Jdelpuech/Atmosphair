@@ -7,6 +7,7 @@
 #include "../Atmosphair/FileManager.h"
 #include <ctime>
 #include <iostream>
+#include <string>
 
 using namespace std ; 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -67,29 +68,63 @@ namespace AtmosphairTest
 			Assert::AreEqual(false, result);
 		}
 	};
+	
 
 	TEST_CLASS(SensorTest)
 	{
 	public:
-		//float (time_t t, string type);
+		
 		DataSet dsTest = DataSet();
-		FileManager fmTest = FileManager();
-		bool openSave = fmTest.openSave(&dsTest);
-		Sensor s = *dsTest.getSensorById("Sensor0");
-		
-		
 
-		TEST_METHOD(TestcalculateMoyenneGaz)
+		/*TEST_METHOD(TestcalculateMoyenneGaz)
 		{
+			struct tm instant;
+			instant.tm_mon = 1 - 1;
+			instant.tm_mday = 1;
+			instant.tm_year = 2017 - 1900;
+			instant.tm_hour = 1;
+			instant.tm_min = 0;
+			instant.tm_sec = 0;
+			time_t time = mktime(&instant);
+
+			Data * data_0 = new Data(time, 67.9284748555273, "Sensor0", "O3");
+			Data * data_1 = new Data(time, 98.979984192197, "Sensor0", "NO2");
+			Data * data_2 = new Data(time, 119.423041339039, "Sensor0", "SO2");
+			Data * data_3 = new Data(time, 16.7564963001065, "Sensor0", "PM10");
+			instant.tm_hour += 1;
+			time = mktime(&instant);
+			Data * data_4 = new Data(time, 36.7797600526823, "Sensor0", "O3");
+			Data * data_5 = new Data(time, 80.2280346451481, "Sensor0", "NO2");
+			Data * data_6 = new Data(time, 38.151540049253, "Sensor0", "SO2");
+			Data * data_7 = new Data(time, 1.99603267330184, "Sensor0", "PM10");
+
+			Sensor sensor_0 = Sensor("Sensor0", (float)-8.15758888291083, (float)-34.7692487876719, "0");
+			sensor_0.addData(data_0);
+			sensor_0.addData(data_1);
+			sensor_0.addData(data_2);
+			sensor_0.addData(data_3);
+			sensor_0.addData(data_4);
+			sensor_0.addData(data_5);
+			sensor_0.addData(data_6);
+			sensor_0.addData(data_7);
+
 			struct tm format_t;
 			format_t.tm_mday = 1;
 			format_t.tm_mon = 0;
 			format_t.tm_year = 2017 - 1900;
+			format_t.tm_hour = 0;
+			format_t.tm_min = 0;
+			format_t.tm_sec = 0;
+			
 			time_t date = mktime(&format_t);
-			float result = s.calculateMoyenneGaz(date,"SO2" );
+			string f = "O3";
+			float result = sensor_0.calculateMoyenneGaz(date,f);
 
-			Assert::AreEqual(result, result);
-		}
+			float c = 52.3541;
+
+			Assert::AreEqual(c,result, 0.01, L"Basic test failed", LINE_INFO() );
+
+		}*/
 
 
 
