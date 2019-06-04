@@ -78,9 +78,9 @@ vector<Data *> DataSet::generateResultGas(Sensor * s, time_t t1,time_t t2){
     return resultats; 
 }
 
-std::list<pair<Sensor*, Sensor*>> DataSet::generateSimilarity(time_t t1, time_t t2)
+std::list<pair<Sensor*, Sensor*> > DataSet::generateSimilarity(time_t t1, time_t t2)
 {	
-	std::list<pair<Sensor*, Sensor*>> result;
+	std::list<pair<Sensor*, Sensor*> > result;
 	struct tm instant1 = *localtime(&t1);
 
 	listSensor liSensor = getListSensors();

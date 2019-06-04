@@ -68,8 +68,8 @@ int main() {
 	int navigation = 0;
 	int i_tmp = 0;
 	char c_tmp = 'a';
-	list<pair<Sensor *, Sensor *>> sensorPair;
-	list<pair<Sensor *, Sensor *>>::iterator itPairSensor;
+	list<pair<Sensor *, Sensor *> > sensorPair;
+	list<pair<Sensor *, Sensor *> >::iterator itPairSensor;
 
 	string seuil; 
 	int atmo ; 
@@ -100,11 +100,9 @@ int main() {
 	lm.writeLog("Connection de " + user->getNom());
 
 	//inutile en l'etat actuelle
-<<<<<<< HEAD
 	valid = false; 
-=======
-	//valid = false ; 
->>>>>>> 86a8d8c527a5ebaa33f95408eccba8c99dd4c98d
+
+
 	/*while (!valid){
 		std::cin >> choice;
     	navigation = choice - '0'; 
@@ -307,10 +305,7 @@ int main() {
 					{
 						cin >> entree;
 					}
-<<<<<<< HEAD
-=======
 					
->>>>>>> 86a8d8c527a5ebaa33f95408eccba8c99dd4c98d
 					entree = 'a';
 					break;
 
