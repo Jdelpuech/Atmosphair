@@ -30,10 +30,10 @@ int Sensor::calculateAtmo(time_t t){
     float moyNO2 = 0 ;
 
     //tableaux stockant valeurs intermediaires pour les calculs de moyenne
-    int maxsSO2[24] = {0};
-    int maxsNO2[24] = {0};
-    int maxsO3[24] = {0};
-    int particules[24]={0};
+    float maxsSO2[24] = {0};
+    float maxsNO2[24] = {0};
+    float maxsO3[24] = {0};
+    float particules[24]={0};
     
     listData::iterator it = data.begin();
 
@@ -57,22 +57,22 @@ int Sensor::calculateAtmo(time_t t){
             //std::cout<<"condition verified"<<endl; 
             if (type.compare("O3")==0) {
                 if ((**it).getValue() > maxsO3[hour]) {
-                    maxsO3[hour] = (**it).getValue();
+                    maxsO3[hour] += (**it).getValue();
                 }
             }
             else if (type.compare("NO2")==0) {
                 if ((**it).getValue() > maxsNO2[hour]) {
-                    maxsNO2[hour] = (**it).getValue();
+                    maxsNO2[hour] += (**it).getValue();
                 }
             }
             else if (type.compare("SO2")==0) {
                 if ((**it).getValue() > maxsSO2[hour]) {
-                    maxsSO2[hour] = (**it).getValue();
+                    maxsSO2[hour] += (**it).getValue();
                 }
             }
             else if (type.compare("PM10")==0){
                 if ((**it).getValue() > particules[hour]) {
-                    particules[hour] = (**it).getValue();
+                    particules[hour] += (**it).getValue();
                 }
             }
         }
@@ -114,6 +114,12 @@ int Sensor::calculateAtmo(time_t t){
         }
     }
     //calculs des moyennes
+
+	if (nbO == 0 && nbN == 0 && nbP == 0 && nbS == 0) {
+		cout << "ok" << endl;
+		return -1; //detecte si aucune valeurs disponible pour calculer l'indice
+	}
+
     if (nbO!=0)
         moyO3=moyO3/nbO;
     else 
@@ -130,6 +136,8 @@ int Sensor::calculateAtmo(time_t t){
         moySO2=moySO2/nbS;
     else 
         cout <<"Attention : aucune valeur de SO2 prise en compte lors de ce calcul"<<endl;
+
+	
     
     //calcul du max des moyennes
     int max1 ;
@@ -227,13 +235,13 @@ float Sensor::calculateMoyenneGaz(time_t t, string type){
     float sum = 0 ; 
     int nbrData = 0 ; 
     while (it != data.end()) {
-        time_t time1 = (**it).getTimeStamp();
-        string type1 = (**it).getDataTypeId();
-        struct tm format = *localtime(&time1);
+        time_t time = (**it).getTimeStamp();
+        string type = (**it).getDataTypeId();
+        struct tm format = *localtime(&time);
         int day = format.tm_mday;
         int month = format.tm_mon ;
         int year = format.tm_year;
-        if (day_t==day && month_t==month && year_t==year && type1.compare(type)==0){
+        if (day_t==day && month_t==month && year_t==year && type.compare(type)==0){
             sum+=(**it).getValue();
             nbrData ++ ;  
         }
@@ -252,14 +260,18 @@ float Sensor::calculateMoyenneGaz(time_t t1, time_t t2, string type) {
 	float sum=0.;
 	int nbVal = 0;
 	while (difftime(t2, t1) > 0) {
-		sum += calculateMoyenneGaz(t1, type);
-		nbVal++;
+		float tmp = calculateMoyenneGaz(t1, type);
+		if (tmp >= 0) {
+			sum += calculateMoyenneGaz(t1, type);
+			nbVal++;
+		}
+		
 
 		struct tm instant1 = *localtime(&t1);
 		instant1.tm_mday++;
 		t1 = mktime(&instant1);
 	}
-	return ((float)(sum / nbVal));
+	return ((float)(sum / (float)nbVal));
 }
 
 string Sensor::getSensorID(){

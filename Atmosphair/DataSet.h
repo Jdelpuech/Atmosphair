@@ -71,7 +71,7 @@ public:
     //de la liste l a la date t.
     // Contrat : aucun
     
-	std::list<int> generateResultAtmo(listSensor l, time_t t1, time_t t2);
+	std::list<float> generateResultAtmo(listSensor l, time_t t1, time_t t2);
     // Mode d'emploi : renvoie la liste de tous les indices atmos correspondant aux sensors
     //de la liste l, moyennes des indices entre les dates t1 et t2.
     // Contrat : aucun

@@ -64,113 +64,90 @@ void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor * s){
 	cout<<s->toString() <<endl ; 
 	listSensor liste; 
 	liste.push_back(s); 
-	list<int> valeurs = d.generateResultAtmo(liste,t1,t2); 
-	if (valeurs.size()<10){
-		cout<<valeurs.size()<<" derniers indices ATMO : ["; 
+	list<float> valeurs = d.generateResultAtmo(liste,t1,t2);
+	list<float>::iterator it;
+	it = valeurs.begin();
+	if (*it < 0) {
+		cout << "Aucune donnee pour la periode renseigne" << endl;
 	}
 	else {
-		cout<<"10 derniers indices ATMO : ["; 
+		cout << "Indice ATMO moyen sur la periode : " << (*it) << endl;
+
+		vector<Data*> values = d.generateResultGas(s, t1, t2);
+		cout << "derniers indice par molecule (max 10 valeurs par molecule)" << endl;
+
+		string resultSO2 = "";
+		string resultNO2 = "";
+		string resultO3 = "";
+		string resultPM10 = "";
+
+		float minV = 1000;
+		float maxV = -1;
+		float minN = 1000;
+		float maxN = -1;
+		float minO = 1000;
+		float maxO = -1;
+		float minP = 1000;
+		float maxP = -1;
+		vector<Data *>::iterator itResultat;
+		itResultat = values.begin();
+		while (itResultat != values.end()) {
+			if ((**itResultat).getDataTypeId().compare("SO2") == 0) {
+				resultSO2 += to_string((**itResultat).getValue()) + "|";
+				if ((**itResultat).getValue() < minV)
+					minV = (**itResultat).getValue();
+				if ((**itResultat).getValue() > maxV) {
+					maxV = (**itResultat).getValue();
+				}
+			}
+
+			if ((**itResultat).getDataTypeId().compare("O3") == 0) {
+				resultO3 += to_string((**itResultat).getValue()) + "|";
+				if ((**itResultat).getValue() < minO)
+					minO = (**itResultat).getValue();
+				if ((**itResultat).getValue() > maxO) {
+					maxO = (**itResultat).getValue();
+				}
+			}
+			if ((**itResultat).getDataTypeId().compare("PM10") == 0) {
+				resultPM10 += to_string((**itResultat).getValue()) + "|";
+				if ((**itResultat).getValue() < minP)
+					minP = (**itResultat).getValue();
+				if ((**itResultat).getValue() > maxP) {
+					maxP = (**itResultat).getValue();
+				}
+			}
+
+			if ((**itResultat).getDataTypeId().compare("NO2") == 0) {
+				resultNO2 += to_string((**itResultat).getValue()) + "|";
+				if ((**itResultat).getValue() < minN)
+					minN = (**itResultat).getValue();
+				if ((**itResultat).getValue() > maxN) {
+					maxN = (**itResultat).getValue();
+				}
+			}
+			itResultat++;
+		}
+
+		resultNO2 = resultNO2.substr(0, resultNO2.size() - 1);
+		resultSO2 = resultSO2.substr(0, resultSO2.size() - 1);
+		resultO3 = resultO3.substr(0, resultO3.size() - 1);
+		resultPM10 = resultPM10.substr(0, resultPM10.size() - 1);
+
+		cout << "SO2 : [" << resultSO2;
+		cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1, t2, "SO2") << " min : " << minV << " max : " << maxV << endl;
+
+		cout << "NO2 : [" << resultNO2;
+		cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1, t2, "NO2") << " min : " << minN << " max : " << maxN << endl;
+
+
+
+		cout << "NO2 : [" << resultO3;
+		cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1, t2, "O3") << " min : " << minO << " max : " << maxO << endl;
+
+		cout << "PM10 : [" << resultO3;
+		cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1, t2, "PM10") << " min : " << minP << " max : " << maxP << endl;
 	}
-	list<int>::iterator it ; 
-	it = valeurs.begin(); 
-	int moyenne = 0 ; 
-	int nbr = 0 ; 
-	int max = -1 ; 
-	int min = 11 ;
-	while (it!=valeurs.end()){
-
-		cout << (*it);//<<(it++==valeurs.end() ? "|" : "") ; 
-		//it-- ; 
-		if ((*it)<min){
-			min = (*it);
-		}
-		if ((*it)>max){
-			max = (*it); 
-		}
-		moyenne += (*it); 
-		nbr++; 
-		it++;
-		if (it != valeurs.end()) {
-			cout << "|";
-		}
-	}
-	cout<<"] -> moyenne : "<< moyenne/valeurs.size() <<" min : "<< min <<" max : "<< max << endl<<endl ; 
-
-	vector<Data*> values = d.generateResultGas(s,t1,t2); 
-	cout << "derniers indice par molecule (max 10 valeurs par molecule)" << endl;
-
-	string resultSO2 = "";
-	string resultNO2 = "";
-	string resultO3 = "";
-	string resultPM10 = "";
-
-	float minV = 1000;
-	float maxV = -1;
-	float minN = 1000;
-	float maxN = -1;
-  float minO = 1000;
-	float maxO = -1;
-	float minP = 1000;
-	float maxP = -1;
-	vector<Data *>::iterator itResultat;
-	itResultat = values.begin();
-	while (itResultat != values.end()) {
-		if ((**itResultat).getDataTypeId().compare("SO2") == 0) {
-			resultSO2 += to_string((**itResultat).getValue())+"|" ;
-			if ((**itResultat).getValue() < minV)
-				minV = (**itResultat).getValue();
-			if ((**itResultat).getValue() > maxV) {
-				maxV = (**itResultat).getValue();
-			}
-		}
-	
-	  if ((**itResultat).getDataTypeId().compare("O3") == 0) {
-			resultO3 += to_string((**itResultat).getValue())+"|" ;
-			if ((**itResultat).getValue() < minO)
-				minO = (**itResultat).getValue();
-			if ((**itResultat).getValue() > maxO) {
-				maxO = (**itResultat).getValue();
-			}
-		}
-		if ((**itResultat).getDataTypeId().compare("PM10") == 0) {
-			resultPM10 += to_string((**itResultat).getValue())+"|" ;
-			if ((**itResultat).getValue() < minP)
-				minP = (**itResultat).getValue();
-			if ((**itResultat).getValue() > maxP) {
-				maxP = (**itResultat).getValue();
-			}
-		}
-
-		if ((**itResultat).getDataTypeId().compare("NO2") == 0) {
-			resultNO2 += to_string((**itResultat).getValue()) +"|" ;
-			if ((**itResultat).getValue() < minN)
-				minN = (**itResultat).getValue();
-			if ((**itResultat).getValue() > maxN) {
-				maxN = (**itResultat).getValue();
-			}
-		}
-		itResultat++; 
-	}
-
-	resultNO2 = resultNO2.substr(0, resultNO2.size()-1);	
-	resultSO2 = resultSO2.substr(0, resultSO2.size()-1);
-	resultO3 = resultO3.substr(0, resultO3.size()-1);		
-	resultPM10 = resultPM10.substr(0, resultPM10.size()-1);	 
-
-	cout << "SO2 : [" << resultSO2;
-	cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1,t2,"SO2") << " min : " << minV << " max : " << maxV << endl ;
-
-	cout << "NO2 : [" << resultNO2;
-	cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1,t2,"NO2") << " min : " << minN << " max : " << maxN << endl ;
-
-	
-
-	cout << "NO2 : [" << resultO3;
-	cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1,t2,"O3") << " min : " << minO << " max : " << maxO << endl ;
-
-	cout << "PM10 : [" << resultO3;
-	cout << "] -> moyenne : " << s->calculateMoyenneGaz(t1,t2,"PM10") << " min : " << minP << " max : " << maxP << endl ;
-
   cout <<"==============================================================================="<<endl ; 
 	
 }

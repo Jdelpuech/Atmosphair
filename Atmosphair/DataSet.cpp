@@ -286,42 +286,43 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t){
     return results ; 
 }
 //A TESTER
-list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
-    list<int> results ;
+list<float> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
+    list<float> results ;
     //dates
-    struct tm format_t1 = *localtime(&t1);
+    struct tm format_tmp = *localtime(&t1);
     
 	listSensor::iterator it;
     it = l.begin();
     while (it != l.end()) {
-        int moyenne = 0 ;
+        float moyenne = 0 ;
         int nbrJours = 0 ;
-        int nbrIncrementation = 0 ; 
         //cout << difftime(t2,t1) << endl ; 
-        while (difftime(t2,t1)>=0){
-               ++nbrIncrementation ; 
-               moyenne +=(**it).calculateAtmo(t1);
-               nbrJours ++ ;
-               if (format_t1.tm_mday!=31)
-                 format_t1.tm_mday += 1 ;
-               else {
-                   format_t1.tm_mday = 0 ;
-                   if (format_t1.tm_mon!=11){
-                      format_t1.tm_mon += 1;
-                   }
-                   else {
-                       format_t1.tm_mon = 0 ;
-                       format_t1.tm_year +=1;
-                   }
+		struct tm format_tmp = *localtime(&t1);
+		time_t t_tmp = mktime(&format_tmp);
+        while (difftime(t2,t_tmp)>=0){
+			int tmp = (**it).calculateAtmo(t1);
+			if (tmp > 0) {
+				moyenne += tmp;
+				nbrJours++;
+			}
+			if (format_tmp.tm_mday!=31)
+				format_tmp.tm_mday += 1 ;
+			else {
+				format_tmp.tm_mday = 0 ;
+                if (format_tmp.tm_mon!=11){
+				    format_tmp.tm_mon += 1;
+                }
+                else {
+			 	    format_tmp.tm_mon = 0 ;
+			 	    format_tmp.tm_year +=1;
+                }
             }
-            t1 = mktime(&format_t1); 
+            t_tmp = mktime(&format_tmp);
         }
         int m = -1 ;
         if (nbrJours!=0){
-            m = (int) (moyenne/nbrJours) ; 
+            m = (float)(moyenne/(float)nbrJours) ; 
         }
-        
-        //cout <<"nombre incrémentation : "<<nbrIncrementation << endl ; 
         results.push_back(m); 
         ++it;
     }
