@@ -1,9 +1,8 @@
 /*************************************************************************
-						   Display  -  description
+						   Display  -  Realisation
 							 -------------------
-	debut                : $DATE$
-	copyright            : (C) $YEAR$ par $AUTHOR$
-	e-mail               : $EMAIL$
+	debut                : 10/05/2019
+ 	copyright            : (C)2019 par Atmosph'Air
 *************************************************************************/
 
 //---------- Realisation de la classe <Display> (fichier Display.cpp) ------------
@@ -27,12 +26,6 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Methodes publiques
-// type Display::Methode ( liste des parametres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Methode
-
 void Display::ShowMenuPrincipal()
 {
 	cout << "--------------------------------------------------------------------"<<endl;
@@ -175,19 +168,11 @@ void Display::ShowMenuInspectionZone()
 	cout << "choix : "; 
 }
 
-void Display::ShowZoneIndiceAtmoJournee() //sert a pas grand chose
-{
-	cout << "--------------------------------------------------------------------"<<endl;
-	cout << "2.1 Indice Atmo dans une journee."<<endl;
-	cout << "Veuillez entrer la date souhaitee [yyyy - MM - dd] : "<<endl;
-	
-}
-
 void Display::ShowMenu3()
 {
 	cout << "--------------------------------------------------------------------"<<endl;
 	cout << "3 - Interroger un capteur"<<endl;
-	cout << "Tapez[n] pour selectionner l'action."<<endl;
+	cout << "Tapez [n] pour selectionner l'action."<<endl;
 	cout << "1 - Afficher la liste des capteurs existants."<<endl;
 	cout << "2 - Interroger directement un capteur par son identifiant."<<endl;
 	cout << "3 - Retour au menu principal."<<endl;
@@ -198,7 +183,7 @@ void Display::ShowMenu3()
 void Display::ShowMenu3MessageChoix()
 {
 	cout << "Si vous souhaitez obtenir les valeurs issus d'une periode precise entrer 2," << endl
-		<< "si non entrer 1 si vous souhaitez uniquement les valeurs pour 1 jour." << endl;
+		<< "sinon entrer 1 si vous souhaitez uniquement les valeurs sur un jour." << endl;
 }
 
 void Display::ShowMenu4SelectionSeuil(int substance)
@@ -223,7 +208,7 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 	default:
 		break;
 	}
-	cout<< "Veuillez entrer la valeur seuil souhaitee pour le facteur semalectionne :";
+	cout<< "Veuillez entrer la valeur seuil souhaitee pour le facteur selectionne :";
 }
 
 time_t Display::getDate() {

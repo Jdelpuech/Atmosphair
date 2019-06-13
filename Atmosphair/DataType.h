@@ -1,24 +1,24 @@
 /**************************************************************************************
  DataType  -  Interface
  -------------------
- début                : 10/05/2019
+ debut                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
  //---------- Interface de la classe <Catalogue> (fichier DataType.h) ----------------
 #if !defined ( DataType_H )
 #define DataType_H
-//---------------------------------------------------------------- Interfaces utilisées
+//---------------------------------------------------------------- Interfaces utilisees
 
 #include <string>
 #include <ctime>
 class DataType;
 using namespace std;
 //-------------------------------------------------------------------------------------
-// Rôle de la classe <DataType>
-/*Les fichiers .csv définissant les mesures et les types de mesures seront modélisés
-respectivement par les classes DataType et DataTypeType avec les mêmes attributs que ceux
-stipulés dans les fichiers.
+// Role de la classe <DataType>
+/*Les fichiers .csv definissant les mesures et les types de mesures seront modelises
+respectivement par les classes DataType et DataTypeType avec les memes attributs que ceux
+stipules dans les fichiers.
  */
 
  //-------------------------------------------------------------------------------------
@@ -27,25 +27,34 @@ class DataType
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
-	//------------------------------------------------------------- Méthodes publiques
+	//------------------------------------------------------------- Mï¿½thodes publiques
 	inline string getAttributeId() {
 		return attributeId;
 	}
+	// Mode d'emploi : renvoie l'identifiant de l'attribut du type de donnees. 
+	// Contrat : aucun
 
 	inline string getUnit() {
 		return unit;
 	}
+	// Mode d'emploi : renvoie l'unite du type de donnee
+	// Contrat : aucun
 
 	inline string getDescription() {
 		return description;
 	}
+	// Mode d'emploi : renvoie la description d'un type de donnÃ©e
+	// Contrat : aucun
 
 	string toString();
+	// Mode d'emploi : renvoie une chaine de caracteres avec tous les 
+	//attributs definissant le type de donnees. 
+	// Contrat : aucun
 
 	//---------------------------------------------------- Constructeurs - destructeur
 	DataType(string attributeId, string unit, string description);
-	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
-	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
+	// Mode d'emploi : a partir des donnees fournies par une ligne d'un fichier .csv
+	//decrivant une donnee, le constructeur permet de modeliser ce dernier a travers
 	//la construction d'un objet DataType.
 	// Contrat : le fichier .csv est aux normes.
 
@@ -60,9 +69,9 @@ private:
 
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
-	//------------------------------------------------------------ Méthodes protégées
+	//------------------------------------------------------------ Methodes protegees
 
-	//------------------------------------------------------------ Attributs protégés
+	//------------------------------------------------------------ Attributs proteges
 	string attributeId; 
 	string unit; 
 	string description; 
