@@ -1,24 +1,24 @@
 /**************************************************************************************
  Data  -  Interface
  -------------------
- début                : 10/05/2019
+ debut                : 10/05/2019
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
  //---------- Interface de la classe <Catalogue> (fichier Data.h) ----------------
 #if !defined ( Data_H )
 #define Data_H
-//---------------------------------------------------------------- Interfaces utilisées
+//---------------------------------------------------------------- Interfaces utilisees
 #include <string>
 #include <ctime>
 class Sensor;
 class DataType;
 using namespace std;
 //-------------------------------------------------------------------------------------
-// Rôle de la classe <Data>
-/*Les fichiers .csv définissant les mesures et les types de mesures seront modélisés 
-respectivement par les classes Data et DataType avec les mêmes attributs que ceux 
-stipulés dans les fichiers. 
+// Role de la classe <Data>
+/*Les fichiers .csv definissant les mesures et les types de mesures seront modelises 
+respectivement par les classes Data et DataType avec les memes attributs que ceux 
+stipules dans les fichiers. 
  */
 
  //-------------------------------------------------------------------------------------
@@ -27,31 +27,42 @@ class Data
 	//------------------------------------------------------------------------------ PUBLIC
 
 public:
-	//------------------------------------------------------------- Méthodes publiques
+	//------------------------------------------------------------- Methodes publiques
 
 	inline time_t getTimeStamp() {
 		return timestamp; 
 	}
+	// Mode d'emploi : renvoie la date de prise de la donnÃ©e 
+	// Contrat : aucun
 
 	inline float getValue() {
 		return value; 
 	}
+	// Mode d'emploi : renvoie la valeur de la donnÃ©e
+	// Contrat : aucun
 
     
     inline string getSensorId(){
         return sensorId; 
     }
+	// Mode d'emploi : renvoie l'identifiant du sensor
+	// Contrat : aucun
 
 	inline string getDataTypeId() {
 		return dataTypeId;
 	}
+	// Mode d'emploi : renvoie le type de donnÃ©es
+	// Contrat : aucun
 
 	string toString();
+	// Mode d'emploi : renvoie une chaine de caracteres avec toute la description de 
+	//l'objet formatÃ© pour la sortie
+	// Contrat : aucun
 
 	//---------------------------------------------------- Constructeurs - destructeur
 	Data(time_t timestamp, float value, string sensorId, string dataTypeId);
-	// Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
-	//décrivant une donnée, le constructeur permet de modéliser ce dernier à travers
+	// Mode d'emploi : a partir des donnees fournies par une ligne d'un fichier .csv
+	//decrivant une donnee, le constructeur permet de modeliser ce dernier a travers
 	//la construction d'un objet Data.
 	// Contrat : le fichier .csv est aux normes.
 
@@ -63,9 +74,9 @@ public:
 private:
 	//-----------------------------------------------------------------------------PROTEGE
 protected:
-	//------------------------------------------------------------ Méthodes protégées
+	//------------------------------------------------------------ Methodes protegees
 
-	//------------------------------------------------------------ Attributs protégés
+	//------------------------------------------------------------ Attributs proteges
 	time_t timestamp; 
 	float value; 
 	string sensorId;

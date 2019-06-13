@@ -5,7 +5,7 @@
  copyright            : (C)2019 par Atmosph'Air
  ***************************************************************************************/
 
-//---------- Interface de la classe <Catalogue> (fichier Catalogue.h) ----------------
+//---------- Interface de la classe <User> (fichier User.h) ----------------
 #if !defined ( User_H )
 #define User_H
 //---------------------------------------------------------------- Interfaces utilisées
@@ -14,11 +14,7 @@
 #include <ctime>
 //-------------------------------------------------------------------------------------
 // Rôle de la classe <User>
-/*La classe Sensor modélise les capteurs ici utilisés. Un capteur se définit donc par sa localisation 
-(latitude, longitude, description ainsi qu’un id permettant de l’identifier). Cette classe est pourvue 
-d’une méthode permettant de calculer l’indice Atmo à une date donnée (alors les données utilisées sont
-celle de ce même capteur). Cette méthode est surchargée pour permettre de calculer une variante de l’indice 
-Atmo en utilisant deux dates.
+/*Modelise un utilisateur. 
  */
 //-------------------------------------------------------------------------------------
 class User
@@ -52,10 +48,8 @@ public:
     
     //---------------------------------------------------------- Constructeurs - destructeur
     User (std::string login, std::string mdp, std::string name);
-    // Mode d'emploi : à partir des données fournies par une ligne d'un fichier .csv
-    //décrivant les utilisateurs, le constructeur permet de modéliser ce dernier à travers
-    //la construction d'un objet User.
-    // Contrat : le fichier .csv est aux normes.
+    // Mode d'emploi :informations tirees des donnees fournies par une methode d'initialisation. 
+    // Contrat : aucun
     
     
     virtual ~User ( );

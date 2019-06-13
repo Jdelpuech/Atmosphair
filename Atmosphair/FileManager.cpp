@@ -1,17 +1,27 @@
-#include "FileManager.h"
+/*************************************************************************
+						   FileManager  -  Realisation
+							 -------------------
+	debut                : 10/05/2019
+ 	copyright            : (C)2019 par Atmosph'Air
+*************************************************************************/
+
+//--- Realisation de la classe <FileManager> (fichier FileManager.cpp) -----
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include systeme
 #include <iostream>
 #include <fstream>
 #include <time.h>
 #include <string>
 using namespace std;
+//------------------------------------------------------- Include personnel
+#include "FileManager.h"
+//------------------------------------------------------------- Constantes
 
-FileManager::FileManager()
-{
-}
+//----------------------------------------------------------------- PUBLIC
 
-FileManager::~FileManager()
-{
-}
+//----------------------------------------------------- Methodes publiques
 
 bool FileManager::save(DataSet *d,  string path, int type)
 {
@@ -81,34 +91,22 @@ bool FileManager::openSave(DataSet* dataS)
 			string type;
 
 			getline(f, type, ';');
-			//cout << "type :" << type << endl;
-
 			string fpath;
 			getline(f, fpath);
-			//cout << "path :" << fpath << endl;
-
 
 			switch (atoi(type.c_str()))
 			{
 			case 0:
-				//cout << "ok" << endl;
 				ok = importDataFromFile(dataS, fpath, 0);
-
 				break;
 			case 1:
-				//cout << "ok" << endl;
 				ok = importDataFromFile(dataS, fpath, 1);
-
 				break;
 			case 2:
-				//cout << "ok" << endl;
 				ok = importDataFromFile(dataS, fpath, 2);
-
 				break;
 			default:
-				//cout << "ok" << endl;
 				cout << "invalid type";
-
 				break;
 			}
 		}
@@ -212,7 +210,7 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				}
 			}
 			catch (...) {
-				cout << "erreur chargement fichier de données" << endl;
+				cout << "erreur chargement fichier de donnï¿½es" << endl;
 			}
 			break;
 		case 2: /*dataType*/
@@ -238,7 +236,7 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 				}
 			}
 			catch (...) {
-				cout << "erreur chargement fichier de type de données" << endl;
+				cout << "erreur chargement fichier de type de donnï¿½es" << endl;
 			}
 			break;
 		default:
@@ -251,5 +249,15 @@ bool FileManager::importDataFromFile(DataSet* dataS, string path, int type) {
 	f.close();
 	return ok;
 }
+
+//-------------------------------------------- Constructeurs - destructeur
+FileManager::FileManager()
+{
+}
+
+FileManager::~FileManager()
+{
+}
+
 
 
