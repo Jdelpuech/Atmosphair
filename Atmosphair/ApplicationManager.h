@@ -11,7 +11,7 @@
 //---------------------------------------------------------------- Interfaces utilisées
 #include <string>
 #include <ctime>
-#include "User.h"
+
 
 class FileManager;
 class DataSet;

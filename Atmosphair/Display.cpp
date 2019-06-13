@@ -53,6 +53,10 @@ void Display::ShowMenuPrincipal()
 void Display::ShowValues(DataSet d, time_t t1, time_t t2, Sensor * s){
 	struct tm format_t1 = *localtime(&t1);
 	struct tm format_t2 = *localtime(&t2);
+	format_t2.tm_hour = 23;
+	format_t2.tm_min = 59;
+	format_t2.tm_sec = 59;
+	t2 = mktime(&format_t2);
 	cout <<"======================Donnees du capteur["<<s->getSensorID()<<"] ================================="<<endl ; 
 	cout <<"Statistiques correspondant a la periode "<<format_t1.tm_mday<<"-"<<format_t1.tm_mon+1<<"-"
 	<<format_t1.tm_year+1900<<" a "<<format_t2.tm_mday<<"-"<<format_t2.tm_mon+1<<"-"
@@ -216,9 +220,8 @@ void Display::ShowMenu3()
 
 void Display::ShowMenu3MessageChoix()
 {
-	cout << "Si vous souhaitez obtenir les valeurs issus d'une periode precise," <<endl
-		<< "veuillez preciser une date de debut et une date de fin dans les champs ci-dessous."<<endl
-		<< "Sinon, laissez-les vide et tapez entree (return)."<<endl;
+	cout << "Si vous souhaitez obtenir les valeurs issus d'une periode precise entrer 2," << endl
+		<< "si non entrer 1 si vous souhaitez uniquement les valeurs pour 1 jour." << endl;
 }
 
 void Display::ShowMenu4SelectionSeuil(int substance)
@@ -248,31 +251,30 @@ void Display::ShowMenu4SelectionSeuil(int substance)
 
 time_t Display::getDate() {
 	struct tm date;
-	string tmp;
+	string day, year, month;
 	regex patternYear("201[7-9]");
 	regex patternMonth("[1-9]|1[0-2]");
 	regex patternDay("[1-9]|[1-2][0-9]|3[0-1]");
 
 	cout << "Entrer l'annee souhaitee : ";
-	while (!regex_match(tmp, patternYear)) {
-		cin >> tmp;
-		if (!regex_match(tmp, patternYear))cout << "entrer une annee entre 2017 et 2019 : ";
+	while (!regex_match(year, patternYear)) {
+		cin >> year;
+		if (!regex_match(year, patternYear))cout << "entrer une annee entre 2017 et 2019 : ";
 	}
-	date.tm_year = stoi(tmp) - 1900;
-	tmp = "";
+	date.tm_year = stoi(year) - 1900;
+
 	cout << "Entrer le mois souhaitee : ";
-	while (!regex_match(tmp, patternMonth)) {
-		cin >> tmp;
-		if (!regex_match(tmp, patternMonth))cout <<endl<< "entrer un mois en 1 et 12 : ";
+	while (!regex_match(month, patternMonth)) {
+		cin >> month;
+		if (!regex_match(month, patternMonth))cout <<endl<< "entrer un mois en 1 et 12 : ";
 	}
-	date.tm_mon = stoi(tmp) - 1;
-	tmp = "";
+	date.tm_mon = stoi(month) - 1;
 	cout << "Entrer le jour souhaitee : ";
-	while (!regex_match(tmp, patternDay)) {
-		cin >> tmp;
-		if (!regex_match(tmp, patternDay))cout << endl << "entrer un jour entre 1 et 31 : ";
+	while (!regex_match(day, patternDay)) {
+		cin >> day;
+		if (!regex_match(day, patternDay))cout << endl << "entrer un jour entre 1 et 31 : ";
 	}
-	date.tm_mday = stoi(tmp);
+	date.tm_mday = stoi(day);
 
 	date.tm_hour = 0;
 	date.tm_min = 0;

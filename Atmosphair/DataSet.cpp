@@ -298,7 +298,7 @@ list<int> DataSet::generateResultAtmo(listSensor l, time_t t1, time_t t2){
         int nbrJours = 0 ;
         int nbrIncrementation = 0 ; 
         //cout << difftime(t2,t1) << endl ; 
-        while (difftime(t2,t1)>0){
+        while (difftime(t2,t1)>=0){
                ++nbrIncrementation ; 
                moyenne +=(**it).calculateAtmo(t1);
                nbrJours ++ ;

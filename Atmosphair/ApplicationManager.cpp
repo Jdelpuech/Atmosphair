@@ -44,11 +44,8 @@ int main() {
 	User * user=nullptr;
 	
 	char choice;
-	int selFonction = 0;
-	string date, choix;
-	string lat,lon,r; 
+
 	list<int> valeurs ;
-	int moyenne, nbr ; 
 	list<int>::iterator it_1; 
 	float latitude,longitude,rayon; 
 	
@@ -64,10 +61,11 @@ int main() {
 	vector<float> resultsGaz ;
 
 	bool valid, connection=false;
-	string s_tmp1="", s_tmp2="",s_navigation="";
+	string s_tmp1="", s_tmp2="",s_navigation="", choix="",s_sousMenu="",s_capteur="";
+	string lat, lon, r;
 	time_t date1, date2;
-	int navigation = 0;
-	int i_tmp = 0;
+	int navigation = 0,sousMenu=0;
+	int i_tmp = 0, moyenne, nbr;
 	char c_tmp = 'a',back = 'a';
 	
 
@@ -76,12 +74,14 @@ int main() {
 	int valSeuil ; 
 
 	regex patternCSV(".*\\.csv$");
-	regex patternNum("[0-6]");
-	regex patternYear("201[0-9]");
-	regex patternMonth("[1-9]|1[0-2]");
-	regex patternDay("[1-9]|[1-2][0-9]|3[0-1]");
+	regex pattern0_6("[0-6]");
+	regex pattern1_4("[1-4]");
+	regex pattern1_3("[1-3]");
+	regex pattern1_2("[1-2]");
+	regex patternOuiNon("oui|non");
+	regex patternSensor("Sensor[0-9]+");
 
-	if(regex_match("32", patternDay)){
+	if(regex_match("sensor88", patternSensor)){
 		cout << "ok" << endl;
 	}
 
@@ -124,8 +124,9 @@ int main() {
 	{
 		//on affiche a nouveau le menu principal
 		myDisplay.ShowMenuPrincipal();
-		s_navigation = "";
-		while (!regex_match(s_navigation, patternNum)) {
+		cin >> s_navigation;
+		while (!regex_match(s_navigation, pattern0_6)) {
+			cout << "Veuillez entrer une valeur entre 0 et 6 : ";
 			cin >> s_navigation;
 		}
 		switch (stoi(s_navigation))
@@ -192,51 +193,52 @@ int main() {
 				++itSensor ; 
 			}
 
-			while (back!='q'){
-				cout << "Appuyez sur q pour revenir au menu principal."<<endl ; 
-				cin >> back ; 
-				if (back!='q'){
-					cout << "Attention, cette entree ne correspond a aucune action"<<endl; 
-				}
-			}
+			lm.writeLog("Affichage des capteurs disfonctionnants");
+
+			cout << "Appuyez sur enter pour revenir au menu principal." << endl;
+			cin.get();
+			cin.get();
 			break;
 		case 2:
-			cout << "here";
-			cout << "selfonction" << selFonction << endl;
-			while (selFonction != 4)
-			{
-				// Inspection d'une zone
-				valid = false  ; 
-				while (!valid){
-					cout << "--------------------------------------------------------------------"<<endl;
-					cout << "2-Inspecter une zone."<<endl;
-					cout << "Veuillez selectionner la zone. Une zone se definit par les coordonnees d’un point GPS  "<<endl;
-					cout << "et d'un rayon. " ;
-					cout<< endl ; 
-					cout <<"Latitude : " ; 
-					cin >> lat ; 
-					cout<<"Longitude : "; 
-					cin >> lon ; 
-					cout <<"Rayon (km) :"; 
-					cin >> r ; 
+			// Inspection d'une zone
+			valid = false;
+			while (!valid) {
+				cout << "--------------------------------------------------------------------" << endl;
+				cout << "2-Inspecter une zone." << endl;
+				cout << "Veuillez selectionner la zone. Une zone se definit par les coordonnees d’un point GPS  " << endl;
+				cout << "et d'un rayon. " << endl;
+				cout << "Latitude : ";
+				cin >> lat;
+				cout << "Longitude : ";
+				cin >> lon;
+				cout << "Rayon (km) :";
+				cin >> r;
 
-					try{
-						latitude = stod(lat);
-						longitude = stod(lon); 
-						rayon = stod(r); 
-						valid = true ; 
-					}catch(const std::invalid_argument){ 
-        				cerr << "argument invalide : reessayez" << "\n"; 
-					}
+				try {
+					latitude = stod(lat);
+					longitude = stod(lon);
+					rayon = stod(r);
+					valid = true;
 				}
-     
-				listeSensor = dataSet.getListSensorsInZone(latitude,longitude,rayon); 
+				catch (const std::invalid_argument) {
+					cerr << "argument invalide : reessayez" << "\n";
+				}
+			}
+
+			listeSensor = dataSet.getListSensorsInZone(latitude, longitude, rayon);
+			while (sousMenu != 4)
+			{
 				myDisplay.ShowMenuInspectionZone();
-				cin >> selFonction;
+				cin >> s_sousMenu;
+				while (!regex_match(s_sousMenu, pattern1_4)) {
+					cout << "Veuillez entrer une valeur entre 1 et 4 : " ;
+					cin >> s_sousMenu;
+				}
+				sousMenu = stoi(s_sousMenu);
 				//on a selectionne l'action que l'on souhaite effectuer sur la zone
 				//si selFonction est 4, l'utilisateur souhiate revenir au ùenu principal
 			
-				switch (selFonction)
+				switch (sousMenu)
 				{
 				case 1:
 					//la date est demandee a l'utilisateur
@@ -255,14 +257,8 @@ int main() {
 					}
 					if (nbr!=0)
 						moyenne = (int) (moyenne/nbr) ; 
-					cout <<"indice ATMO :"<< moyenne <<endl ;  
-					cout << "Appuyez sur q pour revenir a l'inspection de la zone"<<endl;
-					while (entree != 'q')
-					{ 
-						cin >> entree;
-					}
-					//selFonction=4; 
-					entree = 'a';
+					cout <<"indice ATMO :"<< moyenne <<endl ;
+					lm.writeLog("Consultation indice Atmo dans une journee des capteur de la zone " + lat + ":" + lon + "/" + r + " date : " + ctime(&date1));
 					break;
 				case 2:
 					cout << "--------------------------------------------------------------------"<<endl;
@@ -292,7 +288,7 @@ int main() {
 					cout << moyenne << endl ; 
 					cout << "Souhaitez vous visualiser toutes les valeurs de l’indice ATMO dans l’intervalle choisi? oui/non."<<endl;
 					cin >> choix;
-					while ((choix != "oui") && (choix != "non"))
+					while (!regex_match(choix,patternOuiNon))
 					{
 						cout << "Veuillez entrer oui ou non"<<endl;
 						cin >> choix;
@@ -310,13 +306,7 @@ int main() {
 						}
 
 					}
-					cout << "Appuyez sur q pour revenir a l'inspection de la zone"<<endl;
-					while (entree != 'q')
-					{
-						cin >> entree;
-					}
-					
-					entree = 'a';
+					lm.writeLog("Consultation indice Atmo des capteur de la zone " + lat + ":" + lon + "/" + r + " entre le : " + ctime(&date1)+" et le : "+ctime(&date2));
 					break;
 
 				case 3 :
@@ -344,28 +334,31 @@ int main() {
 					if (resultsGaz[3]!=0){
 						cout << "Taux moyen de PM10 dans la journee : "<<resultsGaz[3]<<endl ; 
 					}
-
-					cout << "Appuyez sur q pour revenir a l'inspection de la zone. "<<endl;
-					while (entree != 'q')
-					{
-						cin >> entree;
-					}
-					entree = 'a';
+					lm.writeLog("Consultation taux moyen de substances ("+choix+") dans une journee des capteur de la zone " + lat + ":" + lon + "/" + r + " date : " + ctime(&date1));
 					break;
 				default:
 					break;
 				}//fin du switch du menu Zone
-			
+				if (sousMenu != 4) {
+					cout << "Appuyez sur enter pour revenir au menu precedent." << endl;
+					cin.get();
+					cin.get();
+				}
 			}//on quitte le menu "Zone"
-			selFonction = 0;
+			sousMenu = 0;
 			break;
-		case 3:
+		case 3: //interroger un capteur
 			myDisplay.ShowMenu3();
-			cin >> i_tmp;
-            if (i_tmp==3){
+			cin >> s_sousMenu;
+			while (!regex_match(s_sousMenu, pattern1_3)) {
+				cout << "Veuillez entrer une valeur entre 1 et 3 : ";
+				cin >> s_sousMenu;
+			}
+			sousMenu = stoi(s_sousMenu);
+            if (sousMenu ==3){
 				break ; 
 			}
-			if (i_tmp == 1 )
+			if (sousMenu == 1 )
 			{
 				//Affichage de la liste des capteurs existants
 				cout << "SensorID | Latitude | Longitude | Description"<<endl ; 
@@ -379,24 +372,45 @@ int main() {
 
 			}
              
-			cout << "Veuillez saisir l'ID du capteur souhaite (ex. Sensor9) : "<<endl;
-			cin >> s_tmp1;
-			myDisplay.ShowMenu3MessageChoix();
-			cout <<endl<< "Saisissez une date de debut. "<<endl;
-			date1 = myDisplay.getDate();
-			cout <<endl<< "Saisissez une date de fin. "<<endl;
-			date2 = myDisplay.getDate();
-			if (difftime(date1,date2)!=0)
-			{
-				myDisplay.ShowValues(dataSet, date1,date2,dataSet.getSensorById(s_tmp1));
-				cout << "Appuyez sur q pour revenir au menu precedent "<<endl;
-				while (entree != 'q')
-				{
-					cin >> entree;
-				}
-				entree = 'a';
+			cout << "Veuillez saisir l'ID du capteur souhaite (ex. Sensor9) : ";
+			cin >> s_capteur;
+			while (!regex_match(s_capteur, patternSensor)) {
+				cout << "Veuillez saisir l'ID du capteur souhaite (ex. Sensor9) : " ;
+				cin >> s_capteur;
 			}
-
+			myDisplay.ShowMenu3MessageChoix();
+			cin >> s_tmp1;
+			while (!regex_match(s_tmp1, pattern1_2)) {
+				cout << "Veuillez entrer une valeur entre 1 et 2 : ";
+				cin >> s_tmp1;
+			}
+			if (stoi(s_tmp1) == 2) {
+				cout << endl << "Saisissez une date de debut. " << endl;
+				date1 = myDisplay.getDate();
+				cout << endl << "Saisissez une date de fin. " << endl;
+				date2 = myDisplay.getDate();
+				if (difftime(date1, date2) != 0)
+				{
+					myDisplay.ShowValues(dataSet, date1, date2, dataSet.getSensorById(s_capteur));
+					cout << "Appuyez sur enter pour revenir au menu precedent " << endl;
+					cin.get();
+					cin.get();
+					lm.writeLog("Consultation capteur " + s_tmp1 + "entre le : " + ctime(&date1) + " et le : " + ctime(&date2));
+				}
+				else {
+					cout << "Vous avez entrez deux fois la même date" << endl;
+				}
+				
+			}
+			else {
+				cout << endl << "Saisissez une date : " << endl;
+				date1 = myDisplay.getDate();
+				myDisplay.ShowValues(dataSet, date1, date1, dataSet.getSensorById(s_capteur));
+				cout << "Appuyez sur enter pour revenir au menu precedent " << endl;
+				cin.get();
+				cin.get();
+				lm.writeLog("Consultation capteur " + s_tmp1 + " le : " + ctime(&date1));
+			}
 			break;
 		case 4:
 			//Affichage des zones a risque
