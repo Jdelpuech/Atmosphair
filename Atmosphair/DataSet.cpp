@@ -220,7 +220,6 @@ vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0){
-			cout << sum << endl ; 
             results[0]= (sum/nbrData); 
 		}else 
             results[0]= 0;
@@ -236,7 +235,6 @@ vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
            it++; 
         }
         if (nbrData!=0){
-			cout << sum << endl ; 
 			results[1]= (sum/nbrData);
 		}   
         else 

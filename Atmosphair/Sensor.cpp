@@ -243,7 +243,6 @@ float Sensor::calculateMoyenneGaz(time_t t, string type){
         if (day_t==day && month_t==month && year_t==year && type.compare(varType)==0){
             sum+=(**it).getValue();
             nbrData ++ ;  
-            cout << sum << endl ; 
         }
 
         it++ ; 
