@@ -28,7 +28,7 @@ class ApplicationManager
 public:
     //------------------------------------------------------------------ Méthodes publiques
     
-     bool static init(DataSet * d, FileManager * fm);
+     bool static init(DataSet * d);
      //mode d'emploi : initialise le dataset et l'ensemble des utilisateurs. 
      //contrat : aucun. 
     

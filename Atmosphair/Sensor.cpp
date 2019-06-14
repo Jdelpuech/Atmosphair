@@ -303,7 +303,8 @@ int Sensor::dysfonction(){
         while (it!=data.end()){
             //test de cohérence
             if (it!=data.begin()){
-                if ((difftime((**it).getTimeStamp(),t1) > 3500)){
+                if ((difftime((**it).getTimeStamp(),t1) > 4000)){
+					cout << ctime(&t1) << endl;
                     working = false ; 
                     valeur = 1 ; 
                 }

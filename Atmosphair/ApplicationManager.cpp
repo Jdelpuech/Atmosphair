@@ -29,8 +29,7 @@ using namespace std;
 #include "DataSet.h"	
 
 //-------------------------------------------------------------------------------- PUBLIC
-bool ApplicationManager::init(DataSet * d, FileManager * fm) {
-	(*fm).openSave(d);
+bool ApplicationManager::init(DataSet * d) {
 	User * user_1 = new User("user", "123", "user Atmosph'air");
 	(*d).addUser(user_1);
 	return true;
@@ -41,15 +40,7 @@ int main() {
 	FileManager fm;
 	Display myDisplay;
 
-	User * user=nullptr;
-	
-	char choice;
-
-	 
-	float latitude,longitude,rayon; 
-	
-	char entree = 'a';
-	
+	User * user=nullptr; 
 	
 	listSensor listeSensor ; 
 	listSensor::iterator itSensor; 
@@ -63,13 +54,13 @@ int main() {
 	list<float>::iterator it_valF;
 	vector<float> resultsGaz ;
 
-	bool valid, connection=false;
+	bool valid=false, connection=false;
 	string s_tmp1="", s_tmp2="", choix="",s_sousMenu="",s_capteur="";
 	string lat, lon, r;
 	time_t date1, date2;
 	int navigation = 0, sousMenu = 0, seuil = 0, atmo=0;
 	int i_tmp = 0, nbr=0;
-	float moyenne = 0.;
+	float moyenne = 0., latitude, longitude, rayon;
 	char c_tmp = 'a',back = 'a'; 
 
 	regex patternCSV(".*\\.csv$");
@@ -81,11 +72,7 @@ int main() {
 	regex patternSensor("Sensor[0-9]+");
 	regex patternLess10("[0-9]|10");
 
-	if(regex_match("sensor88", patternSensor)){
-		cout << "ok" << endl;
-	}
-
-	ApplicationManager::init(&dataSet, &fm);
+	ApplicationManager::init(&dataSet);
 
 	while (!connection){
 		cout << "---------------------------------------------------------------------"<<endl; ;
@@ -107,10 +94,10 @@ int main() {
 	LogManager lm(user);
 	lm.writeLog("Connection de " + user->getNom());
 
-	//inutile en l'etat actuelle
-	valid = false; 
-
-
+	cout << "Chargement des fichiers de l'application en cours cette operation peut etre longue..." << endl;
+	if (!fm.openSave(&dataSet)){
+		cout << "une erreur c'est produit lors du chargement des fichiers" << endl;
+	}
 	//si l'utilisatuer entre 6, il souhaite quitter l'application
 	while (navigation != 6)
 	{
@@ -143,6 +130,7 @@ int main() {
 			cout << "Fichier relatif aux mesures : ";
 			cin >> s_tmp1;
 			if (s_tmp1 != "0") {
+				cout << "Chargement du fichier en cours, cette operation peut etre longue" << endl;
 				if (regex_match(s_tmp1, patternCSV) && fm.save(&dataSet, s_tmp1, 1)) {
 					lm.writeLog("modification sauvegarde mesures : " + s_tmp1);
 				}
@@ -297,7 +285,8 @@ int main() {
 						{
 							struct tm format_t1 = *localtime(&date1);
 							cout << (**itSensor).getSensorID()<<" | ATMO : "<< (*it_valF)<<endl ; 
-							++it_valF; 
+							++it_valF;
+							++itSensor;
 							date1 = myDisplay.incrementDate(date1,date2); 
 						}
 
@@ -329,7 +318,7 @@ int main() {
 						cout << "Taux moyen de SO2 dans la journee : "<<resultsGaz[1]<<endl ; 
 					}
 					if (resultsGaz[2]!=0){
-						cout << "Taux moyen de NO3 dans la journee : "<<resultsGaz[2]<<endl ; 
+						cout << "Taux moyen de NO2 dans la journee : "<<resultsGaz[2]<<endl ; 
 					}
 					if (resultsGaz[3]!=0){
 						cout << "Taux moyen de PM10 dans la journee : "<<resultsGaz[3]<<endl ; 
@@ -428,7 +417,7 @@ int main() {
 			cout << "ATMO : "; 
 			cin >> s_tmp1 ; 
 			while (!regex_match(s_tmp1, patternLess10)) {
-				cout<< "veuillez entrer une valeur entre 0 et 10";
+				cout<< "veuillez entrer une valeur entre 0 et 10 : ";
 				cin >> s_tmp1;
 			}
 			seuil = stoi(s_tmp1);
@@ -442,7 +431,7 @@ int main() {
 			cout <<"SensorID | latitude | longitude | description | ATMO "<<endl; 
 			while (itSensor!=listeSensor.end()){
 					atmo = (**itSensor).calculateAtmo(date1); 
-					if (atmo<=seuil){
+					if (atmo>=seuil){
 						cout << (**itSensor).toString() << " | ATMO : " << atmo << endl ; 
 					}
 					++itSensor; 
