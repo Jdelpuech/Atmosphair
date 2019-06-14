@@ -207,7 +207,6 @@ listSensor DataSet::getListSensorsInZone(float lat, float lon, float rayon) {
 	return result;
 }
 
-//A TESTER 
 vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
     vector<float> results(4) ;
     if (choix.find('1') != string::npos){
@@ -220,9 +219,10 @@ vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
            nbrData++ ; 
            it++; 
         }
-        if (nbrData!=0)
+        if (nbrData!=0){
+			cout << sum << endl ; 
             results[0]= (sum/nbrData); 
-        else 
+		}else 
             results[0]= 0;
     }
     if (choix.find('2') != string::npos){
@@ -235,8 +235,10 @@ vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
            nbrData++ ; 
            it++; 
         }
-        if (nbrData!=0)
-            results[1]= (sum/nbrData);
+        if (nbrData!=0){
+			cout << sum << endl ; 
+			results[1]= (sum/nbrData);
+		}   
         else 
             results[1]= 0;
     }
@@ -274,7 +276,6 @@ vector<float> DataSet::generateResultGas(listSensor l, time_t t, string choix){
     return results ; 
 }
 
-//A TESTER -> OK
 list<int> DataSet::generateResultAtmo(listSensor l, time_t t){
     list<int> results ;
 	listSensor::iterator it;

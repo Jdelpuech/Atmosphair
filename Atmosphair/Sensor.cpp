@@ -221,7 +221,6 @@ int Sensor::calculateAtmo(time_t t){
     return indiceAtmo ;
 }
 
-//A TESTER -> fait 
 float Sensor::calculateMoyenneGaz(time_t t, string type){
     listData::iterator it = data.begin() ; 
 
@@ -233,17 +232,18 @@ float Sensor::calculateMoyenneGaz(time_t t, string type){
 
     //données 
     float sum = 0 ; 
-    int nbrData = 0 ; 
+    int nbrData = 0 ;  
     while (it != data.end()) {
         time_t time = (**it).getTimeStamp();
-        string type = (**it).getDataTypeId();
+        string varType = (**it).getDataTypeId();
         struct tm format = *localtime(&time);
         int day = format.tm_mday;
         int month = format.tm_mon ;
         int year = format.tm_year;
-        if (day_t==day && month_t==month && year_t==year && type.compare(type)==0){
+        if (day_t==day && month_t==month && year_t==year && type.compare(varType)==0){
             sum+=(**it).getValue();
             nbrData ++ ;  
+            cout << sum << endl ; 
         }
 
         it++ ; 

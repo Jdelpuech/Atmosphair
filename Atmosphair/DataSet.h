@@ -89,7 +89,7 @@ public:
     //id. 
     // Contrat : aucun
 
-	std::list<pair<Sensor *, Sensor *>> generateSimilarity(time_t t1, time_t t2);
+	std::list<pair<Sensor *, Sensor *> > generateSimilarity(time_t t1, time_t t2);
 
 	listSensor getListDysfonctionningSensors();
     // Mode d'emploi : renvoie une liste de l'ensemble des sensors dysfonctionnants

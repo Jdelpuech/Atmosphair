@@ -214,7 +214,7 @@ int main() {
 					valid = true;
 				}
 				catch (const std::invalid_argument) {
-					cerr << "argument invalide : reessayez" << "\n";
+					cerr << "argument(s) invalide(s) : reessayez" << "\n";
 				}
 			}
 
